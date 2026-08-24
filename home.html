@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MySocial Home</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff0f6;
+}
+
+        .navbar {
+            height: 60px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1877f2;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #e4e6eb;
+            padding: 9px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .logout-btn:hover {
+            background: #d8dadf;
+        }
+
+        .container {
+            width: 650px;
+            max-width: 95%;
+            margin: 25px auto;
+        }
+
+        .create-post {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+
+        .create-post h3 {
+            margin-top: 0;
+        }
+
+        textarea {
+            width: 100%;
+            height: 90px;
+            resize: none;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 15px;
+        }
+
+        .post-btn {
+            width: 100%;
+            margin-top: 10px;
+            border: none;
+            background: #1877f2;
+            color: white;
+            padding: 12px;
+            border-radius: 7px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .post-btn:hover {
+            background: #166fe5;
+        }
+
+        .post {
+            background: white;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #1877f2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .post-user {
+            font-weight: bold;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: #777;
+            margin-top: 3px;
+        }
+
+        .post-content {
+            margin-top: 15px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            border: none;
+            background: #f0f2f5;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .action-btn:hover {
+            background: #e4e6eb;
+        }
+
+        .like-count {
+            margin-top: 10px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 12px;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .user-email {
+                display: none;
+            }
+
+            .container {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            MySocial
+        </div>
+
+        <div class="nav-right">
+
+            <span class="user-email" id="userEmail">
+                Loading...
+            </span>
+
+            <button class="logout-btn" id="logoutBtn">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+<div class="container">
+
+    <div class="create-post">
+
+        <h3>Create a Post</h3>
+
+        <textarea
+            id="postText"
+            placeholder="What's on your mind?">
+        </textarea>
+
+        <button class="post-btn" id="postBtn">
+            Post
+        </button>
+
+    </div>
+
+    <div id="posts"></div>
+
+</div>
+
+
+    <!-- FIREBASE -->
+
+    <script type="module">
+
+        import { initializeApp }
+            from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        }
+        from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+       import {
+    getFirestore,
+    collection,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc as firestoreDoc,
+    serverTimestamp,
+    onSnapshot,
+    query,
+    orderBy
+}
+from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+        
+
+
+        // FIREBASE CONFIG
+
+        const firebaseConfig = {
+
+            apiKey: "AIzaSyA0jZCLoUdlC8ZghIMUSbBmrkucw6f6va4",
+
+            authDomain: "mysocial-6f06e.firebaseapp.com",
+
+            projectId: "mysocial-6f06e",
+
+            storageBucket: "mysocial-6f06e.firebasestorage.app",
+
+            messagingSenderId: "78141811564",
+
+            appId: "1:78141811564:web:3ebc1dba5303e552a12149",
+
+            measurementId: "G-E19NQ06DZB"
+
+        };
+
+
+        // INITIALIZE FIREBASE
+
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth(app);
+
+        const db = getFirestore(app);
+
+
+        // CHECK LOGIN
+
+       onAuthStateChanged(auth, (user) => {
+
+    if (user) {
+
+        document.getElementById("userEmail").textContent =
+            user.email || "User";
+
+        console.log("User logged in:", user.email);
+
+    } else {
+
+        console.log("No user is logged in.");
+
+        document.getElementById("userEmail").textContent =
+            "Not logged in";
+
+    }
+
+});
+
+
+        // LOGOUT
+
+        document.getElementById("logoutBtn")
+            .addEventListener("click", async () => {
+
+                try {
+
+                    await signOut(auth);
+
+                    window.location.href = "index.html";
+
+                } catch (error) {
+
+                    console.error("Logout error:", error);
+
+                }
+
+            });
+
+
+        // CREATE POST
+
+        document.getElementById("postBtn")
+            .addEventListener("click", async () => {
+
+                const textBox =
+                    document.getElementById("postText");
+
+                const text =
+                    textBox.value.trim();
+
+                if (text === "") {
+
+                    alert("Please write something first.");
+
+                    return;
+
+                }
+
+                const user = auth.currentUser;
+
+                if (!user) {
+
+                    alert("Please login first.");
+
+                    window.location.href = "index.html";
+
+                    return;
+
+                }
+
+                try {
+
+                    await addDoc(
+                        collection(db, "posts"),
+                        {
+
+                            text: text,
+
+                            userEmail: user.email,
+
+                            uid: user.uid,
+
+                            createdAt: serverTimestamp(),
+
+                            likes: 0,
+                            likedBy: []
+
+                        }
+                    );
+
+                    textBox.value = "";
+
+                    console.log("Post saved successfully!");
+
+                } catch (error) {
+
+                    console.error(
+                        "Error saving post:",
+                        error
+                    );
+
+                    alert(
+                        "Could not save post. Please try again."
+                    );
+
+                }
+
+            });
+
+
+        // LOAD POSTS
+
+        const postsContainer =
+            document.getElementById("posts");
+
+
+        const postsQuery =
+            query(
+                collection(db, "posts"),
+                orderBy("createdAt", "desc")
+            );
+
+
+                onSnapshot(postsQuery, (snapshot) => {
+
+            postsContainer.innerHTML = "";
+
+            snapshot.forEach((postDoc) => {
+
+                const postData = postDoc.data();
+
+                const post =
+                    document.createElement("div");
+
+                post.className = "post";
+
+                const email =
+                    postData.userEmail || "User";
+
+                const avatar =
+                    email.substring(0, 2).toUpperCase();
+
+                const postText =
+                    postData.text || "";
+
+                let timeText = "Just now";
+
+                if (postData.createdAt) {
+
+                    const date =
+                        postData.createdAt.toDate();
+
+                    timeText =
+                        date.toLocaleString();
+
+                }
+
+                post.innerHTML = `
+
+                    <div class="post-header">
+
+                        <div class="avatar">
+                            ${avatar}
+                        </div>
+
+                        <div>
+
+                            <div class="post-user">
+                                ${email}
+                            </div>
+
+                            <div class="post-time">
+                                ${timeText}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="post-content">
+                        ${postText}
+                    </div>
+
+                    <div class="post-actions">
+
+    <button class="action-btn like-btn">
+        👍 Like
+    </button>
+
+    <button class="action-btn comment-btn">
+    💬 Comment <span class="comment-count">0</span>
+</button>
+
+</div>
+
+<div class="comments-section">
+
+    <div class="comments-header">
+
+        <button class="show-comments-btn">
+            💬 View comments
+        </button>
+
+    </div>
+
+    <div class="comments-list"></div>
+
+    <div class="comment-input-area">
+
+        <input
+            type="text"
+            class="comment-input"
+            placeholder="Write a comment..."
+        >
+
+        <button class="comment-submit">
+            Send
+        </button>
+
+    </div>
+
+
+                   <div class="like-count">
+                        Likes: ${postData.likes || 0}
+                    </div>
+
+                `;
+
+                postsContainer.appendChild(post);
+
+            // COMMENTS
+
+// COMMENTS
+
+const commentInput =
+    post.querySelector(".comment-input");
+
+const commentSubmit =
+    post.querySelector(".comment-submit");
+
+const commentsList =
+    post.querySelector(".comments-list");
+
+const commentCount =
+    post.querySelector(".comment-count");
+
+const showCommentsButton =
+    post.querySelector(".show-comments-btn");
+
+
+let commentsVisible = false;
+
+
+// Hide comments initially
+
+commentsList.style.display = "none";
+
+
+// SHOW / HIDE COMMENTS
+
+showCommentsButton.addEventListener(
+    "click",
+    () => {
+
+        commentsVisible =
+            !commentsVisible;
+
+        if (commentsVisible) {
+
+            commentsList.style.display =
+                "block";
+
+            showCommentsButton.textContent =
+                "💬 Hide comments";
+
+        } else {
+
+            commentsList.style.display =
+                "none";
+
+            showCommentsButton.textContent =
+                "💬 View comments";
+
+        }
+
+    }
+);
+
+
+// ADD COMMENT
+
+commentSubmit.addEventListener(
+    "click",
+    async () => {
+
+        const currentUser =
+            auth.currentUser;
+
+        if (!currentUser) {
+
+            alert("Please login first.");
+
+            return;
+
+        }
+
+        const commentText =
+            commentInput.value.trim();
+
+        if (commentText === "") {
+
+            alert("Please write a comment.");
+
+            return;
+
+        }
+
+        try {
+
+            await addDoc(
+                collection(db, "comments"),
+                {
+
+                    postId:
+                        postDoc.id,
+
+                    text:
+                        commentText,
+
+                    userEmail:
+                        currentUser.email,
+
+                    uid:
+                        currentUser.uid,
+
+                    createdAt:
+                        serverTimestamp()
+
+                }
+            );
+
+            commentInput.value = "";
+
+            // Automatically show comments
+
+            commentsVisible = true;
+
+            commentsList.style.display =
+                "block";
+
+            showCommentsButton.textContent =
+                "💬 Hide comments";
+
+            console.log(
+                "Comment saved!"
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Error saving comment:",
+                error
+            );
+
+            alert(
+                "Could not save comment."
+            );
+
+        }
+
+    }
+);
+
+
+// LOAD COMMENTS
+
+const commentsQuery =
+    query(
+        collection(db, "comments"),
+        orderBy("createdAt", "asc")
+    );
+
+
+onSnapshot(
+    commentsQuery,
+    (commentSnapshot) => {
+
+        commentsList.innerHTML = "";
+
+        let count = 0;
+
+        commentSnapshot.forEach(
+            (commentDoc) => {
+
+                const commentData =
+                    commentDoc.data();
+
+                // Only show comments
+                // belonging to this post
+
+                if (
+                    commentData.postId !==
+                    postDoc.id
+                ) {
+
+                    return;
+
+                }
+
+                count++;
+
+                const comment =
+                    document.createElement("div");
+
+                comment.className =
+                    "comment";
+
+
+                const email =
+                    commentData.userEmail ||
+                    "User";
+
+
+                const avatar =
+                    email
+                        .substring(0, 2)
+                        .toUpperCase();
+
+
+                comment.innerHTML = `
+
+    <div class="comment-avatar">
+        ${avatar}
+    </div>
+
+    <div class="comment-body">
+
+        <div class="comment-user">
+            ${email}
+        </div>
+
+        <div class="comment-text">
+            ${commentData.text || ""}
+        </div>
+
+        ${
+            auth.currentUser &&
+            auth.currentUser.uid === commentData.uid
+            ? `
+                <button class="delete-comment-btn">
+                    Delete
+                </button>
+              `
+            : ""
+        }
+
+    </div>
+
+                `;
+
+
+                commentsList.appendChild(
+                    comment
+                );
+
+                const deleteButton =
+    comment.querySelector(".delete-comment-btn");
+
+if (deleteButton) {
+
+    deleteButton.addEventListener(
+        "click",
+        async () => {
+
+            const confirmDelete =
+                confirm(
+                    "Delete this comment?"
+                );
+
+            if (!confirmDelete) {
+                return;
+            }
+
+            try {
+
+                await deleteDoc(
+                    firestoreDoc(
+                        db,
+                        "comments",
+                        commentDoc.id
+                    )
+                );
+
+                console.log(
+                    "Comment deleted!"
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Error deleting comment:",
+                    error
+                );
+
+                alert(
+                    "Could not delete comment."
+                );
+
+            }
+
+        }
+    );
+
+}
+
+            }
+        );
+
+
+        // Update comment count
+
+        commentCount.textContent =
+            count;
+
+    }
+);
+
+    }
+);
+                // LIKE BUTTON
+
+const likeButton =
+    post.querySelector(".like-btn");
+
+const likeCount =
+    post.querySelector(".like-count");
+
+const user = auth.currentUser;
+
+let likes =
+    postData.likes || 0;
+
+let likedBy =
+    postData.likedBy || [];
+
+
+// Check whether current user already liked this post
+
+let userLiked = false;
+
+if (user) {
+
+    userLiked =
+        likedBy.includes(user.uid);
+
+}
+
+
+// Display correct button
+
+if (userLiked) {
+
+    likeButton.textContent =
+        "❤️ Liked";
+
+} else {
+
+    likeButton.textContent =
+        "👍 Like";
+
+}
+
+
+likeCount.textContent =
+    "Likes: " + likes;
+
+
+// LIKE / UNLIKE
+
+likeButton.addEventListener(
+    "click",
+    async () => {
+
+        const currentUser =
+            auth.currentUser;
+
+        if (!currentUser) {
+
+            alert("Please login first.");
+
+            return;
+
+        }
+
+
+        try {
+
+            // LIKE
+
+            if (!likedBy.includes(currentUser.uid)) {
+
+                likedBy.push(currentUser.uid);
+
+                likes++;
+
+                likeButton.textContent =
+                    "❤️ Liked";
+
+            }
+
+            // UNLIKE
+
+            else {
+
+                likedBy =
+                    likedBy.filter(
+                        uid =>
+                            uid !== currentUser.uid
+                    );
+
+                likes--;
+
+                if (likes < 0) {
+                    likes = 0;
+                }
+
+                likeButton.textContent =
+                    "👍 Like";
+
+            }
+
+
+            likeCount.textContent =
+                "Likes: " + likes;
+
+
+            // SAVE TO FIRESTORE
+
+            await updateDoc(
+                firestoreDoc(
+                    db,
+                    "posts",
+                    postDoc.id
+                ),
+                {
+
+                    likes: likes,
+
+                    likedBy: likedBy
+
+                }
+            );
+
+
+            console.log(
+                "Like status saved!"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Error updating like:",
+                error
+            );
+
+            alert(
+                "Could not update Like."
+            );
+
+        }
+
+    }
+);
+            });
+
+        ;
+;
+
+            ;
+
+        ;
+
+    </script>
+
+</body>
+
+</html>

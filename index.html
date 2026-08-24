@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MySocial</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+        }
+
+        .login-container {
+            width: 360px;
+            margin: 100px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        .login-container h1 {
+            color: #1877f2;
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .login-container p {
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #loginBtn {
+            background: #1877f2;
+        }
+
+        #signupBtn {
+            background: #42b72a;
+        }
+
+        #loginBtn:hover {
+            background: #166fe5;
+        }
+
+        #signupBtn:hover {
+            background: #36a420;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h1>MySocial</h1>
+
+        <p>Connect with friends and the world around you.</p>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Email address"
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Password"
+        >
+
+        <button id="loginBtn">Log In</button>
+
+        <button id="signupBtn">Create New Account</button>
+
+        <p id="message"></p>
+
+    </div>
+
+
+    <!-- Firebase -->
+
+    <script type="module">
+
+        import { initializeApp }
+        from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+        import {
+            getAuth,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword
+        }
+        from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+        // Firebase configuration
+
+        const firebaseConfig = {
+  apiKey: "AIzaSyA0jZCLoUdlC8ZghIMUSbBmrkucw6f6va4",
+  authDomain: "mysocial-6f06e.firebaseapp.com",
+  projectId: "mysocial-6f06e",
+  storageBucket: "mysocial-6f06e.firebasestorage.app",
+  messagingSenderId: "78141811564",
+  appId: "1:78141811564:web:3ebc1dba5303e552a12149",
+  measurementId: "G-E19NQ06DZB"
+};
+
+
+        // Initialize Firebase ONCE
+
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth(app);
+
+
+        // Get HTML elements
+
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const message = document.getElementById("message");
+
+
+        // CREATE ACCOUNT
+
+        document.getElementById("signupBtn").addEventListener("click", async () => {
+
+            const emailValue = email.value.trim();
+            const passwordValue = password.value;
+
+            if (!emailValue || !passwordValue) {
+                message.textContent = "Please enter email and password.";
+                return;
+            }
+
+            if (passwordValue.length < 6) {
+                message.textContent = "Password must be at least 6 characters.";
+                return;
+            }
+
+            try {
+
+                const userCredential =
+                    await createUserWithEmailAndPassword(
+                        auth,
+                        emailValue,
+                        passwordValue
+                    );
+
+                message.textContent =
+                    "Account created successfully!";
+
+                console.log(
+                    "New user:",
+                    userCredential.user.email
+                );
+
+            } catch (error) {
+
+                console.error("Signup error:", error);
+
+                if (error.code === "auth/email-already-in-use") {
+                    message.textContent =
+                        "This email is already registered.";
+                }
+                else if (error.code === "auth/invalid-email") {
+                    message.textContent =
+                        "Please enter a valid email address.";
+                }
+                else if (error.code === "auth/weak-password") {
+                    message.textContent =
+                        "Password is too weak.";
+                }
+                else {
+                    message.textContent =
+                        "Signup error: " + error.message;
+                }
+
+            }
+
+        });
+
+
+    // LOGIN
+
+document.getElementById("loginBtn").addEventListener("click", async () => {
+
+    const emailValue = email.value.trim();
+    const passwordValue = password.value;
+
+    if (!emailValue || !passwordValue) {
+        message.textContent = "Please enter email and password.";
+        return;
+    }
+
+    try {
+
+        const userCredential = await signInWithEmailAndPassword(
+            auth,
+            emailValue,
+            passwordValue
+        );
+
+        console.log("Login successful:", userCredential.user.email);
+
+        message.textContent = "Login successful!";
+
+        // Go to Home page
+    window.location.assign("home.html");
+    } catch (error) {
+
+        console.error("Login error:", error);
+
+        if (error.code === "auth/invalid-credential") {
+
+            message.textContent =
+                "Incorrect email or password.";
+
+        } else if (error.code === "auth/user-not-found") {
+
+            message.textContent =
+                "No account found with this email.";
+
+        } else if (error.code === "auth/wrong-password") {
+
+            message.textContent =
+                "Incorrect password.";
+
+        } else {
+
+            message.textContent =
+                "Login error: " + error.message;
+
+        }
+
+    }
+
+});    
+
+    </script>
+
+</body>
+
+</html>
