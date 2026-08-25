@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +9,6 @@
     <title>MySocial Home</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -31,7 +31,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 28px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -52,7 +52,6 @@
         .user-email {
             font-size: 14px;
             color: #65676b;
-            margin: 0 5px;
         }
 
         .profile-btn,
@@ -60,7 +59,7 @@
             text-decoration: none;
             background: #1877f2;
             color: white;
-            padding: 9px 16px;
+            padding: 9px 14px;
             border-radius: 7px;
             font-weight: 600;
             font-size: 14px;
@@ -79,11 +78,6 @@
             border-radius: 7px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 14px;
-        }
-
-        .logout-btn:hover {
-            background: #d8dadf;
         }
 
         /* =========================
@@ -96,33 +90,30 @@
             margin: 25px auto 50px;
         }
 
-        /* =========================
-           CREATE POST
-        ========================= */
-
-        .create-post {
+        .create-post,
+        .post {
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        .create-post {
             margin-bottom: 20px;
         }
 
         .create-post h3 {
             margin: 0 0 15px;
-            font-size: 20px;
         }
 
         textarea {
             width: 100%;
             height: 100px;
             resize: vertical;
-            min-height: 80px;
-            max-height: 200px;
             border: 1px solid #ccd0d5;
             border-radius: 10px;
             padding: 13px;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: Arial, sans-serif;
             font-size: 15px;
             outline: none;
             background: #f7f8fa;
@@ -150,18 +141,57 @@
             background: #166fe5;
         }
 
+        .post-btn:disabled {
+            background: #9dbbe5;
+            cursor: not-allowed;
+        }
+
         /* =========================
-           FRIEND FILTER MESSAGE
+           IMAGE UPLOAD
         ========================= */
 
-        .feed-info {
+        .image-area {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f0f2f5;
+            border-radius: 10px;
+        }
+
+        .image-label {
+            display: inline-block;
             background: white;
-            border-radius: 12px;
-            padding: 14px 18px;
-            margin-bottom: 16px;
-            color: #65676b;
-            font-size: 14px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.10);
+            border: 1px solid #ccd0d5;
+            padding: 9px 14px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .image-label:hover {
+            background: #e4e6eb;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        #imagePreview {
+            display: none;
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 12px;
+            border-radius: 10px;
+        }
+
+        .remove-image {
+            display: none;
+            margin-top: 8px;
+            border: none;
+            background: #e41e3f;
+            color: white;
+            padding: 7px 12px;
+            border-radius: 6px;
+            cursor: pointer;
         }
 
         /* =========================
@@ -169,11 +199,7 @@
         ========================= */
 
         .post {
-            background: white;
-            border-radius: 12px;
-            padding: 18px;
             margin-bottom: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
         }
 
         .post-header {
@@ -193,7 +219,6 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 14px;
         }
 
         .post-user {
@@ -215,8 +240,17 @@
             word-break: break-word;
         }
 
+        .post-image {
+            width: 100%;
+            max-height: 600px;
+            object-fit: contain;
+            margin-top: 15px;
+            border-radius: 10px;
+            background: #f0f2f5;
+        }
+
         /* =========================
-           ACTION BUTTONS
+           ACTIONS
         ========================= */
 
         .post-actions {
@@ -236,12 +270,10 @@
             border-radius: 7px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 14px;
         }
 
         .action-btn:hover {
             background: #e4e6eb;
-            color: #1877f2;
         }
 
         .like-count {
@@ -258,10 +290,6 @@
             margin-top: 12px;
         }
 
-        .comments-header {
-            margin-bottom: 8px;
-        }
-
         .show-comments-btn {
             border: none;
             background: transparent;
@@ -271,12 +299,8 @@
             padding: 5px 0;
         }
 
-        .show-comments-btn:hover {
-            text-decoration: underline;
-        }
-
         .comments-list {
-            margin-bottom: 10px;
+            margin-top: 8px;
         }
 
         .comment {
@@ -309,11 +333,11 @@
         .comment-user {
             font-size: 13px;
             font-weight: bold;
-            margin-bottom: 3px;
         }
 
         .comment-text {
             font-size: 14px;
+            margin-top: 3px;
             word-break: break-word;
         }
 
@@ -321,9 +345,9 @@
             border: none;
             background: transparent;
             color: #e41e3f;
-            font-size: 12px;
             cursor: pointer;
-            padding: 4px 0;
+            font-size: 12px;
+            margin-top: 4px;
         }
 
         .comment-input-area {
@@ -338,11 +362,6 @@
             border-radius: 20px;
             padding: 9px 13px;
             outline: none;
-            font-size: 14px;
-        }
-
-        .comment-input:focus {
-            border-color: #1877f2;
         }
 
         .comment-submit {
@@ -355,21 +374,23 @@
             cursor: pointer;
         }
 
-        .comment-submit:hover {
-            background: #166fe5;
+        .delete-post-btn {
+            color: #e41e3f;
         }
 
-        /* =========================
-           EMPTY FEED
-        ========================= */
-
-        .empty-feed {
+        .message {
             background: white;
-            border-radius: 12px;
-            padding: 30px 20px;
+            padding: 20px;
+            border-radius: 10px;
             text-align: center;
             color: #65676b;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-weight: bold;
         }
 
         /* =========================
@@ -404,17 +425,8 @@
             }
 
             .container {
-                width: 100%;
                 max-width: calc(100% - 20px);
-                margin: 15px auto 30px;
-            }
-
-            .create-post {
-                padding: 15px;
-            }
-
-            .post {
-                padding: 15px;
+                margin-top: 15px;
             }
 
             .post-actions {
@@ -425,19 +437,11 @@
                 font-size: 12px;
                 padding: 9px 4px;
             }
-
         }
-
     </style>
-
 </head>
 
-
 <body>
-
-    <!-- =========================
-         NAVBAR
-    ========================= -->
 
     <div class="navbar">
 
@@ -468,10 +472,6 @@
     </div>
 
 
-    <!-- =========================
-         MAIN
-    ========================= -->
-
     <div class="container">
 
         <!-- CREATE POST -->
@@ -484,34 +484,48 @@
                 id="postText"
                 placeholder="What's on your mind?"></textarea>
 
+            <div class="image-area">
+
+                <label
+                    for="imageInput"
+                    class="image-label">
+                    📷 Add Image
+                </label>
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/jpeg,image/png,image/webp">
+
+                <img
+                    id="imagePreview"
+                    alt="Image preview">
+
+                <button
+                    id="removeImage"
+                    class="remove-image">
+                    Remove Image
+                </button>
+
+            </div>
+
             <button
                 class="post-btn"
                 id="postBtn">
-
                 Post
-
             </button>
 
         </div>
 
 
-        <!-- FEED INFORMATION -->
-
-        <div class="feed-info" id="feedInfo">
-            Loading your friends and posts...
+        <div id="posts">
+            <div class="loading">
+                Loading posts...
+            </div>
         </div>
-
-
-        <!-- POSTS -->
-
-        <div id="posts"></div>
 
     </div>
 
-
-    <!-- =========================
-         FIREBASE
-    ========================= -->
 
     <script type="module">
 
@@ -519,13 +533,11 @@
             initializeApp
         } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 
-
         import {
             getAuth,
             onAuthStateChanged,
             signOut
         } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
-
 
         import {
             getFirestore,
@@ -536,17 +548,18 @@
             doc,
             getDoc,
             getDocs,
+            setDoc,
             serverTimestamp,
-            onSnapshot,
             query,
+            where,
             orderBy,
-            where
+            onSnapshot
         } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
-        // =========================
-        // FIREBASE CONFIG
-        // =========================
+        /* =========================
+           FIREBASE CONFIG
+        ========================= */
 
         const firebaseConfig = {
 
@@ -570,13 +583,8 @@
 
             measurementId:
                 "G-E19NQ06DZB"
-
         };
 
-
-        // =========================
-        // INITIALIZE
-        // =========================
 
         const app =
             initializeApp(firebaseConfig);
@@ -588,27 +596,398 @@
             getFirestore(app);
 
 
-        // =========================
-        // VARIABLES
-        // =========================
-
-        let currentUser = null;
-
-        let acceptedFriendIds = new Set();
-
-        let unsubscribePosts = null;
-
-
         const postsContainer =
             document.getElementById("posts");
 
-        const feedInfo =
-            document.getElementById("feedInfo");
+        const postText =
+            document.getElementById("postText");
+
+        const postBtn =
+            document.getElementById("postBtn");
+
+        const imageInput =
+            document.getElementById("imageInput");
+
+        const imagePreview =
+            document.getElementById("imagePreview");
+
+        const removeImage =
+            document.getElementById("removeImage");
+
+        let currentUser = null;
+
+        let selectedImageData = null;
+
+        let unsubscribePostListeners = [];
 
 
-        // =========================
-        // LOGIN
-        // =========================
+        /* =========================
+           IMAGE COMPRESSION
+        ========================= */
+
+        function compressImage(file) {
+
+            return new Promise((resolve, reject) => {
+
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+
+                    const img = new Image();
+
+                    img.onload = function() {
+
+                        const maxWidth = 1000;
+
+                        let width = img.width;
+                        let height = img.height;
+
+
+                        if (width > maxWidth) {
+
+                            height =
+                                height *
+                                (maxWidth / width);
+
+                            width =
+                                maxWidth;
+
+                        }
+
+
+                        const canvas =
+                            document.createElement(
+                                "canvas"
+                            );
+
+                        canvas.width =
+                            width;
+
+                        canvas.height =
+                            height;
+
+
+                        const ctx =
+                            canvas.getContext(
+                                "2d"
+                            );
+
+
+                        ctx.drawImage(
+                            img,
+                            0,
+                            0,
+                            width,
+                            height
+                        );
+
+
+                        const compressed =
+                            canvas.toDataURL(
+                                "image/jpeg",
+                                0.70
+                            );
+
+
+                        resolve(
+                            compressed
+                        );
+
+                    };
+
+
+                    img.onerror =
+                        reject;
+
+                    img.src =
+                        event.target.result;
+
+                };
+
+
+                reader.onerror =
+                    reject;
+
+                reader.readAsDataURL(file);
+
+            });
+
+        }
+
+
+        /* =========================
+           SELECT IMAGE
+        ========================= */
+
+        imageInput.addEventListener(
+            "change",
+            async () => {
+
+                const file =
+                    imageInput.files[0];
+
+
+                if (!file) {
+
+                    return;
+
+                }
+
+
+                if (
+                    !file.type.startsWith(
+                        "image/"
+                    )
+                ) {
+
+                    alert(
+                        "Please select an image."
+                    );
+
+                    imageInput.value = "";
+
+                    return;
+
+                }
+
+
+                try {
+
+                    selectedImageData =
+                        await compressImage(
+                            file
+                        );
+
+
+                    imagePreview.src =
+                        selectedImageData;
+
+                    imagePreview.style.display =
+                        "block";
+
+                    removeImage.style.display =
+                        "inline-block";
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Image error:",
+                        error
+                    );
+
+                    alert(
+                        "Could not process image."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           REMOVE IMAGE
+        ========================= */
+
+        removeImage.addEventListener(
+            "click",
+            () => {
+
+                selectedImageData =
+                    null;
+
+                imageInput.value =
+                    "";
+
+                imagePreview.src =
+                    "";
+
+                imagePreview.style.display =
+                    "none";
+
+                removeImage.style.display =
+                    "none";
+
+            }
+        );
+
+
+        /* =========================
+           FRIENDSHIP ID
+        ========================= */
+
+        function friendshipId(uid1, uid2) {
+
+            return [uid1, uid2]
+                .sort()
+                .join("_");
+
+        }
+
+
+        /* =========================
+           CREATE FRIENDSHIP DOCUMENTS
+           
+           Existing accepted requests
+           are converted into friendship
+           documents.
+        ========================= */
+
+        async function syncFriendships() {
+
+            if (!currentUser) {
+                return [];
+            }
+
+
+            const friendIds = new Set();
+
+
+            const sentQuery =
+                query(
+                    collection(
+                        db,
+                        "friendRequests"
+                    ),
+                    where(
+                        "from",
+                        "==",
+                        currentUser.uid
+                    ),
+                    where(
+                        "status",
+                        "==",
+                        "accepted"
+                    )
+                );
+
+
+            const receivedQuery =
+                query(
+                    collection(
+                        db,
+                        "friendRequests"
+                    ),
+                    where(
+                        "to",
+                        "==",
+                        currentUser.uid
+                    ),
+                    where(
+                        "status",
+                        "==",
+                        "accepted"
+                    )
+                );
+
+
+            const sentSnapshot =
+                await getDocs(
+                    sentQuery
+                );
+
+
+            const receivedSnapshot =
+                await getDocs(
+                    receivedQuery
+                );
+
+
+            for (
+                const requestDoc
+                of sentSnapshot.docs
+            ) {
+
+                const data =
+                    requestDoc.data();
+
+                const friendUid =
+                    data.to;
+
+
+                friendIds.add(
+                    friendUid
+                );
+
+
+                await setDoc(
+                    doc(
+                        db,
+                        "friendships",
+                        friendshipId(
+                            currentUser.uid,
+                            friendUid
+                        )
+                    ),
+                    {
+                        users: [
+                            currentUser.uid,
+                            friendUid
+                        ],
+                        createdAt:
+                            data.createdAt ||
+                            serverTimestamp()
+                    },
+                    {
+                        merge: true
+                    }
+                );
+
+            }
+
+
+            for (
+                const requestDoc
+                of receivedSnapshot.docs
+            ) {
+
+                const data =
+                    requestDoc.data();
+
+                const friendUid =
+                    data.from;
+
+
+                friendIds.add(
+                    friendUid
+                );
+
+
+                await setDoc(
+                    doc(
+                        db,
+                        "friendships",
+                        friendshipId(
+                            currentUser.uid,
+                            friendUid
+                        )
+                    ),
+                    {
+                        users: [
+                            currentUser.uid,
+                            friendUid
+                        ],
+                        createdAt:
+                            data.createdAt ||
+                            serverTimestamp()
+                    },
+                    {
+                        merge: true
+                    }
+                );
+
+            }
+
+
+            return [...friendIds];
+
+        }
+
+
+        /* =========================
+           LOGIN
+        ========================= */
 
         onAuthStateChanged(
             auth,
@@ -620,23 +999,22 @@
                         "index.html";
 
                     return;
+
                 }
 
 
-                currentUser = user;
+                currentUser =
+                    user;
 
 
                 document.getElementById(
                     "userEmail"
                 ).textContent =
-                    user.email || "User";
+                    user.email ||
+                    "User";
 
 
                 try {
-
-                    // =========================
-                    // CHECK PROFILE
-                    // =========================
 
                     const profileRef =
                         doc(
@@ -664,6 +1042,7 @@
                             "profile.html";
 
                         return;
+
                     }
 
 
@@ -684,39 +1063,35 @@
                             "profile.html";
 
                         return;
+
                     }
 
 
-                    console.log(
-                        "Profile accepted:",
-                        profileData.name
-                    );
+                    await syncFriendships();
 
-
-                    // =========================
-                    // LOAD ACCEPTED FRIENDS
-                    // =========================
-
-                    await loadAcceptedFriends();
-
-
-                    // =========================
-                    // LOAD FEED
-                    // =========================
-
-                    loadPosts();
-
+                    loadFeed();
 
                 } catch (error) {
 
                     console.error(
-                        "HOME ERROR:",
+                        "Startup error:",
                         error
                     );
 
-                    feedInfo.textContent =
-                        "Could not load your feed: " +
-                        error.message;
+
+                    postsContainer.innerHTML = `
+
+                        <div class="message">
+
+                            Could not load your feed.
+
+                            <br><br>
+
+                            ${error.message}
+
+                        </div>
+
+                    `;
 
                 }
 
@@ -724,301 +1099,402 @@
         );
 
 
-        // =====================================================
-        // LOAD ACCEPTED FRIENDS
-        // =====================================================
+        /* =========================
+           LOGOUT
+        ========================= */
 
-        async function loadAcceptedFriends() {
+        document.getElementById(
+            "logoutBtn"
+        ).addEventListener(
+            "click",
+            async () => {
 
-            acceptedFriendIds =
-                new Set();
+                try {
+
+                    await signOut(auth);
+
+                    window.location.href =
+                        "index.html";
+
+                } catch (error) {
+
+                    console.error(
+                        "Logout error:",
+                        error
+                    );
+
+                }
+
+            }
+        );
 
 
-            // YOUR OWN UID IS ALWAYS ALLOWED
-            acceptedFriendIds.add(
-                currentUser.uid
+        /* =========================
+           CREATE POST
+        ========================= */
+
+        postBtn.addEventListener(
+            "click",
+            async () => {
+
+                if (!currentUser) {
+
+                    alert(
+                        "Please login first."
+                    );
+
+                    return;
+
+                }
+
+
+                const text =
+                    postText.value.trim();
+
+
+                if (
+                    text === "" &&
+                    !selectedImageData
+                ) {
+
+                    alert(
+                        "Write something or select an image."
+                    );
+
+                    return;
+
+                }
+
+
+                postBtn.disabled =
+                    true;
+
+                postBtn.textContent =
+                    "Posting...";
+
+
+                try {
+
+                    await addDoc(
+                        collection(
+                            db,
+                            "posts"
+                        ),
+                        {
+
+                            uid:
+                                currentUser.uid,
+
+                            userEmail:
+                                currentUser.email,
+
+                            text:
+                                text,
+
+                            image:
+                                selectedImageData || "",
+
+                            likes:
+                                0,
+
+                            likedBy:
+                                [],
+
+                            createdAt:
+                                serverTimestamp()
+
+                        }
+                    );
+
+
+                    postText.value =
+                        "";
+
+                    selectedImageData =
+                        null;
+
+                    imageInput.value =
+                        "";
+
+                    imagePreview.src =
+                        "";
+
+                    imagePreview.style.display =
+                        "none";
+
+                    removeImage.style.display =
+                        "none";
+
+
+                    alert(
+                        "Post published successfully!"
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "POST ERROR:",
+                        error
+                    );
+
+
+                    alert(
+                        "Could not create post: " +
+                        error.message
+                    );
+
+                }
+
+
+                postBtn.disabled =
+                    false;
+
+                postBtn.textContent =
+                    "Post";
+
+            }
+        );
+
+
+        /* =========================
+           LOAD FRIEND FEED
+        ========================= */
+
+        async function loadFeed() {
+
+            unsubscribePostListeners.forEach(
+                unsubscribe =>
+                    unsubscribe()
             );
 
+            unsubscribePostListeners =
+                [];
 
-            // =========================
-            // FRIENDSHIPS YOU SENT
-            // =========================
 
-            const sentQuery =
-                query(
-                    collection(
-                        db,
-                        "friendRequests"
-                    ),
-                    where(
-                        "from",
-                        "==",
-                        currentUser.uid
-                    ),
-                    where(
-                        "status",
-                        "==",
-                        "accepted"
-                    )
+            postsContainer.innerHTML =
+                `<div class="loading">
+                    Loading your posts...
+                </div>`;
+
+
+            try {
+
+                const friendIds =
+                    await syncFriendships();
+
+
+                const allowedUsers =
+                    [
+                        currentUser.uid,
+                        ...friendIds
+                    ];
+
+
+                postsContainer.innerHTML =
+                    "";
+
+
+                let allPosts = [];
+
+
+                /*
+                 * Load our own posts.
+                 */
+
+                const ownQuery =
+                    query(
+                        collection(
+                            db,
+                            "posts"
+                        ),
+                        where(
+                            "uid",
+                            "==",
+                            currentUser.uid
+                        )
+                    );
+
+
+                const ownSnapshot =
+                    await getDocs(
+                        ownQuery
+                    );
+
+
+                ownSnapshot.forEach(
+                    postDoc => {
+
+                        allPosts.push({
+
+                            id:
+                                postDoc.id,
+
+                            data:
+                                postDoc.data()
+
+                        });
+
+                    }
                 );
 
 
-            const sentSnapshot =
-                await getDocs(
-                    sentQuery
+                /*
+                 * Load each friend's posts.
+                 */
+
+                for (
+                    const friendUid
+                    of friendIds
+                ) {
+
+                    const friendQuery =
+                        query(
+                            collection(
+                                db,
+                                "posts"
+                            ),
+                            where(
+                                "uid",
+                                "==",
+                                friendUid
+                            )
+                        );
+
+
+                    const friendSnapshot =
+                        await getDocs(
+                            friendQuery
+                        );
+
+
+                    friendSnapshot.forEach(
+                        postDoc => {
+
+                            allPosts.push({
+
+                                id:
+                                    postDoc.id,
+
+                                data:
+                                    postDoc.data()
+
+                            });
+
+                        }
+                    );
+
+                }
+
+
+                /*
+                 * Extra client-side safety.
+                 */
+
+                allPosts =
+                    allPosts.filter(
+                        item =>
+                            allowedUsers.includes(
+                                item.data.uid
+                            )
+                    );
+
+
+                /*
+                 * Newest first.
+                 */
+
+                allPosts.sort(
+                    (a, b) => {
+
+                        const aTime =
+                            a.data.createdAt
+                            ? a.data.createdAt.toMillis()
+                            : 0;
+
+                        const bTime =
+                            b.data.createdAt
+                            ? b.data.createdAt.toMillis()
+                            : 0;
+
+                        return bTime - aTime;
+
+                    }
                 );
 
 
-            sentSnapshot.forEach(
-                (friendDoc) => {
+                if (
+                    allPosts.length === 0
+                ) {
 
-                    const data =
-                        friendDoc.data();
+                    postsContainer.innerHTML =
+                        `<div class="message">
+                            No posts from you or your friends yet.
+                        </div>`;
+
+                    return;
+
+                }
 
 
-                    if (data.to) {
+                allPosts.forEach(
+                    item => {
 
-                        acceptedFriendIds.add(
-                            data.to
+                        displayPost(
+                            item.id,
+                            item.data
                         );
 
                     }
-
-                }
-            );
-
-
-            // =========================
-            // FRIENDSHIPS YOU RECEIVED
-            // =========================
-
-            const receivedQuery =
-                query(
-                    collection(
-                        db,
-                        "friendRequests"
-                    ),
-                    where(
-                        "to",
-                        "==",
-                        currentUser.uid
-                    ),
-                    where(
-                        "status",
-                        "==",
-                        "accepted"
-                    )
                 );
 
 
-            const receivedSnapshot =
-                await getDocs(
-                    receivedQuery
+            } catch (error) {
+
+                console.error(
+                    "FEED ERROR:",
+                    error
                 );
 
 
-            receivedSnapshot.forEach(
-                (friendDoc) => {
+                postsContainer.innerHTML = `
 
-                    const data =
-                        friendDoc.data();
+                    <div class="message"
+                         style="color:#e41e3f;">
 
+                        Could not load posts.
 
-                    if (data.from) {
+                        <br><br>
 
-                        acceptedFriendIds.add(
-                            data.from
-                        );
+                        ${error.message}
 
-                    }
+                    </div>
 
-                }
-            );
-
-
-            console.log(
-                "Accepted friends:",
-                [...acceptedFriendIds]
-            );
-
-        }
-
-
-        // =====================================================
-        // LOAD POSTS
-        // =====================================================
-
-        function loadPosts() {
-
-            const postsQuery =
-                query(
-                    collection(
-                        db,
-                        "posts"
-                    ),
-                    orderBy(
-                        "createdAt",
-                        "desc"
-                    )
-                );
-
-
-            if (unsubscribePosts) {
-
-                unsubscribePosts();
+                `;
 
             }
 
-
-            unsubscribePosts =
-                onSnapshot(
-                    postsQuery,
-
-                    async (snapshot) => {
-
-                        postsContainer.innerHTML =
-                            "";
-
-
-                        let visiblePosts = 0;
-
-
-                        // =========================
-                        // FILTER POSTS
-                        // =========================
-
-                        snapshot.forEach(
-                            (postDoc) => {
-
-                                const postData =
-                                    postDoc.data();
-
-
-                                const postOwner =
-                                    postData.uid;
-
-
-                                // VERY IMPORTANT:
-                                // Only show posts belonging
-                                // to the current user OR
-                                // an accepted friend.
-
-                                if (
-                                    !acceptedFriendIds.has(
-                                        postOwner
-                                    )
-                                ) {
-
-                                    return;
-
-                                }
-
-
-                                visiblePosts++;
-
-
-                                renderPost(
-                                    postDoc
-                                );
-
-                            }
-                        );
-
-
-                        // =========================
-                        // EMPTY FEED
-                        // =========================
-
-                        if (
-                            visiblePosts === 0
-                        ) {
-
-                            postsContainer.innerHTML = `
-
-                                <div class="empty-feed">
-
-                                    <h3>
-                                        No posts to show
-                                    </h3>
-
-                                    <p>
-                                        Create your first post
-                                        or add some friends.
-                                    </p>
-
-                                </div>
-
-                            `;
-
-                        }
-
-
-                        const friendCount =
-                            acceptedFriendIds.size - 1;
-
-
-                        feedInfo.textContent =
-                            friendCount === 0
-                            ? "Showing your posts. Add friends to see their posts."
-                            : "Showing your posts and posts from your " +
-                              friendCount +
-                              " accepted friend" +
-                              (friendCount === 1 ? "." : "s.");
-
-
-                    },
-
-                    (error) => {
-
-                        console.error(
-                            "POSTS ERROR:",
-                            error
-                        );
-
-
-                        postsContainer.innerHTML = `
-
-                            <div class="empty-feed">
-
-                                <strong>
-                                    Could not load posts.
-                                </strong>
-
-                                <br><br>
-
-                                ${error.message}
-
-                            </div>
-
-                        `;
-
-                    }
-                );
-
         }
 
 
-        // =====================================================
-        // RENDER POST
-        // =====================================================
+        /* =========================
+           DISPLAY POST
+        ========================= */
 
-        function renderPost(postDoc) {
-
-            const postData =
-                postDoc.data();
-
+        function displayPost(
+            postId,
+            postData
+        ) {
 
             const post =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             post.className =
                 "post";
 
-
-            // =========================
-            // USER
-            // =========================
 
             const email =
                 postData.userEmail ||
@@ -1031,18 +1507,12 @@
                     .toUpperCase();
 
 
-            // =========================
-            // TIME
-            // =========================
-
             let timeText =
                 "Just now";
 
 
             if (
-                postData.createdAt &&
-                typeof postData.createdAt.toDate ===
-                "function"
+                postData.createdAt
             ) {
 
                 timeText =
@@ -1053,55 +1523,25 @@
             }
 
 
-            // =========================
-            // LIKES
-            // =========================
-
-            let likes =
+            const likes =
                 Number(
                     postData.likes || 0
                 );
 
 
-            let likedBy =
+            const likedBy =
                 Array.isArray(
                     postData.likedBy
                 )
-                ? [...postData.likedBy]
+                ? postData.likedBy
                 : [];
 
 
             const userLiked =
-                currentUser &&
                 likedBy.includes(
                     currentUser.uid
                 );
 
-
-            // =========================
-            // DELETE BUTTON
-            // =========================
-
-            const deleteButton =
-                currentUser &&
-                currentUser.uid ===
-                postData.uid
-
-                ? `
-                    <button
-                        class="action-btn delete-post-btn">
-
-                        🗑️ Delete
-
-                    </button>
-                  `
-
-                : "";
-
-
-            // =========================
-            // POST HTML
-            // =========================
 
             post.innerHTML = `
 
@@ -1114,7 +1554,7 @@
                     <div>
 
                         <div class="post-user">
-                            ${email}
+                            ${escapeHtml(email)}
                         </div>
 
                         <div class="post-time">
@@ -1126,7 +1566,29 @@
                 </div>
 
 
-                <div class="post-content"></div>
+                ${
+                    postData.text
+                    ? `
+                        <div class="post-content">
+                            ${escapeHtml(
+                                postData.text
+                            )}
+                        </div>
+                    `
+                    : ""
+                }
+
+
+                ${
+                    postData.image
+                    ? `
+                        <img
+                            class="post-image"
+                            src="${postData.image}"
+                            alt="Post image">
+                    `
+                    : ""
+                }
 
 
                 <div class="post-actions">
@@ -1147,14 +1609,24 @@
                         class="action-btn comment-btn">
 
                         💬 Comment
-                        <span class="comment-count">
-                            0
-                        </span>
 
                     </button>
 
 
-                    ${deleteButton}
+                    ${
+                        postData.uid ===
+                        currentUser.uid
+
+                        ? `
+                            <button
+                                class="action-btn delete-post-btn">
+
+                                🗑️ Delete
+
+                            </button>
+                        `
+                        : ""
+                    }
 
                 </div>
 
@@ -1168,30 +1640,27 @@
 
                 <div class="comments-section">
 
-                    <div class="comments-header">
+                    <button
+                        class="show-comments-btn">
 
-                        <button
-                            class="show-comments-btn">
+                        💬 View comments
 
-                            💬 View comments
+                    </button>
 
-                        </button>
 
+                    <div
+                        class="comments-list"
+                        style="display:none;">
                     </div>
 
 
-                    <div class="comments-list">
-                    </div>
-
-
-                    <div class="comment-input-area">
+                    <div
+                        class="comment-input-area">
 
                         <input
                             type="text"
                             class="comment-input"
-                            placeholder="Write a comment..."
-                        >
-
+                            placeholder="Write a comment...">
 
                         <button
                             class="comment-submit">
@@ -1207,24 +1676,14 @@
             `;
 
 
-            // IMPORTANT:
-            // Use textContent for post text
-            // so HTML cannot be injected.
-
-            post.querySelector(
-                ".post-content"
-            ).textContent =
-                postData.text || "";
-
-
             postsContainer.appendChild(
                 post
             );
 
 
-            // =================================================
-            // LIKE
-            // =================================================
+            /* =========================
+               LIKE
+            ========================= */
 
             const likeButton =
                 post.querySelector(
@@ -1232,75 +1691,83 @@
                 );
 
 
-            const likeCount =
-                post.querySelector(
-                    ".like-count"
-                );
-
-
             likeButton.addEventListener(
                 "click",
                 async () => {
 
-                    const user =
-                        auth.currentUser;
-
-
-                    if (!user) {
-
-                        alert(
-                            "Please login first."
-                        );
-
-                        return;
-                    }
-
-
                     try {
 
+                        const postRef =
+                            doc(
+                                db,
+                                "posts",
+                                postId
+                            );
+
+
+                        const snapshot =
+                            await getDoc(
+                                postRef
+                            );
+
+
+                        if (
+                            !snapshot.exists()
+                        ) {
+
+                            alert(
+                                "Post no longer exists."
+                            );
+
+                            return;
+
+                        }
+
+
+                        const data =
+                            snapshot.data();
+
+
                         let newLikedBy =
-                            [...likedBy];
+                            Array.isArray(
+                                data.likedBy
+                            )
+                            ? [
+                                ...data.likedBy
+                            ]
+                            : [];
 
 
                         let newLikes =
-                            likes;
+                            Number(
+                                data.likes || 0
+                            );
 
 
                         if (
                             newLikedBy.includes(
-                                user.uid
+                                currentUser.uid
                             )
                         ) {
-
-                            // UNLIKE
 
                             newLikedBy =
                                 newLikedBy.filter(
                                     uid =>
                                         uid !==
-                                        user.uid
+                                        currentUser.uid
                                 );
 
-
-                            newLikes--;
-
-
-                            if (
-                                newLikes < 0
-                            ) {
-
-                                newLikes = 0;
-
-                            }
+                            newLikes =
+                                Math.max(
+                                    0,
+                                    newLikes - 1
+                                );
 
                         } else {
 
-                            // LIKE
-
                             newLikedBy.push(
-                                user.uid
+                                currentUser.uid
                             );
-
 
                             newLikes++;
 
@@ -1308,26 +1775,22 @@
 
 
                         await updateDoc(
-
-                            doc(
-                                db,
-                                "posts",
-                                postDoc.id
-                            ),
-
+                            postRef,
                             {
+
                                 likes:
                                     newLikes,
 
                                 likedBy:
                                     newLikedBy
-                            }
 
+                            }
                         );
 
 
-                        console.log(
-                            "Like updated."
+                        displayPostAfterUpdate(
+                            postId,
+                            post
                         );
 
 
@@ -1350,80 +1813,45 @@
             );
 
 
-            // =================================================
-            // DELETE POST
-            // =================================================
+            /* =========================
+               DELETE POST
+            ========================= */
 
-            const deletePostButton =
+            const deleteButton =
                 post.querySelector(
                     ".delete-post-btn"
                 );
 
 
-            if (
-                deletePostButton
-            ) {
+            if (deleteButton) {
 
-                deletePostButton.addEventListener(
+                deleteButton.addEventListener(
                     "click",
                     async () => {
 
-                        const confirmed =
-                            confirm(
-                                "Delete this post?"
-                            );
-
-
-                        if (!confirmed) {
-
-                            return;
-
-                        }
-
-
-                        const user =
-                            auth.currentUser;
-
-
-                        if (!user) {
-
-                            alert(
-                                "Please login first."
-                            );
-
-                            return;
-                        }
-
-
                         if (
-                            user.uid !==
-                            postData.uid
+                            !confirm(
+                                "Delete this post?"
+                            )
                         ) {
 
-                            alert(
-                                "You can only delete your own post."
-                            );
-
                             return;
+
                         }
 
 
                         try {
 
                             await deleteDoc(
-
                                 doc(
                                     db,
                                     "posts",
-                                    postDoc.id
+                                    postId
                                 )
-
                             );
 
 
-                            console.log(
-                                "Post deleted."
-                            );
+                            post.remove();
 
 
                         } catch (error) {
@@ -1447,9 +1875,21 @@
             }
 
 
-            // =================================================
-            // COMMENTS
-            // =================================================
+            /* =========================
+               COMMENTS
+            ========================= */
+
+            const commentsList =
+                post.querySelector(
+                    ".comments-list"
+                );
+
+
+            const showComments =
+                post.querySelector(
+                    ".show-comments-btn"
+                );
+
 
             const commentInput =
                 post.querySelector(
@@ -1463,41 +1903,11 @@
                 );
 
 
-            const commentsList =
-                post.querySelector(
-                    ".comments-list"
-                );
-
-
-            const commentCount =
-                post.querySelector(
-                    ".comment-count"
-                );
-
-
-            const showCommentsButton =
-                post.querySelector(
-                    ".show-comments-btn"
-                );
-
-
-            const commentButton =
-                post.querySelector(
-                    ".comment-btn"
-                );
-
-
             let commentsVisible =
                 false;
 
 
-            commentsList.style.display =
-                "none";
-
-
-            // VIEW COMMENTS
-
-            showCommentsButton.addEventListener(
+            showComments.addEventListener(
                 "click",
                 () => {
 
@@ -1511,7 +1921,7 @@
                         : "none";
 
 
-                    showCommentsButton.textContent =
+                    showComments.textContent =
                         commentsVisible
                         ? "💬 Hide comments"
                         : "💬 View comments";
@@ -1520,113 +1930,76 @@
             );
 
 
-            // COMMENT BUTTON
-
-            commentButton.addEventListener(
+            post.querySelector(
+                ".comment-btn"
+            ).addEventListener(
                 "click",
                 () => {
-
-                    commentInput.focus();
-
 
                     commentsVisible =
                         true;
 
-
                     commentsList.style.display =
                         "block";
 
-
-                    showCommentsButton.textContent =
+                    showComments.textContent =
                         "💬 Hide comments";
+
+                    commentInput.focus();
 
                 }
             );
 
 
-            // =================================================
-            // ADD COMMENT
-            // =================================================
-
             commentSubmit.addEventListener(
                 "click",
                 async () => {
 
-                    const user =
-                        auth.currentUser;
-
-
-                    if (!user) {
-
-                        alert(
-                            "Please login first."
-                        );
-
-                        return;
-                    }
-
-
-                    const commentText =
+                    const text =
                         commentInput.value.trim();
 
 
-                    if (
-                        commentText === ""
-                    ) {
+                    if (!text) {
 
                         alert(
                             "Please write a comment."
                         );
 
                         return;
+
                     }
 
 
                     try {
 
                         await addDoc(
-
                             collection(
                                 db,
                                 "comments"
                             ),
-
                             {
 
                                 postId:
-                                    postDoc.id,
+                                    postId,
 
                                 text:
-                                    commentText,
-
-                                userEmail:
-                                    user.email,
+                                    text,
 
                                 uid:
-                                    user.uid,
+                                    currentUser.uid,
+
+                                userEmail:
+                                    currentUser.email,
 
                                 createdAt:
                                     serverTimestamp()
 
                             }
-
                         );
 
 
                         commentInput.value =
                             "";
-
-
-                        commentsVisible =
-                            true;
-
-
-                        commentsList.style.display =
-                            "block";
-
-
-                        showCommentsButton.textContent =
-                            "💬 Hide comments";
 
 
                     } catch (error) {
@@ -1648,9 +2021,91 @@
             );
 
 
-            // =================================================
-            // LOAD COMMENTS
-            // =================================================
+            loadComments(
+                postId,
+                commentsList
+            );
+
+        }
+
+
+        /* =========================
+           UPDATE LIKE UI
+        ========================= */
+
+        async function displayPostAfterUpdate(
+            postId,
+            postElement
+        ) {
+
+            const snapshot =
+                await getDoc(
+                    doc(
+                        db,
+                        "posts",
+                        postId
+                    )
+                );
+
+
+            if (
+                !snapshot.exists()
+            ) {
+
+                return;
+
+            }
+
+
+            const data =
+                snapshot.data();
+
+
+            const button =
+                postElement.querySelector(
+                    ".like-btn"
+                );
+
+
+            const count =
+                postElement.querySelector(
+                    ".like-count"
+                );
+
+
+            const likedBy =
+                Array.isArray(
+                    data.likedBy
+                )
+                ? data.likedBy
+                : [];
+
+
+            button.textContent =
+                likedBy.includes(
+                    currentUser.uid
+                )
+                ? "❤️ Liked"
+                : "👍 Like";
+
+
+            count.textContent =
+                "Likes: " +
+                Number(
+                    data.likes || 0
+                );
+
+        }
+
+
+        /* =========================
+           LOAD COMMENTS
+        ========================= */
+
+        function loadComments(
+            postId,
+            commentsList
+        ) {
 
             const commentsQuery =
                 query(
@@ -1661,7 +2116,7 @@
                     where(
                         "postId",
                         "==",
-                        postDoc.id
+                        postId
                     ),
                     orderBy(
                         "createdAt",
@@ -1671,26 +2126,18 @@
 
 
             onSnapshot(
-
                 commentsQuery,
-
-                (commentSnapshot) => {
+                snapshot => {
 
                     commentsList.innerHTML =
                         "";
 
 
-                    let count = 0;
+                    snapshot.forEach(
+                        commentDoc => {
 
-
-                    commentSnapshot.forEach(
-                        (commentDoc) => {
-
-                            const commentData =
+                            const data =
                                 commentDoc.data();
-
-
-                            count++;
 
 
                             const comment =
@@ -1703,25 +2150,23 @@
                                 "comment";
 
 
-                            const commentEmail =
-                                commentData.userEmail ||
+                            const email =
+                                data.userEmail ||
                                 "User";
-
-
-                            const commentAvatar =
-                                commentEmail
-                                    .substring(
-                                        0,
-                                        2
-                                    )
-                                    .toUpperCase();
 
 
                             comment.innerHTML = `
 
                                 <div class="comment-avatar">
 
-                                    ${commentAvatar}
+                                    ${escapeHtml(
+                                        email
+                                            .substring(
+                                                0,
+                                                2
+                                            )
+                                            .toUpperCase()
+                                    )}
 
                                 </div>
 
@@ -1730,30 +2175,35 @@
 
                                     <div class="comment-user">
 
-                                        ${commentEmail}
+                                        ${escapeHtml(
+                                            email
+                                        )}
 
                                     </div>
 
 
-                                    <div class="comment-text"></div>
+                                    <div class="comment-text">
+
+                                        ${escapeHtml(
+                                            data.text ||
+                                            ""
+                                        )}
+
+                                    </div>
 
 
                                     ${
-                                        auth.currentUser &&
-                                        auth.currentUser.uid ===
-                                        commentData.uid
+                                        data.uid ===
+                                        currentUser.uid
 
                                         ? `
-
                                             <button
                                                 class="delete-comment-btn">
 
                                                 Delete
 
                                             </button>
-
-                                          `
-
+                                        `
                                         : ""
                                     }
 
@@ -1762,101 +2212,51 @@
                             `;
 
 
-                            comment.querySelector(
-                                ".comment-text"
-                            ).textContent =
-                                commentData.text || "";
-
-
                             commentsList.appendChild(
                                 comment
                             );
 
 
-                            // DELETE COMMENT
-
-                            const deleteCommentButton =
+                            const deleteButton =
                                 comment.querySelector(
                                     ".delete-comment-btn"
                                 );
 
 
                             if (
-                                deleteCommentButton
+                                deleteButton
                             ) {
 
-                                deleteCommentButton.addEventListener(
+                                deleteButton.addEventListener(
                                     "click",
                                     async () => {
 
-                                        const confirmed =
-                                            confirm(
-                                                "Delete this comment?"
-                                            );
-
-
-                                        if (!confirmed) {
-
-                                            return;
-
-                                        }
-
-
-                                        const user =
-                                            auth.currentUser;
-
-
-                                        if (!user) {
-
-                                            alert(
-                                                "Please login first."
-                                            );
-
-                                            return;
-                                        }
-
-
                                         if (
-                                            user.uid !==
-                                            commentData.uid
+                                            !confirm(
+                                                "Delete this comment?"
+                                            )
                                         ) {
 
-                                            alert(
-                                                "You can only delete your own comment."
-                                            );
-
                                             return;
+
                                         }
 
 
                                         try {
 
                                             await deleteDoc(
-
                                                 doc(
                                                     db,
                                                     "comments",
                                                     commentDoc.id
                                                 )
-
-                                            );
-
-
-                                            console.log(
-                                                "Comment deleted."
                                             );
 
 
                                         } catch (error) {
 
-                                            console.error(
-                                                "COMMENT DELETE ERROR:",
-                                                error
-                                            );
-
-
                                             alert(
-                                                "Comment delete failed: " +
+                                                "Could not delete comment: " +
                                                 error.message
                                             );
 
@@ -1870,13 +2270,8 @@
                         }
                     );
 
-
-                    commentCount.textContent =
-                        count;
-
                 },
-
-                (error) => {
+                error => {
 
                     console.error(
                         "COMMENTS ERROR:",
@@ -1884,160 +2279,44 @@
                     );
 
                 }
-
             );
 
         }
 
 
-        // =====================================================
-        // CREATE POST
-        // =====================================================
+        /* =========================
+           HTML ESCAPE
+        ========================= */
 
-        document.getElementById(
-            "postBtn"
-        ).addEventListener(
-            "click",
-            async () => {
+        function escapeHtml(value) {
 
-                const textBox =
-                    document.getElementById(
-                        "postText"
-                    );
+            return String(value)
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
 
-
-                const text =
-                    textBox.value.trim();
-
-
-                if (
-                    text === ""
-                ) {
-
-                    alert(
-                        "Please write something first."
-                    );
-
-                    return;
-
-                }
-
-
-                const user =
-                    auth.currentUser;
-
-
-                if (!user) {
-
-                    alert(
-                        "Please login first."
-                    );
-
-                    window.location.href =
-                        "index.html";
-
-                    return;
-
-                }
-
-
-                try {
-
-                    await addDoc(
-
-                        collection(
-                            db,
-                            "posts"
-                        ),
-
-                        {
-
-                            text:
-                                text,
-
-                            userEmail:
-                                user.email,
-
-                            uid:
-                                user.uid,
-
-                            createdAt:
-                                serverTimestamp(),
-
-                            likes:
-                                0,
-
-                            likedBy:
-                                []
-
-                        }
-
-                    );
-
-
-                    textBox.value =
-                        "";
-
-
-                    console.log(
-                        "Post saved successfully."
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "CREATE POST ERROR:",
-                        error
-                    );
-
-
-                    alert(
-                        "Could not save post: " +
-                        error.message
-                    );
-
-                }
-
-            }
-        );
-
-
-        // =====================================================
-        // LOGOUT
-        // =====================================================
-
-        document.getElementById(
-            "logoutBtn"
-        ).addEventListener(
-            "click",
-            async () => {
-
-                try {
-
-                    await signOut(
-                        auth
-                    );
-
-
-                    window.location.href =
-                        "index.html";
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Logout error:",
-                        error
-                    );
-
-                }
-
-            }
-        );
+        }
 
     </script>
 
 </body>
 
 </html>
+```
