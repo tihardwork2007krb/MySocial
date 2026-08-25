@@ -8,208 +8,384 @@
     <title>MySocial Home</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+    * {
+        box-sizing: border-box;
+    }
 
-        body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #fff0f6;
-}
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f0f2f5;
+        color: #1c1e21;
+    }
+
+    /* NAVBAR */
+
+    .navbar {
+        height: 64px;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1877f2;
+        letter-spacing: -0.5px;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .user-email {
+        font-size: 14px;
+        color: #65676b;
+        margin: 0 5px;
+    }
+
+    .profile-btn {
+        text-decoration: none;
+        background: #1877f2;
+        color: white;
+        padding: 9px 16px;
+        border-radius: 7px;
+        font-weight: 600;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .profile-btn:hover {
+        background: #166fe5;
+    }
+
+    .logout-btn {
+        border: none;
+        background: #e4e6eb;
+        color: #1c1e21;
+        padding: 9px 16px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .logout-btn:hover {
+        background: #d8dadf;
+    }
+
+    /* MAIN */
+
+    .container {
+        width: 650px;
+        max-width: calc(100% - 30px);
+        margin: 25px auto 50px;
+    }
+
+    /* CREATE POST */
+
+    .create-post {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        margin-bottom: 20px;
+    }
+
+    .create-post h3 {
+        margin: 0 0 15px;
+        font-size: 20px;
+        color: #1c1e21;
+    }
+
+    textarea {
+        width: 100%;
+        height: 100px;
+        resize: vertical;
+        min-height: 80px;
+        max-height: 200px;
+        border: 1px solid #ccd0d5;
+        border-radius: 10px;
+        padding: 13px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        outline: none;
+        background: #f7f8fa;
+    }
+
+    textarea:focus {
+        border-color: #1877f2;
+        background: white;
+        box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.12);
+    }
+
+    .post-btn {
+        width: 100%;
+        margin-top: 12px;
+        border: none;
+        background: #1877f2;
+        color: white;
+        padding: 11px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .post-btn:hover {
+        background: #166fe5;
+    }
+
+    /* POSTS */
+
+    .post {
+        background: white;
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    .post-header {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .avatar {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        border-radius: 50%;
+        background: #1877f2;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .post-user {
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .post-time {
+        font-size: 12px;
+        color: #65676b;
+        margin-top: 3px;
+    }
+
+    .post-content {
+        margin-top: 16px;
+        font-size: 16px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    /* ACTION BUTTONS */
+
+    .post-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+        border-top: 1px solid #e4e6eb;
+        padding-top: 10px;
+    }
+
+    .action-btn {
+        flex: 1;
+        border: none;
+        background: #f0f2f5;
+        color: #65676b;
+        padding: 10px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .action-btn:hover {
+        background: #e4e6eb;
+        color: #1877f2;
+    }
+
+    .like-count {
+        margin-top: 10px;
+        color: #65676b;
+        font-size: 13px;
+    }
+
+    /* COMMENTS */
+
+    .comments-section {
+        margin-top: 12px;
+    }
+
+    .comments-header {
+        margin-bottom: 8px;
+    }
+
+    .show-comments-btn {
+        border: none;
+        background: transparent;
+        color: #1877f2;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 5px 0;
+    }
+
+    .show-comments-btn:hover {
+        text-decoration: underline;
+    }
+
+    .comments-list {
+        margin-bottom: 10px;
+    }
+
+    .comment {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+        padding: 8px;
+        background: #f0f2f5;
+        border-radius: 10px;
+    }
+
+    .comment-avatar {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        border-radius: 50%;
+        background: #1877f2;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .comment-body {
+        flex: 1;
+    }
+
+    .comment-user {
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 3px;
+    }
+
+    .comment-text {
+        font-size: 14px;
+        word-break: break-word;
+    }
+
+    .delete-comment-btn {
+        border: none;
+        background: transparent;
+        color: #e41e3f;
+        font-size: 12px;
+        cursor: pointer;
+        padding: 4px 0;
+    }
+
+    .comment-input-area {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .comment-input {
+        flex: 1;
+        border: 1px solid #ccd0d5;
+        border-radius: 20px;
+        padding: 9px 13px;
+        outline: none;
+        font-size: 14px;
+    }
+
+    .comment-input:focus {
+        border-color: #1877f2;
+    }
+
+    .comment-submit {
+        border: none;
+        background: #1877f2;
+        color: white;
+        border-radius: 20px;
+        padding: 8px 15px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .comment-submit:hover {
+        background: #166fe5;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 600px) {
 
         .navbar {
-            height: 60px;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.15);
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            height: auto;
+            min-height: 60px;
+            padding: 10px 12px;
         }
 
         .logo {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1877f2;
+            font-size: 23px;
         }
 
         .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            gap: 6px;
         }
 
         .user-email {
-            font-size: 14px;
-            color: #555;
+            display: none;
         }
 
+        .profile-btn,
         .logout-btn {
-            border: none;
-            background: #e4e6eb;
-            padding: 9px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
+            padding: 8px 10px;
+            font-size: 13px;
         }
-
-        .logout-btn:hover {
-            background: #d8dadf;
-        }
-
-        .profile-btn {
-    text-decoration: none;
-    background: #1877f2;
-    color: white;
-    padding: 9px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.profile-btn:hover {
-    background: #166fe5;
-}
 
         .container {
-            width: 650px;
-            max-width: 95%;
-            margin: 25px auto;
+            width: 100%;
+            max-width: calc(100% - 20px);
+            margin: 15px auto 30px;
         }
 
         .create-post {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-            margin-bottom: 20px;
-        }
-
-        .create-post h3 {
-            margin-top: 0;
-        }
-
-        textarea {
-            width: 100%;
-            height: 90px;
-            resize: none;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 15px;
-        }
-
-        .post-btn {
-            width: 100%;
-            margin-top: 10px;
-            border: none;
-            background: #1877f2;
-            color: white;
-            padding: 12px;
-            border-radius: 7px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .post-btn:hover {
-            background: #166fe5;
+            padding: 15px;
         }
 
         .post {
-            background: white;
-            border-radius: 10px;
-            padding: 18px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-        }
-
-        .post-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: #1877f2;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .post-user {
-            font-weight: bold;
-        }
-
-        .post-time {
-            font-size: 12px;
-            color: #777;
-            margin-top: 3px;
-        }
-
-        .post-content {
-            margin-top: 15px;
-            font-size: 16px;
-            line-height: 1.5;
+            padding: 15px;
         }
 
         .post-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
+            gap: 5px;
         }
 
         .action-btn {
-            flex: 1;
-            border: none;
-            background: #f0f2f5;
-            padding: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
+            font-size: 13px;
+            padding: 9px 5px;
         }
-
-        .action-btn:hover {
-            background: #e4e6eb;
-        }
-
-        .like-count {
-            margin-top: 10px;
-            color: #555;
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
-
-            .navbar {
-                padding: 0 12px;
-            }
-
-            .logo {
-                font-size: 23px;
-            }
-
-            .user-email {
-                display: none;
-            }
-
-            .container {
-                margin-top: 15px;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 
 <body>
@@ -238,6 +414,7 @@
 
     </div>
 
+</div>
 
     <!-- MAIN CONTENT -->
 <div class="container">
@@ -281,15 +458,13 @@
     collection,
     addDoc,
     updateDoc,
-    deleteDoc,
-    doc as firestoreDoc,
+    doc,
+    getDoc,
     serverTimestamp,
     onSnapshot,
     query,
     orderBy
-}
-from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-        
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js"; 
 
 
         // FIREBASE CONFIG
@@ -324,21 +499,97 @@ from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
         // CHECK LOGIN
 
-       onAuthStateChanged(auth, (user) => {
+       onAuthStateChanged(auth, async (user) => {
 
-    if (user) {
-
-        document.getElementById("userEmail").textContent =
-            user.email || "User";
-
-        console.log("User logged in:", user.email);
-
-    } else {
+    if (!user) {
 
         console.log("No user is logged in.");
 
-        document.getElementById("userEmail").textContent =
-            "Not logged in";
+        window.location.href = "index.html";
+
+        return;
+    }
+
+
+    console.log("User logged in:", user.email);
+
+
+    // Show user's email
+
+    document.getElementById("userEmail").textContent =
+        user.email || "User";
+
+
+    try {
+
+        // Check user's profile in Firestore
+
+        const profileRef =
+            doc(db, "users", user.uid);
+
+        const profileSnapshot =
+            await getDoc(profileRef);
+
+
+        // PROFILE DOES NOT EXIST
+
+        if (!profileSnapshot.exists()) {
+
+            console.log("Profile not completed.");
+
+            alert("Please complete your profile first.");
+
+            window.location.href = "profile.html";
+
+            return;
+        }
+
+
+        // PROFILE EXISTS
+
+        const profileData =
+            profileSnapshot.data();
+
+
+        // Check that a name has been saved
+
+        if (!profileData.name ||
+            profileData.name.trim() === "") {
+
+            console.log("Profile name is missing.");
+
+            alert("Please complete your profile first.");
+
+            window.location.href = "profile.html";
+
+            return;
+        }
+
+
+        // PROFILE IS COMPLETE
+
+        console.log(
+            "Profile accepted:",
+            profileData.name
+        );
+
+
+        console.log(
+            "Welcome",
+            profileData.name
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error checking profile:",
+            error
+        );
+
+        alert(
+            "Could not check your profile. Please try again."
+        );
 
     }
 
