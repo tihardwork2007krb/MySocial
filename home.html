@@ -61,6 +61,21 @@
             background: #d8dadf;
         }
 
+        .profile-btn {
+    text-decoration: none;
+    background: #1877f2;
+    color: white;
+    padding: 9px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.profile-btn:hover {
+    background: #166fe5;
+}
+
         .container {
             width: 650px;
             max-width: 95%;
@@ -209,15 +224,17 @@
 
         <div class="nav-right">
 
-            <span class="user-email" id="userEmail">
-                Loading...
-            </span>
+    <a href="profile.html" class="profile-btn">
+        👤 Profile
+    </a>
 
-            <button class="logout-btn" id="logoutBtn">
-                Logout
-            </button>
+    <span class="user-email" id="userEmail">
+        Loading...
+    </span>
 
-        </div>
+    <button class="logout-btn" id="logoutBtn">
+        Logout
+    </button>
 
     </div>
 
