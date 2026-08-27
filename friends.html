@@ -73,6 +73,40 @@
             margin-bottom: 15px;
         }
 
+        /* SEARCH */
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 13px;
+            border: 1px solid #ccd0d5;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #1877f2;
+        }
+
+        .search-btn {
+            border: none;
+            background: #1877f2;
+            color: white;
+            padding: 0 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .search-btn:hover {
+            background: #166fe5;
+        }
+
         /* USER */
 
         .user-card {
@@ -118,11 +152,28 @@
             word-break: break-word;
         }
 
-        /* BUTTONS */
+        /* ADD FRIEND */
 
-        button {
-            cursor: pointer;
+        .add-btn {
+            border: none;
+            background: #1877f2;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-weight: bold;
+            white-space: nowrap;
         }
+
+        .add-btn:hover {
+            background: #166fe5;
+        }
+
+        .add-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ACCEPT / REJECT */
 
         .accept-btn {
             border: none;
@@ -157,6 +208,13 @@
             white-space: nowrap;
         }
 
+        .pending {
+            color: #65676b;
+            font-weight: bold;
+            white-space: nowrap;
+            font-size: 13px;
+        }
+
         .message {
             padding: 10px 0;
             color: #65676b;
@@ -184,6 +242,14 @@
                 max-width: calc(100% - 20px);
             }
 
+            .search-box {
+                flex-direction: column;
+            }
+
+            .search-btn {
+                padding: 12px;
+            }
+
             .user-card {
                 align-items: flex-start;
             }
@@ -197,6 +263,11 @@
             .accept-btn,
             .reject-btn {
                 margin-right: 0;
+            }
+
+            .add-btn {
+                padding: 7px 9px;
+                font-size: 12px;
             }
 
         }
@@ -226,6 +297,45 @@
     <!-- MAIN -->
 
     <div class="container">
+
+
+        <!-- SEARCH FRIENDS -->
+
+        <div class="card">
+
+            <h2>
+                Find Friends
+            </h2>
+
+            <div class="search-box">
+
+                <input
+                    type="email"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="Search by email address"
+                >
+
+                <button
+                    id="searchBtn"
+                    class="search-btn">
+
+                    Search
+
+                </button>
+
+            </div>
+
+
+            <div id="searchResults">
+
+                <div class="message">
+                    Search for a friend using their email address.
+                </div>
+
+            </div>
+
+        </div>
 
 
         <!-- FRIEND REQUESTS -->
@@ -282,8 +392,10 @@
             query,
             where,
             getDocs,
+            addDoc,
             updateDoc,
-            doc
+            doc,
+            serverTimestamp
         } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
@@ -337,15 +449,23 @@
         const friendsDiv =
             document.getElementById("friends");
 
+        const searchResultsDiv =
+            document.getElementById("searchResults");
+
 
         /* =========================
-           SAFE TEXT FUNCTIONS
+           SAFE TEXT
         ========================= */
 
         function safeString(value) {
 
-            if (value === null || value === undefined) {
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
                 return "";
+
             }
 
             return String(value);
@@ -353,24 +473,50 @@
         }
 
 
-        function getInitials(name, email) {
+        function escapeHTML(value) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent =
+                safeString(value);
+
+            return div.innerHTML;
+
+        }
+
+
+        function getInitials(
+            name,
+            email
+        ) {
 
             let text =
                 safeString(name).trim();
 
-            if (!text) {
-                text =
-                    safeString(email).trim();
-            }
 
             if (!text) {
-                return "U";
+
+                text =
+                    safeString(email).trim();
+
             }
+
+
+            if (!text) {
+
+                return "U";
+
+            }
+
 
             const parts =
                 text.split(/\s+/);
 
-            if (parts.length >= 2) {
+
+            if (
+                parts.length >= 2
+            ) {
 
                 return (
                     parts[0].charAt(0) +
@@ -378,6 +524,7 @@
                 ).toUpperCase();
 
             }
+
 
             return text
                 .substring(0, 2)
@@ -404,7 +551,8 @@
                 }
 
 
-                currentUser = user;
+                currentUser =
+                    user;
 
 
                 console.log(
@@ -423,6 +571,587 @@
 
 
         /* =========================
+           SEARCH USERS
+        ========================= */
+
+        document.getElementById(
+            "searchBtn"
+        ).addEventListener(
+            "click",
+            searchUsers
+        );
+
+
+        document.getElementById(
+            "searchInput"
+        ).addEventListener(
+            "keydown",
+            (event) => {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    searchUsers();
+
+                }
+
+            }
+        );
+
+
+        async function searchUsers() {
+
+            const searchValue =
+                document
+                    .getElementById("searchInput")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            if (!searchValue) {
+
+                searchResultsDiv.innerHTML = `
+
+                    <div class="message">
+
+                        Enter an email address to search.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            searchResultsDiv.innerHTML = `
+
+                <div class="message">
+                    Searching...
+                </div>
+
+            `;
+
+
+            try {
+
+                /*
+                 * Users are searched by email.
+                 *
+                 * This requires user profiles to exist
+                 * inside the Firestore "users" collection.
+                 */
+
+                const usersQuery =
+                    query(
+                        collection(
+                            db,
+                            "users"
+                        ),
+                        where(
+                            "email",
+                            "==",
+                            searchValue
+                        )
+                    );
+
+
+                const snapshot =
+                    await getDocs(
+                        usersQuery
+                    );
+
+
+                searchResultsDiv.innerHTML =
+                    "";
+
+
+                if (snapshot.empty) {
+
+                    searchResultsDiv.innerHTML = `
+
+                        <div class="message">
+
+                            No user found with this email.
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                for (
+                    const userDoc of snapshot.docs
+                ) {
+
+                    const data =
+                        userDoc.data();
+
+
+                    const foundUid =
+                        userDoc.id;
+
+
+                    if (
+                        foundUid ===
+                        currentUser.uid
+                    ) {
+
+                        searchResultsDiv.innerHTML = `
+
+                            <div class="message">
+
+                                This is your own account.
+
+                            </div>
+
+                        `;
+
+                        continue;
+
+                    }
+
+
+                    const name =
+                        safeString(
+                            data.name
+                        );
+
+
+                    const email =
+                        safeString(
+                            data.email ||
+                            data.userEmail ||
+                            searchValue
+                        );
+
+
+                    await displaySearchResult(
+                        foundUid,
+                        name,
+                        email
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "SEARCH ERROR:",
+                    error
+                );
+
+
+                searchResultsDiv.innerHTML = `
+
+                    <div class="error">
+
+                        Could not search users.
+
+                        <br><br>
+
+                        ${escapeHTML(
+                            error.message
+                        )}
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /* =========================
+           SEARCH RESULT
+        ========================= */
+
+        async function displaySearchResult(
+            uid,
+            name,
+            email
+        ) {
+
+            const relationship =
+                await getRelationship(
+                    uid
+                );
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "user-card";
+
+
+            let actionHTML = "";
+
+
+            if (
+                relationship ===
+                "friends"
+            ) {
+
+                actionHTML = `
+
+                    <div class="friend">
+                        ✓ Friends
+                    </div>
+
+                `;
+
+            }
+
+            else if (
+                relationship ===
+                "sent"
+            ) {
+
+                actionHTML = `
+
+                    <div class="pending">
+                        Request Sent
+                    </div>
+
+                `;
+
+            }
+
+            else if (
+                relationship ===
+                "received"
+            ) {
+
+                actionHTML = `
+
+                    <div class="pending">
+                        Request Received
+                    </div>
+
+                `;
+
+            }
+
+            else {
+
+                actionHTML = `
+
+                    <button
+                        class="add-btn">
+
+                        Add Friend
+
+                    </button>
+
+                `;
+
+            }
+
+
+            card.innerHTML = `
+
+                <div class="avatar">
+
+                    ${escapeHTML(
+                        getInitials(
+                            name,
+                            email
+                        )
+                    )}
+
+                </div>
+
+
+                <div class="user-info">
+
+                    <div class="user-name">
+
+                        ${escapeHTML(
+                            name || "User"
+                        )}
+
+                    </div>
+
+
+                    <div class="user-email">
+
+                        ${escapeHTML(
+                            email
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                ${actionHTML}
+
+            `;
+
+
+            searchResultsDiv.appendChild(
+                card
+            );
+
+
+            const addButton =
+                card.querySelector(
+                    ".add-btn"
+                );
+
+
+            if (addButton) {
+
+                addButton.addEventListener(
+                    "click",
+                    async () => {
+
+                        addButton.disabled =
+                            true;
+
+                        addButton.textContent =
+                            "Sending...";
+
+
+                        try {
+
+                            await addDoc(
+
+                                collection(
+                                    db,
+                                    "friendRequests"
+                                ),
+
+                                {
+
+                                    from:
+                                        currentUser.uid,
+
+                                    fromEmail:
+                                        currentUser.email,
+
+                                    to:
+                                        uid,
+
+                                    toEmail:
+                                        email,
+
+                                    status:
+                                        "pending",
+
+                                    createdAt:
+                                        serverTimestamp()
+
+                                }
+
+                            );
+
+
+                            addButton.textContent =
+                                "Request Sent";
+
+
+                            alert(
+                                "Friend request sent!"
+                            );
+
+
+                        } catch (error) {
+
+                            console.error(
+                                "ADD FRIEND ERROR:",
+                                error
+                            );
+
+
+                            addButton.disabled =
+                                false;
+
+
+                            addButton.textContent =
+                                "Add Friend";
+
+
+                            alert(
+                                "Could not send friend request: " +
+                                error.message
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+        }
+
+
+        /* =========================
+           CHECK RELATIONSHIP
+        ========================= */
+
+        async function getRelationship(
+            otherUid
+        ) {
+
+            try {
+
+                // SENT
+
+                const sentQuery =
+                    query(
+
+                        collection(
+                            db,
+                            "friendRequests"
+                        ),
+
+                        where(
+                            "from",
+                            "==",
+                            currentUser.uid
+                        ),
+
+                        where(
+                            "to",
+                            "==",
+                            otherUid
+                        )
+
+                    );
+
+
+                const sentSnapshot =
+                    await getDocs(
+                        sentQuery
+                    );
+
+
+                if (
+                    !sentSnapshot.empty
+                ) {
+
+                    const data =
+                        sentSnapshot.docs[0]
+                            .data();
+
+
+                    if (
+                        data.status ===
+                        "accepted"
+                    ) {
+
+                        return "friends";
+
+                    }
+
+
+                    if (
+                        data.status ===
+                        "pending"
+                    ) {
+
+                        return "sent";
+
+                    }
+
+                }
+
+
+                // RECEIVED
+
+                const receivedQuery =
+                    query(
+
+                        collection(
+                            db,
+                            "friendRequests"
+                        ),
+
+                        where(
+                            "from",
+                            "==",
+                            otherUid
+                        ),
+
+                        where(
+                            "to",
+                            "==",
+                            currentUser.uid
+                        )
+
+                    );
+
+
+                const receivedSnapshot =
+                    await getDocs(
+                        receivedQuery
+                    );
+
+
+                if (
+                    !receivedSnapshot.empty
+                ) {
+
+                    const data =
+                        receivedSnapshot.docs[0]
+                            .data();
+
+
+                    if (
+                        data.status ===
+                        "accepted"
+                    ) {
+
+                        return "friends";
+
+                    }
+
+
+                    if (
+                        data.status ===
+                        "pending"
+                    ) {
+
+                        return "received";
+
+                    }
+
+                }
+
+
+                return "none";
+
+
+            } catch (error) {
+
+                console.error(
+                    "RELATIONSHIP ERROR:",
+                    error
+                );
+
+
+                return "none";
+
+            }
+
+        }
+
+
+        /* =========================
            LOAD FRIEND REQUESTS
         ========================= */
 
@@ -438,20 +1167,24 @@
 
                 const requestsQuery =
                     query(
+
                         collection(
                             db,
                             "friendRequests"
                         ),
+
                         where(
                             "to",
                             "==",
                             currentUser.uid
                         ),
+
                         where(
                             "status",
                             "==",
                             "pending"
                         )
+
                     );
 
 
@@ -461,10 +1194,13 @@
                     );
 
 
-                requestsDiv.innerHTML = "";
+                requestsDiv.innerHTML =
+                    "";
 
 
-                if (snapshot.empty) {
+                if (
+                    snapshot.empty
+                ) {
 
                     requestsDiv.innerHTML =
                         `<div class="message">
@@ -505,18 +1241,19 @@
                             "user-card";
 
 
-                        const avatar =
-                            getInitials(
-                                "",
-                                fromEmail
-                            );
-
-
                         card.innerHTML = `
 
                             <div class="avatar">
-                                ${avatar}
+
+                                ${escapeHTML(
+                                    getInitials(
+                                        "",
+                                        fromEmail
+                                    )
+                                )}
+
                             </div>
+
 
                             <div class="user-info">
 
@@ -525,21 +1262,32 @@
                                 </div>
 
                                 <div class="user-email">
-                                    ${fromEmail || "User"}
+
+                                    ${escapeHTML(
+                                        fromEmail ||
+                                        "User"
+                                    )}
+
                                 </div>
 
                             </div>
+
 
                             <div class="request-buttons">
 
                                 <button
                                     class="accept-btn">
+
                                     Accept
+
                                 </button>
+
 
                                 <button
                                     class="reject-btn">
+
                                     Reject
+
                                 </button>
 
                             </div>
@@ -580,15 +1328,18 @@
                                 try {
 
                                     await updateDoc(
+
                                         doc(
                                             db,
                                             "friendRequests",
                                             requestDoc.id
                                         ),
+
                                         {
                                             status:
                                                 "accepted"
                                         }
+
                                     );
 
 
@@ -644,15 +1395,18 @@
                                 try {
 
                                     await updateDoc(
+
                                         doc(
                                             db,
                                             "friendRequests",
                                             requestDoc.id
                                         ),
+
                                         {
                                             status:
                                                 "rejected"
                                         }
+
                                     );
 
 
@@ -704,7 +1458,9 @@
 
                         <br><br>
 
-                        ${safeString(error.message)}
+                        ${escapeHTML(
+                            error.message
+                        )}
 
                     </div>
 
@@ -733,26 +1489,28 @@
                     new Map();
 
 
-                /* =========================
-                   SENT ACCEPTED REQUESTS
-                ========================= */
+                /* SENT ACCEPTED */
 
                 const sentQuery =
                     query(
+
                         collection(
                             db,
                             "friendRequests"
                         ),
+
                         where(
                             "from",
                             "==",
                             currentUser.uid
                         ),
+
                         where(
                             "status",
                             "==",
                             "accepted"
                         )
+
                     );
 
 
@@ -786,7 +1544,8 @@
                             friendsMap.set(
                                 uid,
                                 {
-                                    email: email
+                                    email:
+                                        email
                                 }
                             );
 
@@ -796,26 +1555,28 @@
                 );
 
 
-                /* =========================
-                   RECEIVED ACCEPTED REQUESTS
-                ========================= */
+                /* RECEIVED ACCEPTED */
 
                 const receivedQuery =
                     query(
+
                         collection(
                             db,
                             "friendRequests"
                         ),
+
                         where(
                             "to",
                             "==",
                             currentUser.uid
                         ),
+
                         where(
                             "status",
                             "==",
                             "accepted"
                         )
+
                     );
 
 
@@ -849,7 +1610,8 @@
                             friendsMap.set(
                                 uid,
                                 {
-                                    email: email
+                                    email:
+                                        email
                                 }
                             );
 
@@ -859,12 +1621,9 @@
                 );
 
 
-                friendsDiv.innerHTML = "";
+                friendsDiv.innerHTML =
+                    "";
 
-
-                /* =========================
-                   NO FRIENDS
-                ========================= */
 
                 if (
                     friendsMap.size === 0
@@ -879,10 +1638,6 @@
 
                 }
 
-
-                /* =========================
-                   DISPLAY FRIENDS
-                ========================= */
 
                 friendsMap.forEach(
                     (friend) => {
@@ -903,18 +1658,19 @@
                             "user-card";
 
 
-                        const avatar =
-                            getInitials(
-                                "",
-                                email
-                            );
-
-
                         card.innerHTML = `
 
                             <div class="avatar">
-                                ${avatar}
+
+                                ${escapeHTML(
+                                    getInitials(
+                                        "",
+                                        email
+                                    )
+                                )}
+
                             </div>
+
 
                             <div class="user-info">
 
@@ -922,14 +1678,23 @@
                                     Friend
                                 </div>
 
+
                                 <div class="user-email">
-                                    ${email || "User"}
+
+                                    ${escapeHTML(
+                                        email ||
+                                        "User"
+                                    )}
+
                                 </div>
 
                             </div>
 
+
                             <div class="friend">
+
                                 ✓ Friends
+
                             </div>
 
                         `;
@@ -959,7 +1724,9 @@
 
                         <br><br>
 
-                        ${safeString(error.message)}
+                        ${escapeHTML(
+                            error.message
+                        )}
 
                     </div>
 
