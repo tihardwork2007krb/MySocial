@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -19,6 +20,8 @@
             background: #79a2e0;
             color: #1c1e21;
         }
+
+        /* NAVBAR */
 
         .navbar {
             height: 64px;
@@ -45,6 +48,12 @@
             font-weight: bold;
         }
 
+        .home-btn:hover {
+            background: #d8dadf;
+        }
+
+        /* MAIN */
+
         .container {
             width: 650px;
             max-width: calc(100% - 30px);
@@ -61,30 +70,10 @@
 
         h2 {
             margin-top: 0;
+            margin-bottom: 15px;
         }
 
-        .search-area {
-            display: flex;
-            gap: 10px;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #ccd0d5;
-            border-radius: 8px;
-            font-size: 15px;
-        }
-
-        .search-btn {
-            border: none;
-            background: #1877f2;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+        /* USER */
 
         .user-card {
             display: flex;
@@ -92,6 +81,10 @@
             gap: 12px;
             padding: 12px 0;
             border-bottom: 1px solid #e4e6eb;
+        }
+
+        .user-card:last-child {
+            border-bottom: none;
         }
 
         .avatar {
@@ -105,33 +98,30 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 14px;
         }
 
         .user-info {
             flex: 1;
+            min-width: 0;
         }
 
         .user-name {
             font-weight: bold;
+            font-size: 15px;
         }
 
         .user-email {
             font-size: 13px;
             color: #65676b;
             margin-top: 3px;
+            word-break: break-word;
         }
+
+        /* BUTTONS */
 
         button {
             cursor: pointer;
-        }
-
-        .request-btn {
-            border: none;
-            background: #1877f2;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 7px;
-            font-weight: bold;
         }
 
         .accept-btn {
@@ -144,6 +134,10 @@
             margin-right: 5px;
         }
 
+        .accept-btn:hover {
+            background: #36a420;
+        }
+
         .reject-btn {
             border: none;
             background: #e4e6eb;
@@ -153,15 +147,28 @@
             font-weight: bold;
         }
 
+        .reject-btn:hover {
+            background: #d8dadf;
+        }
+
         .friend {
             color: #42b72a;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .message {
-            padding: 10px;
+            padding: 10px 0;
             color: #65676b;
         }
+
+        .error {
+            color: #e41e3f;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* MOBILE */
 
         @media (max-width: 600px) {
 
@@ -177,12 +184,19 @@
                 max-width: calc(100% - 20px);
             }
 
-            .search-area {
-                flex-direction: column;
+            .user-card {
+                align-items: flex-start;
             }
 
-            .search-btn {
-                width: 100%;
+            .request-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .accept-btn,
+            .reject-btn {
+                margin-right: 0;
             }
 
         }
@@ -191,7 +205,10 @@
 
 </head>
 
+
 <body>
+
+    <!-- NAVBAR -->
 
     <div class="navbar">
 
@@ -206,43 +223,18 @@
     </div>
 
 
+    <!-- MAIN -->
+
     <div class="container">
-
-        <!-- SEARCH USERS -->
-
-        <div class="card">
-
-            <h2>Find People</h2>
-
-            <div class="search-area">
-
-                <input
-                    type="email"
-                    id="searchEmail"
-                    class="search-input"
-                    placeholder="Enter user's email"
-                >
-
-                <button
-                    id="searchBtn"
-                    class="search-btn">
-
-                    Search
-
-                </button>
-
-            </div>
-
-            <div id="searchResults"></div>
-
-        </div>
 
 
         <!-- FRIEND REQUESTS -->
 
         <div class="card">
 
-            <h2>Friend Requests</h2>
+            <h2>
+                Friend Requests
+            </h2>
 
             <div id="requests">
                 Loading...
@@ -251,11 +243,13 @@
         </div>
 
 
-        <!-- FRIENDS -->
+        <!-- MY FRIENDS -->
 
         <div class="card">
 
-            <h2>My Friends</h2>
+            <h2>
+                My Friends
+            </h2>
 
             <div id="friends">
                 Loading...
@@ -263,41 +257,39 @@
 
         </div>
 
+
     </div>
 
+
+    <!-- FIREBASE -->
 
     <script type="module">
 
         import {
             initializeApp
-        }
-        from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+        } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 
 
         import {
             getAuth,
             onAuthStateChanged
-        }
-        from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+        } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
 
         import {
             getFirestore,
             collection,
-            addDoc,
             query,
             where,
             getDocs,
-            getDoc,
-            doc,
             updateDoc,
-            serverTimestamp,
-            onSnapshot
-        }
-        from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+            doc
+        } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
-        // FIREBASE CONFIG
+        /* =========================
+           FIREBASE CONFIG
+        ========================= */
 
         const firebaseConfig = {
 
@@ -322,6 +314,10 @@
         };
 
 
+        /* =========================
+           INITIALIZE
+        ========================= */
+
         const app =
             initializeApp(firebaseConfig);
 
@@ -335,11 +331,68 @@
         let currentUser = null;
 
 
-        // LOGIN
+        const requestsDiv =
+            document.getElementById("requests");
+
+        const friendsDiv =
+            document.getElementById("friends");
+
+
+        /* =========================
+           SAFE TEXT FUNCTIONS
+        ========================= */
+
+        function safeString(value) {
+
+            if (value === null || value === undefined) {
+                return "";
+            }
+
+            return String(value);
+
+        }
+
+
+        function getInitials(name, email) {
+
+            let text =
+                safeString(name).trim();
+
+            if (!text) {
+                text =
+                    safeString(email).trim();
+            }
+
+            if (!text) {
+                return "U";
+            }
+
+            const parts =
+                text.split(/\s+/);
+
+            if (parts.length >= 2) {
+
+                return (
+                    parts[0].charAt(0) +
+                    parts[1].charAt(0)
+                ).toUpperCase();
+
+            }
+
+            return text
+                .substring(0, 2)
+                .toUpperCase();
+
+        }
+
+
+        /* =========================
+           LOGIN
+        ========================= */
 
         onAuthStateChanged(
             auth,
-            (user) => {
+            async (user) => {
 
                 if (!user) {
 
@@ -350,102 +403,72 @@
 
                 }
 
+
                 currentUser = user;
 
-                loadRequests();
 
-                loadFriends();
+                console.log(
+                    "Logged in:",
+                    user.uid,
+                    user.email
+                );
+
+
+                await loadRequests();
+
+                await loadFriends();
 
             }
         );
 
 
-        // =========================
-        // SEARCH USER
-        // =========================
+        /* =========================
+           LOAD FRIEND REQUESTS
+        ========================= */
 
-        document
-            .getElementById("searchBtn")
-            .addEventListener(
-                "click",
-                searchUser
-            );
+        async function loadRequests() {
 
-
-        async function searchUser() {
-
-            const email =
-                document
-                    .getElementById("searchEmail")
-                    .value
-                    .trim()
-                    .toLowerCase();
-
-
-            const results =
-                document.getElementById(
-                    "searchResults"
-                );
-
-
-            results.innerHTML = "";
-
-
-            if (!email) {
-
-                results.innerHTML =
-                    `<div class="message">
-                        Enter an email address.
-                    </div>`;
-
-                return;
-
-            }
-
-
-            if (
-                currentUser &&
-                email ===
-                currentUser.email.toLowerCase()
-            ) {
-
-                results.innerHTML =
-                    `<div class="message">
-                        This is your own account.
-                    </div>`;
-
-                return;
-
-            }
+            requestsDiv.innerHTML =
+                `<div class="message">
+                    Loading...
+                </div>`;
 
 
             try {
 
-                const usersQuery =
+                const requestsQuery =
                     query(
                         collection(
                             db,
-                            "users"
+                            "friendRequests"
                         ),
                         where(
-                            "email",
+                            "to",
                             "==",
-                            email
+                            currentUser.uid
+                        ),
+                        where(
+                            "status",
+                            "==",
+                            "pending"
                         )
                     );
 
 
                 const snapshot =
                     await getDocs(
-                        usersQuery
+                        requestsQuery
                     );
+
+
+                requestsDiv.innerHTML = "";
 
 
                 if (snapshot.empty) {
 
-                    results.innerHTML =
+                    requestsDiv.innerHTML =
                         `<div class="message">
-                            User not found.
+                            No friend requests.
                         </div>`;
 
                     return;
@@ -454,15 +477,211 @@
 
 
                 snapshot.forEach(
-                    (userDoc) => {
+                    (requestDoc) => {
 
                         const data =
-                            userDoc.data();
+                            requestDoc.data();
 
-                        showSearchUser(
-                            userDoc.id,
-                            data,
-                            results
+
+                        const fromEmail =
+                            safeString(
+                                data.fromEmail
+                            );
+
+
+                        const fromUid =
+                            safeString(
+                                data.from
+                            );
+
+
+                        const card =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        card.className =
+                            "user-card";
+
+
+                        const avatar =
+                            getInitials(
+                                "",
+                                fromEmail
+                            );
+
+
+                        card.innerHTML = `
+
+                            <div class="avatar">
+                                ${avatar}
+                            </div>
+
+                            <div class="user-info">
+
+                                <div class="user-name">
+                                    Friend Request
+                                </div>
+
+                                <div class="user-email">
+                                    ${fromEmail || "User"}
+                                </div>
+
+                            </div>
+
+                            <div class="request-buttons">
+
+                                <button
+                                    class="accept-btn">
+                                    Accept
+                                </button>
+
+                                <button
+                                    class="reject-btn">
+                                    Reject
+                                </button>
+
+                            </div>
+
+                        `;
+
+
+                        requestsDiv.appendChild(
+                            card
+                        );
+
+
+                        const acceptButton =
+                            card.querySelector(
+                                ".accept-btn"
+                            );
+
+
+                        const rejectButton =
+                            card.querySelector(
+                                ".reject-btn"
+                            );
+
+
+                        /* ACCEPT */
+
+                        acceptButton.addEventListener(
+                            "click",
+                            async () => {
+
+                                acceptButton.disabled =
+                                    true;
+
+                                rejectButton.disabled =
+                                    true;
+
+
+                                try {
+
+                                    await updateDoc(
+                                        doc(
+                                            db,
+                                            "friendRequests",
+                                            requestDoc.id
+                                        ),
+                                        {
+                                            status:
+                                                "accepted"
+                                        }
+                                    );
+
+
+                                    alert(
+                                        "Friend request accepted!"
+                                    );
+
+
+                                    await loadRequests();
+
+                                    await loadFriends();
+
+
+                                } catch (error) {
+
+                                    console.error(
+                                        "Accept error:",
+                                        error
+                                    );
+
+
+                                    alert(
+                                        "Could not accept request: " +
+                                        error.message
+                                    );
+
+
+                                    acceptButton.disabled =
+                                        false;
+
+                                    rejectButton.disabled =
+                                        false;
+
+                                }
+
+                            }
+                        );
+
+
+                        /* REJECT */
+
+                        rejectButton.addEventListener(
+                            "click",
+                            async () => {
+
+                                rejectButton.disabled =
+                                    true;
+
+                                acceptButton.disabled =
+                                    true;
+
+
+                                try {
+
+                                    await updateDoc(
+                                        doc(
+                                            db,
+                                            "friendRequests",
+                                            requestDoc.id
+                                        ),
+                                        {
+                                            status:
+                                                "rejected"
+                                        }
+                                    );
+
+
+                                    await loadRequests();
+
+
+                                } catch (error) {
+
+                                    console.error(
+                                        "Reject error:",
+                                        error
+                                    );
+
+
+                                    alert(
+                                        "Could not reject request: " +
+                                        error.message
+                                    );
+
+
+                                    rejectButton.disabled =
+                                        false;
+
+                                    acceptButton.disabled =
+                                        false;
+
+                                }
+
+                            }
                         );
 
                     }
@@ -472,497 +691,69 @@
             } catch (error) {
 
                 console.error(
-                    "Search error:",
+                    "REQUEST ERROR:",
                     error
                 );
 
-                results.innerHTML =
-                    `<div class="message">
-                        Search failed: ${error.message}
-                    </div>`;
+
+                requestsDiv.innerHTML = `
+
+                    <div class="error">
+
+                        Could not load friend requests.
+
+                        <br><br>
+
+                        ${safeString(error.message)}
+
+                    </div>
+
+                `;
 
             }
 
         }
 
 
-        // =========================
-        // SHOW SEARCH RESULT
-        // =========================
-
-        async function showSearchUser(
-            uid,
-            data,
-            container
-        ) {
-
-            const name =
-                data.name || "MySocial User";
-
-            const email =
-                data.email || "";
-
-
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "user-card";
-
-
-            const avatar =
-                name
-                    .substring(0, 2)
-                    .toUpperCase();
-
-
-            card.innerHTML = `
-
-                <div class="avatar">
-                    ${avatar}
-                </div>
-
-                <div class="user-info">
-
-                    <div class="user-name">
-                        ${name}
-                    </div>
-
-                    <div class="user-email">
-                        ${email}
-                    </div>
-
-                </div>
-
-                <button class="request-btn">
-                    Add Friend
-                </button>
-
-            `;
-
-
-            container.appendChild(card);
-
-
-            const button =
-                card.querySelector(
-                    ".request-btn"
-                );
-
-
-            // CHECK EXISTING REQUEST
-
-            const sentQuery =
-                query(
-                    collection(
-                        db,
-                        "friendRequests"
-                    ),
-                    where(
-                        "from",
-                        "==",
-                        currentUser.uid
-                    ),
-                    where(
-                        "to",
-                        "==",
-                        uid
-                    )
-                );
-
-
-            const sentSnapshot =
-                await getDocs(
-                    sentQuery
-                );
-
-
-            if (!sentSnapshot.empty) {
-
-                const request =
-                    sentSnapshot.docs[0].data();
-
-                if (
-                    request.status ===
-                    "accepted"
-                ) {
-
-                    button.textContent =
-                        "Friends";
-
-                    button.disabled = true;
-
-                    button.style.background =
-                        "#42b72a";
-
-                } else {
-
-                    button.textContent =
-                        "Request Sent";
-
-                    button.disabled = true;
-
-                }
-
-                return;
-
-            }
-
-
-            // SEND REQUEST
-
-            button.addEventListener(
-                "click",
-                async () => {
-
-                    try {
-
-                        await addDoc(
-                            collection(
-                                db,
-                                "friendRequests"
-                            ),
-                            {
-
-                                from:
-                                    currentUser.uid,
-
-                                fromEmail:
-                                    currentUser.email,
-
-                                to:
-                                    uid,
-
-                                toEmail:
-                                    email,
-
-                                status:
-                                    "pending",
-
-                                createdAt:
-                                    serverTimestamp()
-
-                            }
-                        );
-
-
-                        button.textContent =
-                            "Request Sent";
-
-                        button.disabled =
-                            true;
-
-
-                    } catch (error) {
-
-                        console.error(
-                            "Request error:",
-                            error
-                        );
-
-                        alert(
-                            "Could not send request: " +
-                            error.message
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        // =========================
-        // LOAD REQUESTS
-        // =========================
-
-        function loadRequests() {
-
-            const requestsDiv =
-                document.getElementById(
-                    "requests"
-                );
-
-
-            const requestsQuery =
-                query(
-                    collection(
-                        db,
-                        "friendRequests"
-                    ),
-                    where(
-                        "to",
-                        "==",
-                        currentUser.uid
-                    ),
-                    where(
-                        "status",
-                        "==",
-                        "pending"
-                    )
-                );
-
-
-            onSnapshot(
-                requestsQuery,
-                (snapshot) => {
-
-                    requestsDiv.innerHTML = "";
-
-
-                    if (
-                        snapshot.empty
-                    ) {
-
-                        requestsDiv.innerHTML =
-                            `<div class="message">
-                                No friend requests.
-                            </div>`;
-
-                        return;
-
-                    }
-
-
-                    snapshot.forEach(
-                        (requestDoc) => {
-
-                            const data =
-                                requestDoc.data();
-
-
-                            const card =
-                                document.createElement(
-                                    "div"
-                                );
-
-                            card.className =
-                                "user-card";
-
-
-                            card.innerHTML = `
-
-                                <div class="avatar">
-                                    ${(
-                                        data.fromEmail ||
-                                        "U"
-                                    )
-                                    .substring(0, 2)
-                                    .toUpperCase()}
-                                </div>
-
-                                <div class="user-info">
-
-                                    <div class="user-name">
-                                        Friend Request
-                                    </div>
-
-                                    <div class="user-email">
-                                        ${
-                                            data.fromEmail ||
-                                            ""
-                                        }
-                                    </div>
-
-                                </div>
-
-                                <div>
-
-                                    <button
-                                        class="accept-btn">
-                                        Accept
-                                    </button>
-
-                                    <button
-                                        class="reject-btn">
-                                        Reject
-                                    </button>
-
-                                </div>
-
-                            `;
-
-
-                            requestsDiv.appendChild(
-                                card
-                            );
-
-
-                            const acceptButton =
-                                card.querySelector(
-                                    ".accept-btn"
-                                );
-
-
-                            const rejectButton =
-                                card.querySelector(
-                                    ".reject-btn"
-                                );
-
-
-                            // ACCEPT
-
-                            acceptButton.addEventListener(
-                                "click",
-                                async () => {
-
-                                    try {
-
-                                        await updateDoc(
-                                            doc(
-                                                db,
-                                                "friendRequests",
-                                                requestDoc.id
-                                            ),
-                                            {
-                                                status:
-                                                    "accepted"
-                                            }
-                                        );
-
-
-                                        alert(
-                                            "Friend request accepted!"
-                                        );
-
-
-                                    } catch (
-                                        error
-                                    ) {
-
-                                        console.error(
-                                            "Accept error:",
-                                            error
-                                        );
-
-                                        alert(
-                                            "Could not accept request."
-                                        );
-
-                                    }
-
-                                }
-                            );
-
-
-                            // REJECT
-
-                            rejectButton.addEventListener(
-                                "click",
-                                async () => {
-
-                                    try {
-
-                                        await updateDoc(
-                                            doc(
-                                                db,
-                                                "friendRequests",
-                                                requestDoc.id
-                                            ),
-                                            {
-                                                status:
-                                                    "rejected"
-                                            }
-                                        );
-
-
-                                    } catch (
-                                        error
-                                    ) {
-
-                                        console.error(
-                                            "Reject error:",
-                                            error
-                                        );
-
-                                    }
-
-                                }
-                            );
-
-                        }
+        /* =========================
+           LOAD MY FRIENDS
+        ========================= */
+
+        async function loadFriends() {
+
+            friendsDiv.innerHTML =
+                `<div class="message">
+                    Loading...
+                </div>`;
+
+
+            try {
+
+                const friendsMap =
+                    new Map();
+
+
+                /* =========================
+                   SENT ACCEPTED REQUESTS
+                ========================= */
+
+                const sentQuery =
+                    query(
+                        collection(
+                            db,
+                            "friendRequests"
+                        ),
+                        where(
+                            "from",
+                            "==",
+                            currentUser.uid
+                        ),
+                        where(
+                            "status",
+                            "==",
+                            "accepted"
+                        )
                     );
-
-                }
-            );
-
-        }
-
-
-        // =========================
-        // LOAD FRIENDS
-        // =========================
-
-        function loadFriends() {
-
-            const friendsDiv =
-                document.getElementById(
-                    "friends"
-                );
-
-
-            const sentQuery =
-                query(
-                    collection(
-                        db,
-                        "friendRequests"
-                    ),
-                    where(
-                        "from",
-                        "==",
-                        currentUser.uid
-                    ),
-                    where(
-                        "status",
-                        "==",
-                        "accepted"
-                    )
-                );
-
-
-            const receivedQuery =
-                query(
-                    collection(
-                        db,
-                        "friendRequests"
-                    ),
-                    where(
-                        "to",
-                        "==",
-                        currentUser.uid
-                    ),
-                    where(
-                        "status",
-                        "==",
-                        "accepted"
-                    )
-                );
-
-
-            onSnapshot(
-                sentQuery,
-                () => {
-
-                    refreshFriends();
-
-                }
-            );
-
-
-            onSnapshot(
-                receivedQuery,
-                () => {
-
-                    refreshFriends();
-
-                }
-            );
-
-
-            async function refreshFriends() {
-
-                const friends = [];
 
 
                 const sentSnapshot =
@@ -972,14 +763,60 @@
 
 
                 sentSnapshot.forEach(
-                    (doc) => {
+                    (friendDoc) => {
 
-                        friends.push(
-                            doc.data().toEmail
-                        );
+                        const data =
+                            friendDoc.data();
+
+
+                        const uid =
+                            safeString(
+                                data.to
+                            );
+
+
+                        const email =
+                            safeString(
+                                data.toEmail
+                            );
+
+
+                        if (uid) {
+
+                            friendsMap.set(
+                                uid,
+                                {
+                                    email: email
+                                }
+                            );
+
+                        }
 
                     }
                 );
+
+
+                /* =========================
+                   RECEIVED ACCEPTED REQUESTS
+                ========================= */
+
+                const receivedQuery =
+                    query(
+                        collection(
+                            db,
+                            "friendRequests"
+                        ),
+                        where(
+                            "to",
+                            "==",
+                            currentUser.uid
+                        ),
+                        where(
+                            "status",
+                            "==",
+                            "accepted"
+                        )
+                    );
 
 
                 const receivedSnapshot =
@@ -989,11 +826,34 @@
 
 
                 receivedSnapshot.forEach(
-                    (doc) => {
+                    (friendDoc) => {
 
-                        friends.push(
-                            doc.data().fromEmail
-                        );
+                        const data =
+                            friendDoc.data();
+
+
+                        const uid =
+                            safeString(
+                                data.from
+                            );
+
+
+                        const email =
+                            safeString(
+                                data.fromEmail
+                            );
+
+
+                        if (uid) {
+
+                            friendsMap.set(
+                                uid,
+                                {
+                                    email: email
+                                }
+                            );
+
+                        }
 
                     }
                 );
@@ -1002,8 +862,12 @@
                 friendsDiv.innerHTML = "";
 
 
+                /* =========================
+                   NO FRIENDS
+                ========================= */
+
                 if (
-                    friends.length === 0
+                    friendsMap.size === 0
                 ) {
 
                     friendsDiv.innerHTML =
@@ -1016,24 +880,40 @@
                 }
 
 
-                friends.forEach(
-                    (email) => {
+                /* =========================
+                   DISPLAY FRIENDS
+                ========================= */
 
-                        const div =
+                friendsMap.forEach(
+                    (friend) => {
+
+                        const email =
+                            safeString(
+                                friend.email
+                            );
+
+
+                        const card =
                             document.createElement(
                                 "div"
                             );
 
-                        div.className =
+
+                        card.className =
                             "user-card";
 
 
-                        div.innerHTML = `
+                        const avatar =
+                            getInitials(
+                                "",
+                                email
+                            );
+
+
+                        card.innerHTML = `
 
                             <div class="avatar">
-                                ${email
-                                    .substring(0, 2)
-                                    .toUpperCase()}
+                                ${avatar}
                             </div>
 
                             <div class="user-info">
@@ -1043,7 +923,7 @@
                                 </div>
 
                                 <div class="user-email">
-                                    ${email}
+                                    ${email || "User"}
                                 </div>
 
                             </div>
@@ -1056,11 +936,34 @@
 
 
                         friendsDiv.appendChild(
-                            div
+                            card
                         );
 
                     }
                 );
+
+
+            } catch (error) {
+
+                console.error(
+                    "FRIENDS ERROR:",
+                    error
+                );
+
+
+                friendsDiv.innerHTML = `
+
+                    <div class="error">
+
+                        Could not load friends.
+
+                        <br><br>
+
+                        ${safeString(error.message)}
+
+                    </div>
+
+                `;
 
             }
 
