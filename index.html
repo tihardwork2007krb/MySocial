@@ -2,12 +2,17 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>MySocial</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             font-family: Arial, sans-serif;
@@ -17,7 +22,7 @@
 
         .login-container {
             width: 360px;
-            max-width: calc(100% - 40px);
+            max-width: calc(100% - 30px);
             margin: 100px auto;
             background: white;
             padding: 30px;
@@ -45,6 +50,45 @@
             border-radius: 6px;
             font-size: 16px;
         }
+
+        /* PASSWORD */
+
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-container input {
+            padding-right: 50px;
+        }
+
+        .eye-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 40px;
+            height: 40px;
+
+            margin: 0;
+            padding: 0;
+
+            background: transparent !important;
+            color: #555;
+
+            border: none;
+            border-radius: 50%;
+
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .eye-btn:hover {
+            background: #f0f2f5 !important;
+        }
+
+        /* BUTTONS */
 
         button {
             width: 100%;
@@ -77,12 +121,12 @@
             background: transparent;
             color: #1877f2;
             font-size: 14px;
-            padding: 5px;
             margin-top: 12px;
         }
 
         .forgot-password:hover {
             text-decoration: underline;
+            background: transparent;
         }
 
         #message {
@@ -107,6 +151,8 @@
         </p>
 
 
+        <!-- EMAIL -->
+
         <input
             type="email"
             id="email"
@@ -115,59 +161,76 @@
         >
 
 
-        <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            autocomplete="current-password"
+        <!-- PASSWORD -->
+
+        <div class="password-container">
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                autocomplete="current-password"
+            >
+
+            <button
+                type="button"
+                id="togglePassword"
+                class="eye-btn"
+                aria-label="Show password"
+            >
+                👁️
+            </button>
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <button
+            type="button"
+            id="loginBtn"
         >
-
-
-        <button id="loginBtn">
             Log In
         </button>
 
 
-        <button id="signupBtn">
+        <!-- SIGNUP -->
+
+        <button
+            type="button"
+            id="signupBtn"
+        >
             Create New Account
         </button>
 
 
+        <!-- MESSAGE -->
+
+        <p id="message"></p>
+
+
+        <!-- FORGOT PASSWORD -->
+
         <button
             type="button"
             id="forgotPasswordBtn"
-            class="forgot-password">
-
+            class="forgot-password"
+        >
             Forgot Password?
-
         </button>
-
-
-        <p id="message"></p>
 
     </div>
 
 
-    <!-- =========================
-         FIREBASE
-    ========================== -->
+    <!-- FIREBASE -->
 
     <script type="module">
-
-
-        // =========================
-        // FIREBASE APP
-        // =========================
 
         import {
             initializeApp
         } from
         "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 
-
-        // =========================
-        // FIREBASE AUTH
-        // =========================
 
         import {
             getAuth,
@@ -177,10 +240,6 @@
         } from
         "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
-
-        // =========================
-        // FIRESTORE
-        // =========================
 
         import {
             getFirestore,
@@ -217,7 +276,6 @@
 
             measurementId:
                 "G-E19NQ06DZB"
-
         };
 
 
@@ -228,29 +286,71 @@
         const app =
             initializeApp(firebaseConfig);
 
-
         const auth =
             getAuth(app);
-
 
         const db =
             getFirestore(app);
 
 
         // =========================
-        // HTML ELEMENTS
+        // ELEMENTS
         // =========================
 
         const emailInput =
             document.getElementById("email");
 
-
         const passwordInput =
             document.getElementById("password");
 
-
         const message =
             document.getElementById("message");
+
+        const togglePassword =
+            document.getElementById("togglePassword");
+
+
+        // =========================
+        // SHOW / HIDE PASSWORD
+        // =========================
+
+        togglePassword.addEventListener(
+            "click",
+            () => {
+
+                if (
+                    passwordInput.type ===
+                    "password"
+                ) {
+
+                    passwordInput.type =
+                        "text";
+
+                    togglePassword.textContent =
+                        "🙈";
+
+                    togglePassword.setAttribute(
+                        "aria-label",
+                        "Hide password"
+                    );
+
+                } else {
+
+                    passwordInput.type =
+                        "password";
+
+                    togglePassword.textContent =
+                        "👁️";
+
+                    togglePassword.setAttribute(
+                        "aria-label",
+                        "Show password"
+                    );
+
+                }
+
+            }
+        );
 
 
         // =========================
@@ -263,95 +363,71 @@
                 "click",
                 async () => {
 
-                    const emailValue =
-                        emailInput.value
-                            .trim()
-                            .toLowerCase();
+                    const email =
+                        emailInput.value.trim();
 
-
-                    const passwordValue =
+                    const password =
                         passwordInput.value;
 
 
                     if (
-                        !emailValue ||
-                        !passwordValue
+                        !email ||
+                        !password
                     ) {
 
                         message.textContent =
                             "Please enter email and password.";
 
                         return;
-
                     }
 
 
                     if (
-                        passwordValue.length < 6
+                        password.length < 6
                     ) {
 
                         message.textContent =
                             "Password must be at least 6 characters.";
 
                         return;
-
                     }
 
 
                     try {
 
-                        // CREATE FIREBASE AUTH ACCOUNT
-
                         const userCredential =
                             await createUserWithEmailAndPassword(
                                 auth,
-                                emailValue,
-                                passwordValue
+                                email,
+                                password
                             );
 
 
-                        const newUser =
+                        const user =
                             userCredential.user;
 
 
-                        console.log(
-                            "New user:",
-                            newUser.uid,
-                            newUser.email
-                        );
-
-
-                        // =========================
-                        // CREATE FIRESTORE USER
-                        // =========================
+                        // CREATE USER PROFILE
 
                         await setDoc(
                             doc(
                                 db,
                                 "users",
-                                newUser.uid
+                                user.uid
                             ),
                             {
-
-                                uid:
-                                    newUser.uid,
-
                                 email:
-                                    newUser.email
-                                        .toLowerCase(),
+                                    user.email,
 
                                 name:
                                     "",
 
+                                uid:
+                                    user.uid,
+
                                 createdAt:
                                     serverTimestamp()
-
                             }
-                        );
-
-
-                        console.log(
-                            "Firestore user profile created."
                         );
 
 
@@ -359,10 +435,29 @@
                             "Account created successfully!";
 
 
+                        console.log(
+                            "New user:",
+                            user.email
+                        );
+
+
+                        // Go to profile
+
+                        setTimeout(
+                            () => {
+
+                                window.location.href =
+                                    "profile.html";
+
+                            },
+                            800
+                        );
+
+
                     } catch (error) {
 
                         console.error(
-                            "Signup error:",
+                            "SIGNUP ERROR:",
                             error
                         );
 
@@ -397,20 +492,6 @@
 
                         }
 
-                        else if (
-                            error.code ===
-                            "permission-denied"
-                        ) {
-
-                            message.textContent =
-                                "Account created, but Firestore permission was denied.";
-
-                            console.error(
-                                "Firestore permission denied. Check Firestore Rules."
-                            );
-
-                        }
-
                         else {
 
                             message.textContent =
@@ -435,26 +516,22 @@
                 "click",
                 async () => {
 
-                    const emailValue =
-                        emailInput.value
-                            .trim()
-                            .toLowerCase();
+                    const email =
+                        emailInput.value.trim();
 
-
-                    const passwordValue =
+                    const password =
                         passwordInput.value;
 
 
                     if (
-                        !emailValue ||
-                        !passwordValue
+                        !email ||
+                        !password
                     ) {
 
                         message.textContent =
                             "Please enter email and password.";
 
                         return;
-
                     }
 
 
@@ -463,8 +540,8 @@
                         const userCredential =
                             await signInWithEmailAndPassword(
                                 auth,
-                                emailValue,
-                                passwordValue
+                                email,
+                                password
                             );
 
 
@@ -478,17 +555,14 @@
                             "Login successful!";
 
 
-                        // GO TO HOME
-
-                        window.location.assign(
-                            "home.html"
-                        );
+                        window.location.href =
+                            "home.html";
 
 
                     } catch (error) {
 
                         console.error(
-                            "Login error:",
+                            "LOGIN ERROR:",
                             error
                         );
 
@@ -547,21 +621,19 @@
                 "click",
                 async () => {
 
-                    const emailValue =
-                        emailInput.value
-                            .trim()
-                            .toLowerCase();
+                    const email =
+                        emailInput.value.trim();
 
 
-                    if (!emailValue) {
+                    if (!email) {
 
-                        message.textContent =
-                            "Please enter your email address first.";
+                        alert(
+                            "Please enter your email address first."
+                        );
 
                         emailInput.focus();
 
                         return;
-
                     }
 
 
@@ -569,47 +641,51 @@
 
                         await sendPasswordResetEmail(
                             auth,
-                            emailValue
+                            email
                         );
 
 
-                        message.textContent =
-                            "Password reset email sent. Please check your inbox.";
+                        alert(
+                            "Password reset email sent. Please check your inbox."
+                        );
 
 
                     } catch (error) {
 
                         console.error(
-                            "Password reset error:",
+                            "PASSWORD RESET ERROR:",
                             error
                         );
 
 
                         if (
                             error.code ===
-                            "auth/invalid-email"
+                            "auth/user-not-found"
                         ) {
 
-                            message.textContent =
-                                "Please enter a valid email address.";
+                            alert(
+                                "No account was found with this email."
+                            );
 
                         }
 
                         else if (
                             error.code ===
-                            "auth/user-not-found"
+                            "auth/invalid-email"
                         ) {
 
-                            message.textContent =
-                                "No account found with this email.";
+                            alert(
+                                "Please enter a valid email address."
+                            );
 
                         }
 
                         else {
 
-                            message.textContent =
+                            alert(
                                 "Could not send reset email: " +
-                                error.message;
+                                error.message
+                            );
 
                         }
 
@@ -617,7 +693,6 @@
 
                 }
             );
-
 
     </script>
 
