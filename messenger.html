@@ -3,13 +3,14 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>MySocial Messenger</title>
 
 <style>
+
     * {
         box-sizing: border-box;
     }
@@ -21,7 +22,7 @@
         color: #1c1e21;
     }
 
-    /* NAVBAR */
+    /* ================= NAVBAR ================= */
 
     .navbar {
         height: 64px;
@@ -30,7 +31,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 0 28px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.15);
     }
 
     .logo {
@@ -48,7 +49,7 @@
         font-weight: bold;
     }
 
-    /* MAIN */
+    /* ================= MESSENGER ================= */
 
     .messenger-container {
         width: 950px;
@@ -60,10 +61,10 @@
         border-radius: 12px;
         overflow: hidden;
         display: flex;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
     }
 
-    /* FRIEND LIST */
+    /* ================= FRIENDS ================= */
 
     .friends-panel {
         width: 300px;
@@ -143,7 +144,7 @@
         white-space: nowrap;
     }
 
-    /* CHAT */
+    /* ================= CHAT ================= */
 
     .chat-panel {
         flex: 1;
@@ -175,6 +176,8 @@
         color: #65676b;
         margin-top: 3px;
     }
+
+    /* ================= MESSAGES ================= */
 
     .messages {
         flex: 1;
@@ -236,7 +239,7 @@
         margin-top: 4px;
     }
 
-    /* MESSAGE INPUT */
+    /* ================= INPUT ================= */
 
     .message-input-area {
         padding: 12px;
@@ -290,7 +293,13 @@
         text-align: center;
     }
 
-    /* MOBILE */
+    .success {
+        color: #188038;
+        padding: 20px;
+        text-align: center;
+    }
+
+    /* ================= MOBILE ================= */
 
     @media (max-width: 700px) {
 
@@ -346,130 +355,53 @@
             max-width: 85%;
         }
     }
+
 </style>
-```
 
 </head>
 
 <body>
 
-```
-<!-- NAVBAR -->
+<!-- ================= NAVBAR ================= -->
 
 <div class="navbar">
 
-    <div class="logo">
-        MySocial
-    </div>
+```
+<div class="logo">
+    MySocial
+</div>
 
-    <a href="home.html" class="home-btn">
-        ← Home
-    </a>
+<a href="home.html" class="home-btn">
+    ← Home
+</a>
+```
 
 </div>
 
-
-<!-- MESSENGER -->
+<!-- ================= MESSENGER ================= -->
 
 <div class="messenger-container">
 
-    <!-- FRIENDS -->
+```
+<!-- ================= FRIENDS PANEL ================= -->
 
-    <div class="friends-panel">
+<div class="friends-panel">
 
-        <div class="friends-title">
+    <div class="friends-title">
 
-            <h2>💬 Messenger</h2>
+        <h2>💬 Messenger</h2>
 
-            <p>Your friends</p>
-
-        </div>
-
-        <div
-            id="friendsList"
-            class="friends-list">
-
-            <div class="message">
-                Loading friends...
-            </div>
-
-        </div>
+        <p>Your friends</p>
 
     </div>
 
 
-    <!-- CHAT -->
+    <div
+        id="friendsList"
+        class="friends-list">
 
-    <div class="chat-panel">
-
-        <div
-            id="chatHeader"
-            class="chat-header">
-
-            <div class="avatar">
-                💬
-            </div>
-
-            <div class="chat-header-info">
-
-                <div class="chat-header-name">
-                    Select a friend
-                </div>
-
-                <div class="chat-header-email">
-                    Choose a friend to start chatting
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- MESSAGES -->
-
-        <div
-            id="messages"
-            class="messages">
-
-            <div class="empty-chat">
-
-                <div>
-
-                    <h3>💬 Private Messenger</h3>
-
-                    <p>
-                        Select a friend from the left
-                        to start a private conversation.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- INPUT -->
-
-        <div class="message-input-area">
-
-            <input
-                type="text"
-                id="messageInput"
-                class="message-input"
-                placeholder="Write a message..."
-                disabled
-            >
-
-            <button
-                id="sendBtn"
-                class="send-btn"
-                disabled>
-
-                Send
-
-            </button>
-
+        <div class="message">
+            Loading friends...
         </div>
 
     </div>
@@ -477,85 +409,253 @@
 </div>
 
 
-<!-- TEMPORARY JAVASCRIPT -->
+<!-- ================= CHAT PANEL ================= -->
 
-<script>
-
-    /*
-     * STEP 1
-     *
-     * This page is the Messenger interface.
-     *
-     * In the next step we will connect:
-     *
-     * messenger.html
-     *        ↓
-     * PHP API
-     *        ↓
-     * MySQL
-     *
-     * We are intentionally not using Firebase here.
-     */
+<div class="chat-panel">
 
 
-    const friendsList =
-        document.getElementById("friendsList");
+    <!-- CHAT HEADER -->
 
-    const messages =
-        document.getElementById("messages");
+    <div
+        id="chatHeader"
+        class="chat-header">
 
-    const messageInput =
-        document.getElementById("messageInput");
+        <div class="avatar">
+            💬
+        </div>
 
-    const sendBtn =
-        document.getElementById("sendBtn");
+        <div class="chat-header-info">
 
-    const chatHeader =
-        document.getElementById("chatHeader");
+            <div class="chat-header-name">
+                Select a friend
+            </div>
 
+            <div class="chat-header-email">
+                Choose a friend to start chatting
+            </div>
 
-    let selectedFriend = null;
+        </div>
 
-
-    /*
-     * Temporary friend data.
-     *
-     * We will replace this with data
-     * from your PHP/MySQL server.
-     */
-
-    const friends = [];
+    </div>
 
 
-    function getInitials(email) {
+    <!-- MESSAGES -->
 
-        if (!email) {
-            return "U";
-        }
+    <div
+        id="messages"
+        class="messages">
 
-        return email
-            .substring(0, 2)
-            .toUpperCase();
+        <div class="empty-chat">
 
-    }
+            <div>
+
+                <h3>
+                    💬 Private Messenger
+                </h3>
+
+                <p>
+                    Select a friend from the left
+                    to start a private conversation.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
 
 
-    function showFriends() {
+    <!-- MESSAGE INPUT -->
 
-        friendsList.innerHTML = "";
+    <div class="message-input-area">
+
+        <input
+            type="text"
+            id="messageInput"
+            class="message-input"
+            placeholder="Write a message..."
+            disabled
+        >
+
+        <button
+            id="sendBtn"
+            class="send-btn"
+            disabled>
+
+            Send
+
+        </button>
+
+    </div>
 
 
-        if (friends.length === 0) {
+</div>
+```
+
+</div>
+
+<!-- ================= FIREBASE ================= -->
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE IMPORTS
+===================================================== */
+
+import {
+    initializeApp
+} from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    setPersistence,
+    browserLocalPersistence
+} from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs,
+    addDoc,
+    onSnapshot,
+    serverTimestamp
+} from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyA0jZCLoUdlC8ZghIMUSbBmrkucw6f6va4",
+
+    authDomain:
+        "mysocial-6f06e.firebaseapp.com",
+
+    projectId:
+        "mysocial-6f06e",
+
+    storageBucket:
+        "mysocial-6f06e.firebasestorage.app",
+
+    messagingSenderId:
+        "78141811564",
+
+    appId:
+        "1:78141811564:web:3ebc1dba5303e552a12149",
+
+    measurementId:
+        "G-E19NQ06DZB"
+};
+
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const auth =
+    getAuth(app);
+
+
+const db =
+    getFirestore(app);
+
+
+/* =====================================================
+   HTML ELEMENTS
+===================================================== */
+
+const friendsList =
+    document.getElementById("friendsList");
+
+
+const messages =
+    document.getElementById("messages");
+
+
+const messageInput =
+    document.getElementById("messageInput");
+
+
+const sendBtn =
+    document.getElementById("sendBtn");
+
+
+const chatHeader =
+    document.getElementById("chatHeader");
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let currentUser = null;
+
+let selectedFriend = null;
+
+let unsubscribeSent = null;
+
+let unsubscribeReceived = null;
+
+
+/* =====================================================
+   AUTH PERSISTENCE
+===================================================== */
+
+setPersistence(
+    auth,
+    browserLocalPersistence
+)
+.catch(error => {
+
+    console.error(
+        "Auth persistence error:",
+        error
+    );
+
+});
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    async (user) => {
+
+        console.log(
+            "Firebase Auth user:",
+            user
+        );
+
+
+        if (!user) {
+
+            /*
+             * Do not show "Please log in first".
+             * Messenger simply waits for Firebase
+             * authentication to become available.
+             */
 
             friendsList.innerHTML = `
-
                 <div class="message">
-
-                    Your accepted friends
-                    will appear here.
-
+                    Loading account...
                 </div>
-
             `;
 
             return;
@@ -563,10 +663,275 @@
         }
 
 
-        friends.forEach(friend => {
+        currentUser = user;
+
+
+        console.log(
+            "Logged in UID:",
+            currentUser.uid
+        );
+
+
+        console.log(
+            "Logged in email:",
+            currentUser.email
+        );
+
+
+        await loadAcceptedFriends();
+
+    }
+);
+
+
+/* =====================================================
+   LOAD ACCEPTED FRIENDS
+===================================================== */
+
+async function loadAcceptedFriends() {
+
+    if (!currentUser) {
+
+        return;
+
+    }
+
+
+    friendsList.innerHTML = `
+        <div class="message">
+            Loading friends...
+        </div>
+    `;
+
+
+    const friends = [];
+
+
+    try {
+
+
+        /* ---------------------------------------------
+           FRIEND REQUESTS SENT BY CURRENT USER
+        --------------------------------------------- */
+
+        const sentQuery =
+            query(
+                collection(
+                    db,
+                    "friendRequests"
+                ),
+
+                where(
+                    "from",
+                    "==",
+                    currentUser.uid
+                ),
+
+                where(
+                    "status",
+                    "==",
+                    "accepted"
+                )
+            );
+
+
+        const sentSnapshot =
+            await getDocs(
+                sentQuery
+            );
+
+
+        sentSnapshot.forEach(
+            documentSnapshot => {
+
+                const data =
+                    documentSnapshot.data();
+
+
+                if (data.to) {
+
+                    friends.push({
+
+                        uid:
+                            data.to,
+
+                        email:
+                            data.toEmail || "Friend"
+
+                    });
+
+                }
+
+            }
+        );
+
+
+        /* ---------------------------------------------
+           FRIEND REQUESTS RECEIVED BY CURRENT USER
+        --------------------------------------------- */
+
+        const receivedQuery =
+            query(
+                collection(
+                    db,
+                    "friendRequests"
+                ),
+
+                where(
+                    "to",
+                    "==",
+                    currentUser.uid
+                ),
+
+                where(
+                    "status",
+                    "==",
+                    "accepted"
+                )
+            );
+
+
+        const receivedSnapshot =
+            await getDocs(
+                receivedQuery
+            );
+
+
+        receivedSnapshot.forEach(
+            documentSnapshot => {
+
+                const data =
+                    documentSnapshot.data();
+
+
+                if (data.from) {
+
+                    friends.push({
+
+                        uid:
+                            data.from,
+
+                        email:
+                            data.fromEmail || "Friend"
+
+                    });
+
+                }
+
+            }
+        );
+
+
+        /* ---------------------------------------------
+           REMOVE DUPLICATES
+        --------------------------------------------- */
+
+        const uniqueFriends = [];
+
+        const seen =
+            new Set();
+
+
+        friends.forEach(
+            friend => {
+
+                if (
+                    friend.uid &&
+                    friend.uid !== currentUser.uid &&
+                    !seen.has(friend.uid)
+                ) {
+
+                    seen.add(
+                        friend.uid
+                    );
+
+                    uniqueFriends.push(
+                        friend
+                    );
+
+                }
+
+            }
+        );
+
+
+        console.log(
+            "Accepted friends:",
+            uniqueFriends
+        );
+
+
+        displayFriends(
+            uniqueFriends
+        );
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Error loading accepted friends:",
+            error
+        );
+
+
+        friendsList.innerHTML = `
+            <div class="error">
+
+                Unable to load friends.
+
+                <br><br>
+
+                ${escapeHtml(
+                    error.message
+                )}
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   DISPLAY FRIENDS
+===================================================== */
+
+function displayFriends(friends) {
+
+    friendsList.innerHTML = "";
+
+
+    if (friends.length === 0) {
+
+        friendsList.innerHTML = `
+            <div class="message">
+
+                No accepted friends found.
+
+                <br><br>
+
+                Accept a friend request first.
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    friends.forEach(
+        friend => {
+
 
             const item =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             item.className =
                 "friend-item";
@@ -576,7 +941,9 @@
 
                 <div class="avatar">
 
-                    ${getInitials(friend.email)}
+                    ${getInitials(
+                        friend.email
+                    )}
 
                 </div>
 
@@ -590,7 +957,9 @@
 
                     <div class="friend-email">
 
-                        ${friend.email}
+                        ${escapeHtml(
+                            friend.email
+                        )}
 
                     </div>
 
@@ -599,9 +968,19 @@
             `;
 
 
+            /*
+             * THIS IS THE CLICK EVENT
+             */
+
             item.addEventListener(
                 "click",
                 () => {
+
+                    console.log(
+                        "Friend clicked:",
+                        friend
+                    );
+
 
                     selectFriend(
                         friend,
@@ -612,68 +991,427 @@
             );
 
 
-            friendsList.appendChild(item);
+            friendsList.appendChild(
+                item
+            );
 
-        });
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SELECT FRIEND
+===================================================== */
+
+function selectFriend(
+    friend,
+    item
+) {
+
+    console.log(
+        "Selecting friend:",
+        friend
+    );
+
+
+    selectedFriend =
+        friend;
+
+
+    /* ---------------------------------------------
+       REMOVE OLD ACTIVE FRIEND
+    --------------------------------------------- */
+
+    document
+        .querySelectorAll(
+            ".friend-item"
+        )
+        .forEach(
+            element => {
+
+                element.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    /* ---------------------------------------------
+       SET NEW ACTIVE FRIEND
+    --------------------------------------------- */
+
+    item.classList.add(
+        "active"
+    );
+
+
+    /* ---------------------------------------------
+       UPDATE CHAT HEADER
+    --------------------------------------------- */
+
+    chatHeader.innerHTML = `
+
+        <div class="avatar">
+
+            ${getInitials(
+                friend.email
+            )}
+
+        </div>
+
+        <div class="chat-header-info">
+
+            <div class="chat-header-name">
+
+                Friend
+
+            </div>
+
+            <div class="chat-header-email">
+
+                ${escapeHtml(
+                    friend.email
+                )}
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    /* ---------------------------------------------
+       ENABLE MESSAGE INPUT
+    --------------------------------------------- */
+
+    messageInput.disabled =
+        false;
+
+
+    sendBtn.disabled =
+        false;
+
+
+    /* ---------------------------------------------
+       LOAD CHAT
+    --------------------------------------------- */
+
+    loadMessages();
+
+
+    messageInput.focus();
+
+}
+
+
+/* =====================================================
+   LOAD MESSAGES
+===================================================== */
+
+function loadMessages() {
+
+    if (
+        !currentUser ||
+        !selectedFriend
+    ) {
+
+        return;
 
     }
 
 
-    function selectFriend(
-        friend,
-        item
-    ) {
+    /* ---------------------------------------------
+       STOP OLD LISTENERS
+    --------------------------------------------- */
 
-        selectedFriend =
-            friend;
+    if (unsubscribeSent) {
+
+        unsubscribeSent();
+
+        unsubscribeSent = null;
+
+    }
 
 
-        document
-            .querySelectorAll(
-                ".friend-item"
+    if (unsubscribeReceived) {
+
+        unsubscribeReceived();
+
+        unsubscribeReceived = null;
+
+    }
+
+
+    messages.innerHTML = `
+        <div class="message">
+            Loading messages...
+        </div>
+    `;
+
+
+    const sentMessages =
+        new Map();
+
+
+    const receivedMessages =
+        new Map();
+
+
+    /* ---------------------------------------------
+       SENT MESSAGES
+    --------------------------------------------- */
+
+    const sentQuery =
+        query(
+            collection(
+                db,
+                "messages"
+            ),
+
+            where(
+                "sender_id",
+                "==",
+                currentUser.uid
+            ),
+
+            where(
+                "receiver_id",
+                "==",
+                selectedFriend.uid
             )
-            .forEach(
-                element => {
-
-                    element.classList.remove(
-                        "active"
-                    );
-
-                }
-            );
-
-
-        item.classList.add(
-            "active"
         );
 
 
-        chatHeader.innerHTML = `
+    /* ---------------------------------------------
+       RECEIVED MESSAGES
+    --------------------------------------------- */
 
-            <div class="avatar">
+    const receivedQuery =
+        query(
+            collection(
+                db,
+                "messages"
+            ),
 
-                ${getInitials(friend.email)}
+            where(
+                "sender_id",
+                "==",
+                selectedFriend.uid
+            ),
 
-            </div>
+            where(
+                "receiver_id",
+                "==",
+                currentUser.uid
+            )
+        );
 
-            <div class="chat-header-info">
 
-                <div class="chat-header-name">
+    /* ---------------------------------------------
+       SENT LISTENER
+    --------------------------------------------- */
 
-                    Friend
+    unsubscribeSent =
+        onSnapshot(
 
-                </div>
+            sentQuery,
 
-                <div class="chat-header-email">
+            snapshot => {
 
-                    ${friend.email}
+                sentMessages.clear();
 
-                </div>
 
-            </div>
+                snapshot.forEach(
+                    documentSnapshot => {
 
-        `;
+                        sentMessages.set(
 
+                            documentSnapshot.id,
+
+                            {
+
+                                id:
+                                    documentSnapshot.id,
+
+                                ...documentSnapshot.data(),
+
+                                type:
+                                    "sent"
+
+                            }
+
+                        );
+
+                    }
+                );
+
+
+                renderMessages(
+                    sentMessages,
+                    receivedMessages
+                );
+
+            },
+
+            error => {
+
+                console.error(
+                    "Sent messages error:",
+                    error
+                );
+
+
+                messages.innerHTML = `
+                    <div class="error">
+
+                        Unable to load sent messages.
+
+                        <br><br>
+
+                        ${escapeHtml(
+                            error.message
+                        )}
+
+                    </div>
+                `;
+
+            }
+
+        );
+
+
+    /* ---------------------------------------------
+       RECEIVED LISTENER
+    --------------------------------------------- */
+
+    unsubscribeReceived =
+        onSnapshot(
+
+            receivedQuery,
+
+            snapshot => {
+
+                receivedMessages.clear();
+
+
+                snapshot.forEach(
+                    documentSnapshot => {
+
+                        receivedMessages.set(
+
+                            documentSnapshot.id,
+
+                            {
+
+                                id:
+                                    documentSnapshot.id,
+
+                                ...documentSnapshot.data(),
+
+                                type:
+                                    "received"
+
+                            }
+
+                        );
+
+                    }
+                );
+
+
+                renderMessages(
+                    sentMessages,
+                    receivedMessages
+                );
+
+            },
+
+            error => {
+
+                console.error(
+                    "Received messages error:",
+                    error
+                );
+
+
+                messages.innerHTML = `
+                    <div class="error">
+
+                        Unable to load received messages.
+
+                        <br><br>
+
+                        ${escapeHtml(
+                            error.message
+                        )}
+
+                    </div>
+                `;
+
+            }
+
+        );
+
+}
+
+
+/* =====================================================
+   RENDER MESSAGES
+===================================================== */
+
+function renderMessages(
+    sentMessages,
+    receivedMessages
+) {
+
+
+    const allMessages = [
+
+        ...Array.from(
+            sentMessages.values()
+        ),
+
+        ...Array.from(
+            receivedMessages.values()
+        )
+
+    ];
+
+
+    /* ---------------------------------------------
+       SORT BY CREATED TIME
+    --------------------------------------------- */
+
+    allMessages.sort(
+        (a, b) => {
+
+            const aTime =
+                a.created_at?.toMillis?.() || 0;
+
+
+            const bTime =
+                b.created_at?.toMillis?.() || 0;
+
+
+            return aTime - bTime;
+
+        }
+    );
+
+
+    messages.innerHTML = "";
+
+
+    /* ---------------------------------------------
+       NO MESSAGES
+    --------------------------------------------- */
+
+    if (
+        allMessages.length === 0
+    ) {
 
         messages.innerHTML = `
 
@@ -687,7 +1425,9 @@
 
                     <p>
                         Send a private message to
-                        ${friend.email}
+                        ${escapeHtml(
+                            selectedFriend.email
+                        )}
                     </p>
 
                 </div>
@@ -696,147 +1436,313 @@
 
         `;
 
-
-        messageInput.disabled =
-            false;
-
-        sendBtn.disabled =
-            false;
-
-        messageInput.focus();
+        return;
 
     }
 
 
-    sendBtn.addEventListener(
-        "click",
-        sendMessage
-    );
+    /* ---------------------------------------------
+       DISPLAY MESSAGES
+    --------------------------------------------- */
+
+    allMessages.forEach(
+        msg => {
 
 
-    messageInput.addEventListener(
-        "keydown",
-        event => {
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "message-row " +
+                msg.type;
+
+
+            const bubble =
+                document.createElement(
+                    "div"
+                );
+
+
+            bubble.className =
+                "message-bubble";
+
+
+            bubble.textContent =
+                msg.message || "";
+
+
+            const time =
+                document.createElement(
+                    "div"
+                );
+
+
+            time.className =
+                "message-time";
+
 
             if (
-                event.key === "Enter"
+                msg.created_at &&
+                typeof msg.created_at.toDate ===
+                "function"
             ) {
 
-                sendMessage();
+                time.textContent =
+                    msg.created_at
+                        .toDate()
+                        .toLocaleTimeString(
+                            [],
+                            {
+                                hour:
+                                    "2-digit",
+
+                                minute:
+                                    "2-digit"
+                            }
+                        );
 
             }
 
+            else {
+
+                time.textContent =
+                    "Sending...";
+
+            }
+
+
+            bubble.appendChild(
+                time
+            );
+
+
+            row.appendChild(
+                bubble
+            );
+
+
+            messages.appendChild(
+                row
+            );
+
         }
     );
 
 
-    function sendMessage() {
+    messages.scrollTop =
+        messages.scrollHeight;
 
-        if (!selectedFriend) {
-
-            return;
-
-        }
+}
 
 
-        const text =
-            messageInput.value.trim();
+/* =====================================================
+   SEND MESSAGE
+===================================================== */
+
+sendBtn.addEventListener(
+    "click",
+    sendMessage
+);
 
 
-        if (!text) {
+messageInput.addEventListener(
+    "keydown",
+    event => {
 
-            return;
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
 
-        }
+            event.preventDefault();
 
-
-        /*
-         * Temporary display only.
-         *
-         * In the next step this will be
-         * saved permanently in MySQL.
-         */
-
-        const row =
-            document.createElement(
-                "div"
-            );
-
-        row.className =
-            "message-row sent";
-
-
-        const bubble =
-            document.createElement(
-                "div"
-            );
-
-        bubble.className =
-            "message-bubble";
-
-
-        bubble.textContent =
-            text;
-
-
-        const time =
-            document.createElement(
-                "div"
-            );
-
-        time.className =
-            "message-time";
-
-
-        time.textContent =
-            "Just now";
-
-
-        bubble.appendChild(
-            time
-        );
-
-        row.appendChild(
-            bubble
-        );
-
-
-        /*
-         * Remove empty-chat message.
-         */
-
-        const empty =
-            messages.querySelector(
-                ".empty-chat"
-            );
-
-
-        if (empty) {
-
-            empty.remove();
+            sendMessage();
 
         }
 
+    }
+);
 
-        messages.appendChild(
-            row
+
+async function sendMessage() {
+
+    if (!currentUser) {
+
+        alert(
+            "Firebase is still checking your login. Please wait a moment."
         );
 
+        return;
 
-        messages.scrollTop =
-            messages.scrollHeight;
+    }
+
+
+    if (!selectedFriend) {
+
+        alert(
+            "Please select a friend first."
+        );
+
+        return;
+
+    }
+
+
+    const text =
+        messageInput.value.trim();
+
+
+    if (!text) {
+
+        return;
+
+    }
+
+
+    sendBtn.disabled =
+        true;
+
+
+    try {
+
+
+        await addDoc(
+
+            collection(
+                db,
+                "messages"
+            ),
+
+            {
+
+                sender_id:
+                    currentUser.uid,
+
+                receiver_id:
+                    selectedFriend.uid,
+
+                message:
+                    text,
+
+                created_at:
+                    serverTimestamp()
+
+            }
+
+        );
 
 
         messageInput.value =
             "";
 
+
+        messageInput.focus();
+
+
+        console.log(
+            "Message sent successfully"
+        );
+
     }
 
 
-    showFriends();
+    catch (error) {
+
+        console.error(
+            "Send message error:",
+            error
+        );
+
+
+        alert(
+            "Unable to send message:\n\n" +
+            error.message
+        );
+
+    }
+
+
+    sendBtn.disabled =
+        false;
+
+}
+
+
+/* =====================================================
+   GET INITIALS
+===================================================== */
+
+function getInitials(email) {
+
+    if (!email) {
+
+        return "U";
+
+    }
+
+
+    return email
+        .substring(0, 2)
+        .toUpperCase();
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    if (!value) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   STARTUP MESSAGE
+===================================================== */
+
+console.log(
+    "MySocial Messenger loaded successfully."
+);
 
 </script>
-```
 
 </body>
 
