@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>MySocial Messenger</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #79a2e0;
+        color: #1c1e21;
+    }
+
+    /* NAVBAR */
+
+    .navbar {
+        height: 64px;
+        background: #f4f5ef;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: bold;
+        color: #1877f2;
+    }
+
+    .home-btn {
+        text-decoration: none;
+        background: #e4e6eb;
+        color: #111;
+        padding: 9px 16px;
+        border-radius: 7px;
+        font-weight: bold;
+    }
+
+    /* MAIN */
+
+    .messenger-container {
+        width: 950px;
+        max-width: calc(100% - 20px);
+        height: calc(100vh - 94px);
+        min-height: 550px;
+        margin: 15px auto;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    /* FRIEND LIST */
+
+    .friends-panel {
+        width: 300px;
+        border-right: 1px solid #ddd;
+        background: white;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .friends-title {
+        padding: 20px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .friends-title h2 {
+        margin: 0;
+        font-size: 22px;
+    }
+
+    .friends-title p {
+        margin: 5px 0 0;
+        color: #65676b;
+        font-size: 13px;
+    }
+
+    .friends-list {
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .friend-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 15px;
+        cursor: pointer;
+        border-bottom: 1px solid #f0f2f5;
+    }
+
+    .friend-item:hover {
+        background: #f0f2f5;
+    }
+
+    .friend-item.active {
+        background: #e7f3ff;
+    }
+
+    .avatar {
+        width: 45px;
+        height: 45px;
+        min-width: 45px;
+        border-radius: 50%;
+        background: #1877f2;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .friend-info {
+        min-width: 0;
+    }
+
+    .friend-name {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .friend-email {
+        color: #65676b;
+        font-size: 12px;
+        margin-top: 3px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* CHAT */
+
+    .chat-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .chat-header {
+        height: 70px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        padding: 10px 18px;
+        gap: 12px;
+    }
+
+    .chat-header-info {
+        min-width: 0;
+    }
+
+    .chat-header-name {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .chat-header-email {
+        font-size: 12px;
+        color: #65676b;
+        margin-top: 3px;
+    }
+
+    .messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        background: #f0f2f5;
+    }
+
+    .empty-chat {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #65676b;
+    }
+
+    .empty-chat h3 {
+        color: #1c1e21;
+    }
+
+    .message-row {
+        display: flex;
+        margin-bottom: 10px;
+    }
+
+    .message-row.sent {
+        justify-content: flex-end;
+    }
+
+    .message-row.received {
+        justify-content: flex-start;
+    }
+
+    .message-bubble {
+        max-width: 70%;
+        padding: 10px 13px;
+        border-radius: 18px;
+        word-break: break-word;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .sent .message-bubble {
+        background: #1877f2;
+        color: white;
+        border-bottom-right-radius: 5px;
+    }
+
+    .received .message-bubble {
+        background: white;
+        color: #1c1e21;
+        border-bottom-left-radius: 5px;
+    }
+
+    .message-time {
+        font-size: 10px;
+        opacity: 0.7;
+        margin-top: 4px;
+    }
+
+    /* MESSAGE INPUT */
+
+    .message-input-area {
+        padding: 12px;
+        border-top: 1px solid #ddd;
+        display: flex;
+        gap: 8px;
+        background: white;
+    }
+
+    .message-input {
+        flex: 1;
+        border: 1px solid #ccd0d5;
+        border-radius: 22px;
+        padding: 11px 15px;
+        font-size: 14px;
+        outline: none;
+    }
+
+    .message-input:focus {
+        border-color: #1877f2;
+    }
+
+    .send-btn {
+        border: none;
+        background: #1877f2;
+        color: white;
+        padding: 0 20px;
+        border-radius: 22px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .send-btn:hover {
+        background: #166fe5;
+    }
+
+    .send-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .message {
+        padding: 20px;
+        text-align: center;
+        color: #65676b;
+    }
+
+    .error {
+        color: #e41e3f;
+        padding: 20px;
+        text-align: center;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 700px) {
+
+        .navbar {
+            padding: 0 12px;
+        }
+
+        .logo {
+            font-size: 23px;
+        }
+
+        .messenger-container {
+            width: 100%;
+            max-width: 100%;
+            height: calc(100vh - 64px);
+            margin: 0;
+            border-radius: 0;
+        }
+
+        .friends-panel {
+            width: 90px;
+        }
+
+        .friends-title {
+            padding: 12px 5px;
+            text-align: center;
+        }
+
+        .friends-title h2 {
+            font-size: 15px;
+        }
+
+        .friends-title p {
+            display: none;
+        }
+
+        .friend-item {
+            justify-content: center;
+            padding: 12px 5px;
+        }
+
+        .friend-info {
+            display: none;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
+        }
+
+        .message-bubble {
+            max-width: 85%;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <div class="logo">
+        MySocial
+    </div>
+
+    <a href="home.html" class="home-btn">
+        ← Home
+    </a>
+
+</div>
+
+
+<!-- MESSENGER -->
+
+<div class="messenger-container">
+
+    <!-- FRIENDS -->
+
+    <div class="friends-panel">
+
+        <div class="friends-title">
+
+            <h2>💬 Messenger</h2>
+
+            <p>Your friends</p>
+
+        </div>
+
+        <div
+            id="friendsList"
+            class="friends-list">
+
+            <div class="message">
+                Loading friends...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CHAT -->
+
+    <div class="chat-panel">
+
+        <div
+            id="chatHeader"
+            class="chat-header">
+
+            <div class="avatar">
+                💬
+            </div>
+
+            <div class="chat-header-info">
+
+                <div class="chat-header-name">
+                    Select a friend
+                </div>
+
+                <div class="chat-header-email">
+                    Choose a friend to start chatting
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGES -->
+
+        <div
+            id="messages"
+            class="messages">
+
+            <div class="empty-chat">
+
+                <div>
+
+                    <h3>💬 Private Messenger</h3>
+
+                    <p>
+                        Select a friend from the left
+                        to start a private conversation.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INPUT -->
+
+        <div class="message-input-area">
+
+            <input
+                type="text"
+                id="messageInput"
+                class="message-input"
+                placeholder="Write a message..."
+                disabled
+            >
+
+            <button
+                id="sendBtn"
+                class="send-btn"
+                disabled>
+
+                Send
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TEMPORARY JAVASCRIPT -->
+
+<script>
+
+    /*
+     * STEP 1
+     *
+     * This page is the Messenger interface.
+     *
+     * In the next step we will connect:
+     *
+     * messenger.html
+     *        ↓
+     * PHP API
+     *        ↓
+     * MySQL
+     *
+     * We are intentionally not using Firebase here.
+     */
+
+
+    const friendsList =
+        document.getElementById("friendsList");
+
+    const messages =
+        document.getElementById("messages");
+
+    const messageInput =
+        document.getElementById("messageInput");
+
+    const sendBtn =
+        document.getElementById("sendBtn");
+
+    const chatHeader =
+        document.getElementById("chatHeader");
+
+
+    let selectedFriend = null;
+
+
+    /*
+     * Temporary friend data.
+     *
+     * We will replace this with data
+     * from your PHP/MySQL server.
+     */
+
+    const friends = [];
+
+
+    function getInitials(email) {
+
+        if (!email) {
+            return "U";
+        }
+
+        return email
+            .substring(0, 2)
+            .toUpperCase();
+
+    }
+
+
+    function showFriends() {
+
+        friendsList.innerHTML = "";
+
+
+        if (friends.length === 0) {
+
+            friendsList.innerHTML = `
+
+                <div class="message">
+
+                    Your accepted friends
+                    will appear here.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        friends.forEach(friend => {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "friend-item";
+
+
+            item.innerHTML = `
+
+                <div class="avatar">
+
+                    ${getInitials(friend.email)}
+
+                </div>
+
+                <div class="friend-info">
+
+                    <div class="friend-name">
+
+                        Friend
+
+                    </div>
+
+                    <div class="friend-email">
+
+                        ${friend.email}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            item.addEventListener(
+                "click",
+                () => {
+
+                    selectFriend(
+                        friend,
+                        item
+                    );
+
+                }
+            );
+
+
+            friendsList.appendChild(item);
+
+        });
+
+    }
+
+
+    function selectFriend(
+        friend,
+        item
+    ) {
+
+        selectedFriend =
+            friend;
+
+
+        document
+            .querySelectorAll(
+                ".friend-item"
+            )
+            .forEach(
+                element => {
+
+                    element.classList.remove(
+                        "active"
+                    );
+
+                }
+            );
+
+
+        item.classList.add(
+            "active"
+        );
+
+
+        chatHeader.innerHTML = `
+
+            <div class="avatar">
+
+                ${getInitials(friend.email)}
+
+            </div>
+
+            <div class="chat-header-info">
+
+                <div class="chat-header-name">
+
+                    Friend
+
+                </div>
+
+                <div class="chat-header-email">
+
+                    ${friend.email}
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        messages.innerHTML = `
+
+            <div class="empty-chat">
+
+                <div>
+
+                    <h3>
+                        Start a conversation
+                    </h3>
+
+                    <p>
+                        Send a private message to
+                        ${friend.email}
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        messageInput.disabled =
+            false;
+
+        sendBtn.disabled =
+            false;
+
+        messageInput.focus();
+
+    }
+
+
+    sendBtn.addEventListener(
+        "click",
+        sendMessage
+    );
+
+
+    messageInput.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                sendMessage();
+
+            }
+
+        }
+    );
+
+
+    function sendMessage() {
+
+        if (!selectedFriend) {
+
+            return;
+
+        }
+
+
+        const text =
+            messageInput.value.trim();
+
+
+        if (!text) {
+
+            return;
+
+        }
+
+
+        /*
+         * Temporary display only.
+         *
+         * In the next step this will be
+         * saved permanently in MySQL.
+         */
+
+        const row =
+            document.createElement(
+                "div"
+            );
+
+        row.className =
+            "message-row sent";
+
+
+        const bubble =
+            document.createElement(
+                "div"
+            );
+
+        bubble.className =
+            "message-bubble";
+
+
+        bubble.textContent =
+            text;
+
+
+        const time =
+            document.createElement(
+                "div"
+            );
+
+        time.className =
+            "message-time";
+
+
+        time.textContent =
+            "Just now";
+
+
+        bubble.appendChild(
+            time
+        );
+
+        row.appendChild(
+            bubble
+        );
+
+
+        /*
+         * Remove empty-chat message.
+         */
+
+        const empty =
+            messages.querySelector(
+                ".empty-chat"
+            );
+
+
+        if (empty) {
+
+            empty.remove();
+
+        }
+
+
+        messages.appendChild(
+            row
+        );
+
+
+        messages.scrollTop =
+            messages.scrollHeight;
+
+
+        messageInput.value =
+            "";
+
+    }
+
+
+    showFriends();
+
+</script>
+```
+
+</body>
+
+</html>
