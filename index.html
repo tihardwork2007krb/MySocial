@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MySocial</title>
+    <title>MySocial - Login</title>
 
     <style>
 
@@ -18,37 +19,47 @@
             font-family: Arial, sans-serif;
             background: #678fca;
             margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .login-container {
-            width: 360px;
+            width: 380px;
             max-width: calc(100% - 30px);
-            margin: 100px auto;
             background: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.18);
             text-align: center;
         }
 
         .login-container h1 {
             color: #0dd1c1;
             font-size: 42px;
-            margin-bottom: 10px;
+            margin: 0 0 10px;
         }
 
-        .login-container p {
+        .login-container > p {
             color: #555;
+            margin-bottom: 22px;
+            line-height: 1.5;
         }
 
         input {
             width: 100%;
             padding: 14px;
             margin: 8px 0;
-            box-sizing: border-box;
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.1);
         }
 
         /* PASSWORD */
@@ -129,10 +140,103 @@
             background: transparent;
         }
 
+        /* EMAIL SIGNUP INFO */
+
+        .signup-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f4f8ff;
+            border-radius: 6px;
+            color: #555;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* ABOUT US */
+
+        .about-link {
+            margin-top: 18px;
+            color: #1877f2;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .about-link:hover {
+            text-decoration: underline;
+        }
+
+        /* MESSAGE */
+
         #message {
             margin-top: 15px;
             font-weight: bold;
             color: #333;
+        }
+
+        /* ABOUT MODAL */
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            width: 420px;
+            max-width: 100%;
+            border-radius: 14px;
+            padding: 28px;
+            text-align: left;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+            position: relative;
+        }
+
+        .modal-content h2 {
+            color: #0dd1c1;
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .modal-content p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+
+            width: 35px;
+            height: 35px;
+
+            padding: 0;
+            margin: 0;
+
+            background: transparent;
+            color: #555;
+
+            font-size: 25px;
+            border: none;
+        }
+
+        .close-modal:hover {
+            background: #f0f2f5;
+        }
+
+        .modal-button {
+            background: #1877f2;
+            margin-top: 15px;
         }
 
     </style>
@@ -194,7 +298,7 @@
         </button>
 
 
-        <!-- SIGNUP -->
+        <!-- CREATE ACCOUNT -->
 
         <button
             type="button"
@@ -202,6 +306,15 @@
         >
             Create New Account
         </button>
+
+
+        <!-- EMAIL ACCOUNT INFORMATION -->
+
+        <div class="signup-info">
+            New to MySocial?<br>
+            Create your account using your
+            <strong>email address and password</strong>.
+        </div>
 
 
         <!-- MESSAGE -->
@@ -218,6 +331,68 @@
         >
             Forgot Password?
         </button>
+
+
+        <!-- ABOUT US -->
+
+        <div
+            class="about-link"
+            id="aboutUsBtn"
+        >
+            About Us
+        </div>
+
+    </div>
+
+
+    <!-- ABOUT US MODAL -->
+
+    <div
+        class="modal"
+        id="aboutModal"
+    >
+
+        <div class="modal-content">
+
+            <button
+                type="button"
+                class="close-modal"
+                id="closeModal"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+            <h2>About MySocial</h2>
+
+            <p>
+                MySocial is a simple social networking platform
+                designed to help people connect, share posts,
+                communicate with friends, and stay connected.
+            </p>
+
+            <p>
+                Users can create an account using their email
+                address, build their profile, connect with friends,
+                share posts, like and comment on posts, and use
+                private messaging.
+            </p>
+
+            <p>
+                Our goal is to provide a simple and easy-to-use
+                social experience where users can connect and
+                communicate with people they know.
+            </p>
+
+            <button
+                type="button"
+                class="modal-button"
+                id="closeModalButton"
+            >
+                Close
+            </button>
+
+        </div>
 
     </div>
 
@@ -354,7 +529,7 @@
 
 
         // =========================
-        // CREATE ACCOUNT
+        // CREATE ACCOUNT USING EMAIL
         // =========================
 
         document
@@ -416,6 +591,7 @@
                                 user.uid
                             ),
                             {
+
                                 email:
                                     user.email,
 
@@ -427,6 +603,7 @@
 
                                 createdAt:
                                     serverTimestamp()
+
                             }
                         );
 
@@ -441,7 +618,7 @@
                         );
 
 
-                        // Go to profile
+                        // GO TO PROFILE
 
                         setTimeout(
                             () => {
@@ -694,8 +871,79 @@
                 }
             );
 
+
+        // =========================
+        // ABOUT US MODAL
+        // =========================
+
+        const aboutUsBtn =
+            document.getElementById("aboutUsBtn");
+
+        const aboutModal =
+            document.getElementById("aboutModal");
+
+        const closeModal =
+            document.getElementById("closeModal");
+
+        const closeModalButton =
+            document.getElementById("closeModalButton");
+
+
+        aboutUsBtn.addEventListener(
+            "click",
+            () => {
+
+                aboutModal.style.display =
+                    "flex";
+
+            }
+        );
+
+
+        closeModal.addEventListener(
+            "click",
+            () => {
+
+                aboutModal.style.display =
+                    "none";
+
+            }
+        );
+
+
+        closeModalButton.addEventListener(
+            "click",
+            () => {
+
+                aboutModal.style.display =
+                    "none";
+
+            }
+        );
+
+
+        // CLOSE WHEN CLICKING OUTSIDE MODAL
+
+        aboutModal.addEventListener(
+            "click",
+            (event) => {
+
+                if (
+                    event.target ===
+                    aboutModal
+                ) {
+
+                    aboutModal.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
     </script>
 
 </body>
 
 </html>
+```
