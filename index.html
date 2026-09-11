@@ -238,6 +238,12 @@
             margin-top: 15px;
         }
 
+        /* SIGNUP MODE */
+
+        #confirmPasswordContainer {
+            display: none;
+        }
+
     </style>
 
 </head>
@@ -280,6 +286,33 @@
                 id="togglePassword"
                 class="eye-btn"
                 aria-label="Show password"
+            >
+                👁️
+            </button>
+
+        </div>
+
+
+        <!-- CONFIRM PASSWORD
+             Hidden during normal login -->
+
+        <div
+            class="password-container"
+            id="confirmPasswordContainer"
+        >
+
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm password"
+                autocomplete="new-password"
+            >
+
+            <button
+                type="button"
+                id="toggleConfirmPassword"
+                class="eye-btn"
+                aria-label="Show confirm password"
             >
                 👁️
             </button>
@@ -477,11 +510,30 @@
         const passwordInput =
             document.getElementById("password");
 
+        const confirmPasswordInput =
+            document.getElementById("confirmPassword");
+
+        const confirmPasswordContainer =
+            document.getElementById("confirmPasswordContainer");
+
         const message =
             document.getElementById("message");
 
         const togglePassword =
             document.getElementById("togglePassword");
+
+        const toggleConfirmPassword =
+            document.getElementById("toggleConfirmPassword");
+
+        const signupBtn =
+            document.getElementById("signupBtn");
+
+
+        // =========================
+        // SIGNUP MODE
+        // =========================
+
+        let signupMode = false;
 
 
         // =========================
@@ -528,159 +580,305 @@
 
 
         // =========================
-        // CREATE ACCOUNT USING EMAIL
+        // SHOW / HIDE CONFIRM PASSWORD
         // =========================
 
-        document
-            .getElementById("signupBtn")
-            .addEventListener(
-                "click",
-                async () => {
+        toggleConfirmPassword.addEventListener(
+            "click",
+            () => {
 
-                    const email =
-                        emailInput.value.trim();
+                if (
+                    confirmPasswordInput.type ===
+                    "password"
+                ) {
 
-                    const password =
-                        passwordInput.value;
+                    confirmPasswordInput.type =
+                        "text";
 
+                    toggleConfirmPassword.textContent =
+                        "🙈";
 
-                    if (
-                        !email ||
-                        !password
-                    ) {
+                    toggleConfirmPassword.setAttribute(
+                        "aria-label",
+                        "Hide confirm password"
+                    );
 
-                        message.textContent =
-                            "Please enter email and password.";
+                } else {
 
-                        return;
-                    }
+                    confirmPasswordInput.type =
+                        "password";
 
+                    toggleConfirmPassword.textContent =
+                        "👁️";
 
-                    if (
-                        password.length < 6
-                    ) {
+                    toggleConfirmPassword.setAttribute(
+                        "aria-label",
+                        "Show confirm password"
+                    );
 
-                        message.textContent =
-                            "Password must be at least 6 characters.";
+                }
 
-                        return;
-                    }
-
-
-                    try {
-
-                        const userCredential =
-                            await createUserWithEmailAndPassword(
-                                auth,
-                                email,
-                                password
-                            );
+            }
+        );
 
 
-                        const user =
-                            userCredential.user;
+        // =========================
+// CREATE ACCOUNT
+// =========================
+
+signupBtn.addEventListener(
+    "click",
+    async () => {
+
+        // =========================
+        // FIRST CLICK = SIGNUP MODE
+        // =========================
+
+        if (!signupMode) {
+
+            signupMode = true;
+
+            confirmPasswordContainer.style.display = "block";
+
+            signupBtn.textContent = "Create Account";
+
+            message.textContent =
+                "Enter your password again to confirm.";
+
+            message.style.color = "#333";
+
+            passwordInput.setAttribute(
+                "autocomplete",
+                "new-password"
+            );
+
+            confirmPasswordInput.focus();
+
+            return;
+        }
 
 
-                        // CREATE USER PROFILE
+        // =========================
+        // GET SIGNUP VALUES
+        // =========================
 
-                        await setDoc(
-                            doc(
-                                db,
-                                "users",
-                                user.uid
-                            ),
-                            {
+        const email =
+            emailInput.value.trim();
 
-                                email:
-                                    user.email,
+        const password =
+            passwordInput.value;
 
-                                name:
-                                    "",
-
-                                uid:
-                                    user.uid,
-
-                                createdAt:
-                                    serverTimestamp()
-
-                            }
-                        );
+        const confirmPassword =
+            confirmPasswordInput.value;
 
 
-                        message.textContent =
-                            "Account created successfully!";
+        // =========================
+        // REQUIRED FIELDS
+        // =========================
+
+        if (
+            !email ||
+            !password ||
+            !confirmPassword
+        ) {
+
+            message.textContent =
+                "Please enter email, password and confirm password.";
+
+            message.style.color = "red";
+
+            return;
+        }
 
 
-                        console.log(
-                            "New user:",
-                            user.email
-                        );
+        // =========================
+        // PASSWORD LENGTH
+        // =========================
+
+        if (
+            password.length < 6
+        ) {
+
+            message.textContent =
+                "Password must be at least 6 characters.";
+
+            message.style.color = "red";
+
+            return;
+        }
 
 
-                        // GO TO PROFILE
+        // =========================
+        // PASSWORD MATCH
+        // =========================
 
-                        setTimeout(
-                            () => {
+        if (
+            password !== confirmPassword
+        ) {
 
-                                window.location.href =
-                                    "profile.html";
+            message.textContent =
+                "Passwords do not match.";
 
-                            },
-                            800
-                        );
+            message.style.color = "red";
 
-
-                    } catch (error) {
-
-                        console.error(
-                            "SIGNUP ERROR:",
-                            error
-                        );
+            return;
+        }
 
 
-                        if (
-                            error.code ===
-                            "auth/email-already-in-use"
-                        ) {
+        // =========================
+        // CREATE FIREBASE ACCOUNT
+        // =========================
 
-                            message.textContent =
-                                "This email is already registered.";
+        try {
 
-                        }
+            const userCredential =
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
 
-                        else if (
-                            error.code ===
-                            "auth/invalid-email"
-                        ) {
 
-                            message.textContent =
-                                "Please enter a valid email address.";
+            const user =
+                userCredential.user;
 
-                        }
 
-                        else if (
-                            error.code ===
-                            "auth/weak-password"
-                        ) {
+            // =========================
+            // CREATE USER PROFILE
+            // =========================
 
-                            message.textContent =
-                                "Password is too weak.";
+            await setDoc(
+                doc(
+                    db,
+                    "users",
+                    user.uid
+                ),
+                {
 
-                        }
+                    email:
+                        user.email,
 
-                        else {
+                    name:
+                        "",
 
-                            message.textContent =
-                                "Signup error: " +
-                                error.message;
+                    uid:
+                        user.uid,
 
-                        }
-
-                    }
+                    createdAt:
+                        serverTimestamp()
 
                 }
             );
 
+
+            // =========================
+            // SUCCESS MESSAGE
+            // =========================
+
+            message.textContent =
+                "Account created successfully!";
+
+            message.style.color = "green";
+
+
+            console.log(
+                "New user:",
+                user.email
+            );
+
+
+            // =========================
+            // GO TO PROFILE
+            // =========================
+
+            setTimeout(
+                () => {
+
+                    window.location.href =
+                        "profile.html";
+
+                },
+                800
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "SIGNUP ERROR:",
+                error
+            );
+
+
+            // =========================
+            // EMAIL ALREADY EXISTS
+            // =========================
+
+            if (
+                error.code ===
+                "auth/email-already-in-use"
+            ) {
+
+                message.textContent =
+                    "This email is already registered. Please log in instead.";
+
+                message.style.color = "red";
+
+            }
+
+
+            // =========================
+            // INVALID EMAIL
+            // =========================
+
+            else if (
+                error.code ===
+                "auth/invalid-email"
+            ) {
+
+                message.textContent =
+                    "Please enter a valid email address.";
+
+                message.style.color = "red";
+
+            }
+
+
+            // =========================
+            // WEAK PASSWORD
+            // =========================
+
+            else if (
+                error.code ===
+                "auth/weak-password"
+            ) {
+
+                message.textContent =
+                    "Password is too weak. Use at least 6 characters.";
+
+                message.style.color = "red";
+
+            }
+
+
+            // =========================
+            // OTHER ERRORS
+            // =========================
+
+            else {
+
+                message.textContent =
+                    "Account creation failed: " +
+                    error.message;
+
+                message.style.color = "red";
+
+            }
+
+        }
+
+    }
+);
 
         // =========================
         // LOGIN
@@ -945,4 +1143,3 @@
 </body>
 
 </html>
-
