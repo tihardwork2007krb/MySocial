@@ -2,58 +2,48 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- SEO Title -->
-    <title>MySocial – Connect, Share & Message With Friends</title>
+    <meta name="theme-color" content="#1877f2">
 
-    <!-- SEO Description -->
     <meta name="description"
-        content="MySocial is a simple social networking platform where you can connect with friends, share posts, like and comment, and send private messages.">
+          content="MySocial is a simple social networking platform to connect with friends, share posts, and send private messages online.">
 
-    <!-- Keywords -->
-    <meta name="keywords"
-        content="MySocial, social network, connect with friends, share posts, messaging, online friends, social media">
-
-    <!-- Search Engine Instructions -->
     <meta name="robots" content="index, follow">
 
-    <!-- Website Language -->
-    <meta name="language" content="English">
+    <link rel="canonical"
+          href="https://myysocial.netlify.app/">
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://magical-choux-676c6d.netlify.app/">
+    <title><title>MySocial - Connect with Friends, Share Posts & Message</title></title>
 
-    <!-- Open Graph / Facebook / Social Sharing -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="MySocial – Connect, Share & Message With Friends">
+    <meta property="og:title"
+          content="MySocial – Connect, Share & Message With Friends">
     <meta property="og:description"
-        content="Connect with friends, share posts, like and comment, and send private messages with MySocial.">
-    <meta property="og:url" content="https://magical-choux-676c6d.netlify.app/">
+          content="Connect with friends, share posts and send private messages with MySocial.">
+    <meta property="og:url"
+          content="https://myysocial.netlify.app/">
     <meta property="og:site_name" content="MySocial">
 
-    <!-- Twitter / X Sharing -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="MySocial – Connect, Share & Message With Friends">
+    <meta name="twitter:title"
+          content="MySocial – Connect, Share & Message With Friends">
     <meta name="twitter:description"
-        content="Connect with friends, share posts, like and comment, and send private messages with MySocial.">
+          content="Connect with friends, share posts and send private messages with MySocial.">
 
-    <!-- Favicon -->
-    <link rel="icon" href="favicon.ico">
+    <!-- Firebase connection hints -->
+    <link rel="preconnect"
+          href="https://www.gstatic.com"
+          crossorigin>
 
-    <style>
-
-        /* Keep your existing CSS here */
-
-    </style>
-
-</head>
+    <link rel="dns-prefetch"
+          href="//www.gstatic.com">
 
     <style>
-    
         * {
             box-sizing: border-box;
         }
@@ -90,6 +80,13 @@
             line-height: 1.5;
         }
 
+        .seo-intro {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 0 0 18px;
+        }
+
         input {
             width: 100%;
             padding: 14px;
@@ -121,19 +118,14 @@
             right: 8px;
             top: 50%;
             transform: translateY(-50%);
-
             width: 40px;
             height: 40px;
-
             margin: 0;
             padding: 0;
-
             background: transparent !important;
             color: #555;
-
             border: none;
             border-radius: 50%;
-
             font-size: 20px;
             cursor: pointer;
         }
@@ -259,16 +251,12 @@
             position: absolute;
             right: 15px;
             top: 10px;
-
             width: 35px;
             height: 35px;
-
             padding: 0;
             margin: 0;
-
             background: transparent;
             color: #555;
-
             font-size: 25px;
             border: none;
         }
@@ -287,17 +275,8 @@
         #confirmPasswordContainer {
             display: none;
         }
-        .seo-intro {
-    color: #666;
-    font-size: 13px;
-    line-height: 1.6;
-    margin: 0 0 18px;
-}
-
     </style>
-
 </head>
-
 
 <body>
 
@@ -305,17 +284,17 @@
 
         <h1>MySocial</h1>
 
-<p>
-    Connect, share and message with friends.
-</p>
+        <p>
+            Connect with friends, share posts and send private messages
+            with MySocial.
+        </p>
 
-<div class="seo-intro">
-    MySocial is a simple social networking platform where
-    you can connect with friends, share posts, like and
-    comment on posts, build your profile and send private
-    messages.
-</div>
-
+        <div class="seo-intro">
+            MySocial is a simple social networking platform where
+            you can connect with friends, share posts, like and
+            comment on posts, build your profile and send private
+            messages.
+        </div>
 
         <!-- EMAIL -->
 
@@ -325,7 +304,6 @@
             placeholder="Email address"
             autocomplete="email"
         >
-
 
         <!-- PASSWORD -->
 
@@ -349,9 +327,7 @@
 
         </div>
 
-
-        <!-- CONFIRM PASSWORD
-             Hidden during normal login -->
+        <!-- CONFIRM PASSWORD -->
 
         <div
             class="password-container"
@@ -376,7 +352,6 @@
 
         </div>
 
-
         <!-- LOGIN -->
 
         <button
@@ -385,7 +360,6 @@
         >
             Log In
         </button>
-
 
         <!-- CREATE ACCOUNT -->
 
@@ -396,7 +370,6 @@
             Create New Account
         </button>
 
-
         <!-- EMAIL ACCOUNT INFORMATION -->
 
         <div class="signup-info">
@@ -405,11 +378,9 @@
             <strong>email address and password</strong>.
         </div>
 
-
         <!-- MESSAGE -->
 
         <p id="message"></p>
-
 
         <!-- FORGOT PASSWORD -->
 
@@ -421,7 +392,6 @@
             Forgot Password?
         </button>
 
-
         <!-- ABOUT US -->
 
         <div
@@ -432,7 +402,6 @@
         </div>
 
     </div>
-
 
     <!-- ABOUT US MODAL -->
 
@@ -485,33 +454,27 @@
 
     </div>
 
-
     <!-- FIREBASE -->
 
     <script type="module">
 
         import {
             initializeApp
-        } from
-        "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-
+        } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 
         import {
             getAuth,
             createUserWithEmailAndPassword,
             signInWithEmailAndPassword,
             sendPasswordResetEmail
-        } from
-        "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
-
+        } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
         import {
             getFirestore,
             doc,
             setDoc,
             serverTimestamp
-        } from
-        "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+        } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
         // =========================
@@ -547,14 +510,11 @@
         // INITIALIZE FIREBASE
         // =========================
 
-        const app =
-            initializeApp(firebaseConfig);
+        const app = initializeApp(firebaseConfig);
 
-        const auth =
-            getAuth(app);
+        const auth = getAuth(app);
 
-        const db =
-            getFirestore(app);
+        const db = getFirestore(app);
 
 
         // =========================
@@ -601,16 +561,11 @@
             "click",
             () => {
 
-                if (
-                    passwordInput.type ===
-                    "password"
-                ) {
+                if (passwordInput.type === "password") {
 
-                    passwordInput.type =
-                        "text";
+                    passwordInput.type = "text";
 
-                    togglePassword.textContent =
-                        "🙈";
+                    togglePassword.textContent = "🙈";
 
                     togglePassword.setAttribute(
                         "aria-label",
@@ -619,11 +574,9 @@
 
                 } else {
 
-                    passwordInput.type =
-                        "password";
+                    passwordInput.type = "password";
 
-                    togglePassword.textContent =
-                        "👁️";
+                    togglePassword.textContent = "👁️";
 
                     togglePassword.setAttribute(
                         "aria-label",
@@ -644,16 +597,11 @@
             "click",
             () => {
 
-                if (
-                    confirmPasswordInput.type ===
-                    "password"
-                ) {
+                if (confirmPasswordInput.type === "password") {
 
-                    confirmPasswordInput.type =
-                        "text";
+                    confirmPasswordInput.type = "text";
 
-                    toggleConfirmPassword.textContent =
-                        "🙈";
+                    toggleConfirmPassword.textContent = "🙈";
 
                     toggleConfirmPassword.setAttribute(
                         "aria-label",
@@ -662,11 +610,9 @@
 
                 } else {
 
-                    confirmPasswordInput.type =
-                        "password";
+                    confirmPasswordInput.type = "password";
 
-                    toggleConfirmPassword.textContent =
-                        "👁️";
+                    toggleConfirmPassword.textContent = "👁️";
 
                     toggleConfirmPassword.setAttribute(
                         "aria-label",
@@ -680,262 +626,202 @@
 
 
         // =========================
-// CREATE ACCOUNT
-// =========================
-
-signupBtn.addEventListener(
-    "click",
-    async () => {
-
-        // =========================
-        // FIRST CLICK = SIGNUP MODE
+        // CREATE ACCOUNT
         // =========================
 
-        if (!signupMode) {
+        signupBtn.addEventListener(
+            "click",
+            async () => {
 
-            signupMode = true;
+                // FIRST CLICK = SIGNUP MODE
 
-            confirmPasswordContainer.style.display = "block";
+                if (!signupMode) {
 
-            signupBtn.textContent = "Create Account";
+                    signupMode = true;
 
-            message.textContent =
-                "Enter your password again to confirm.";
+                    confirmPasswordContainer.style.display = "block";
 
-            message.style.color = "#333";
+                    signupBtn.textContent = "Create Account";
 
-            passwordInput.setAttribute(
-                "autocomplete",
-                "new-password"
-            );
+                    message.textContent =
+                        "Enter your password again to confirm.";
 
-            confirmPasswordInput.focus();
+                    message.style.color = "#333";
 
-            return;
-        }
+                    passwordInput.setAttribute(
+                        "autocomplete",
+                        "new-password"
+                    );
 
+                    confirmPasswordInput.focus();
 
-        // =========================
-        // GET SIGNUP VALUES
-        // =========================
-
-        const email =
-            emailInput.value.trim();
-
-        const password =
-            passwordInput.value;
-
-        const confirmPassword =
-            confirmPasswordInput.value;
+                    return;
+                }
 
 
-        // =========================
-        // REQUIRED FIELDS
-        // =========================
+                // GET SIGNUP VALUES
 
-        if (
-            !email ||
-            !password ||
-            !confirmPassword
-        ) {
+                const email =
+                    emailInput.value.trim();
 
-            message.textContent =
-                "Please enter email, password and confirm password.";
+                const password =
+                    passwordInput.value;
 
-            message.style.color = "red";
-
-            return;
-        }
+                const confirmPassword =
+                    confirmPasswordInput.value;
 
 
-        // =========================
-        // PASSWORD LENGTH
-        // =========================
+                // REQUIRED FIELDS
 
-        if (
-            password.length < 6
-        ) {
+                if (!email || !password || !confirmPassword) {
 
-            message.textContent =
-                "Password must be at least 6 characters.";
+                    message.textContent =
+                        "Please enter email, password and confirm password.";
 
-            message.style.color = "red";
+                    message.style.color = "red";
 
-            return;
-        }
+                    return;
+                }
 
 
-        // =========================
-        // PASSWORD MATCH
-        // =========================
+                // PASSWORD LENGTH
 
-        if (
-            password !== confirmPassword
-        ) {
+                if (password.length < 6) {
 
-            message.textContent =
-                "Passwords do not match.";
+                    message.textContent =
+                        "Password must be at least 6 characters.";
 
-            message.style.color = "red";
+                    message.style.color = "red";
 
-            return;
-        }
+                    return;
+                }
 
 
-        // =========================
-        // CREATE FIREBASE ACCOUNT
-        // =========================
+                // PASSWORD MATCH
 
-        try {
+                if (password !== confirmPassword) {
 
-            const userCredential =
-                await createUserWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
+                    message.textContent =
+                        "Passwords do not match.";
 
+                    message.style.color = "red";
 
-            const user =
-                userCredential.user;
+                    return;
+                }
 
 
-            // =========================
-            // CREATE USER PROFILE
-            // =========================
+                // CREATE FIREBASE ACCOUNT
 
-            await setDoc(
-                doc(
-                    db,
-                    "users",
-                    user.uid
-                ),
-                {
+                try {
 
-                    email:
-                        user.email,
+                    const userCredential =
+                        await createUserWithEmailAndPassword(
+                            auth,
+                            email,
+                            password
+                        );
 
-                    name:
-                        "",
+                    const user =
+                        userCredential.user;
 
-                    uid:
-                        user.uid,
 
-                    createdAt:
-                        serverTimestamp()
+                    // CREATE USER PROFILE
+
+                    await setDoc(
+                        doc(
+                            db,
+                            "users",
+                            user.uid
+                        ),
+                        {
+                            email: user.email,
+                            name: "",
+                            uid: user.uid,
+                            createdAt: serverTimestamp()
+                        }
+                    );
+
+
+                    // SUCCESS MESSAGE
+
+                    message.textContent =
+                        "Account created successfully!";
+
+                    message.style.color = "green";
+
+
+                    console.log(
+                        "New user:",
+                        user.email
+                    );
+
+
+                    // GO TO PROFILE
+
+                    setTimeout(
+                        () => {
+
+                            window.location.href =
+                                "profile.html";
+
+                        },
+                        800
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "SIGNUP ERROR:",
+                        error
+                    );
+
+
+                    if (
+                        error.code ===
+                        "auth/email-already-in-use"
+                    ) {
+
+                        message.textContent =
+                            "This email is already registered. Please log in instead.";
+
+                        message.style.color = "red";
+
+                    } else if (
+                        error.code ===
+                        "auth/invalid-email"
+                    ) {
+
+                        message.textContent =
+                            "Please enter a valid email address.";
+
+                        message.style.color = "red";
+
+                    } else if (
+                        error.code ===
+                        "auth/weak-password"
+                    ) {
+
+                        message.textContent =
+                            "Password is too weak. Use at least 6 characters.";
+
+                        message.style.color = "red";
+
+                    } else {
+
+                        message.textContent =
+                            "Account creation failed: " +
+                            error.message;
+
+                        message.style.color = "red";
+
+                    }
 
                 }
-            );
-
-
-            // =========================
-            // SUCCESS MESSAGE
-            // =========================
-
-            message.textContent =
-                "Account created successfully!";
-
-            message.style.color = "green";
-
-
-            console.log(
-                "New user:",
-                user.email
-            );
-
-
-            // =========================
-            // GO TO PROFILE
-            // =========================
-
-            setTimeout(
-                () => {
-
-                    window.location.href =
-                        "profile.html";
-
-                },
-                800
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "SIGNUP ERROR:",
-                error
-            );
-
-
-            // =========================
-            // EMAIL ALREADY EXISTS
-            // =========================
-
-            if (
-                error.code ===
-                "auth/email-already-in-use"
-            ) {
-
-                message.textContent =
-                    "This email is already registered. Please log in instead.";
-
-                message.style.color = "red";
 
             }
+        );
 
-
-            // =========================
-            // INVALID EMAIL
-            // =========================
-
-            else if (
-                error.code ===
-                "auth/invalid-email"
-            ) {
-
-                message.textContent =
-                    "Please enter a valid email address.";
-
-                message.style.color = "red";
-
-            }
-
-
-            // =========================
-            // WEAK PASSWORD
-            // =========================
-
-            else if (
-                error.code ===
-                "auth/weak-password"
-            ) {
-
-                message.textContent =
-                    "Password is too weak. Use at least 6 characters.";
-
-                message.style.color = "red";
-
-            }
-
-
-            // =========================
-            // OTHER ERRORS
-            // =========================
-
-            else {
-
-                message.textContent =
-                    "Account creation failed: " +
-                    error.message;
-
-                message.style.color = "red";
-
-            }
-
-        }
-
-    }
-);
 
         // =========================
         // LOGIN
@@ -954,10 +840,7 @@ signupBtn.addEventListener(
                         passwordInput.value;
 
 
-                    if (
-                        !email ||
-                        !password
-                    ) {
+                    if (!email || !password) {
 
                         message.textContent =
                             "Please enter email and password.";
@@ -1006,9 +889,7 @@ signupBtn.addEventListener(
                             message.textContent =
                                 "Incorrect email or password.";
 
-                        }
-
-                        else if (
+                        } else if (
                             error.code ===
                             "auth/user-not-found"
                         ) {
@@ -1016,9 +897,7 @@ signupBtn.addEventListener(
                             message.textContent =
                                 "No account found with this email.";
 
-                        }
-
-                        else if (
+                        } else if (
                             error.code ===
                             "auth/wrong-password"
                         ) {
@@ -1026,9 +905,7 @@ signupBtn.addEventListener(
                             message.textContent =
                                 "Incorrect password.";
 
-                        }
-
-                        else {
+                        } else {
 
                             message.textContent =
                                 "Login error: " +
@@ -1098,9 +975,7 @@ signupBtn.addEventListener(
                                 "No account was found with this email."
                             );
 
-                        }
-
-                        else if (
+                        } else if (
                             error.code ===
                             "auth/invalid-email"
                         ) {
@@ -1109,9 +984,7 @@ signupBtn.addEventListener(
                                 "Please enter a valid email address."
                             );
 
-                        }
-
-                        else {
+                        } else {
 
                             alert(
                                 "Could not send reset email: " +
@@ -1147,8 +1020,7 @@ signupBtn.addEventListener(
             "click",
             () => {
 
-                aboutModal.style.display =
-                    "flex";
+                aboutModal.style.display = "flex";
 
             }
         );
@@ -1158,8 +1030,7 @@ signupBtn.addEventListener(
             "click",
             () => {
 
-                aboutModal.style.display =
-                    "none";
+                aboutModal.style.display = "none";
 
             }
         );
@@ -1169,8 +1040,7 @@ signupBtn.addEventListener(
             "click",
             () => {
 
-                aboutModal.style.display =
-                    "none";
+                aboutModal.style.display = "none";
 
             }
         );
@@ -1182,13 +1052,9 @@ signupBtn.addEventListener(
             "click",
             (event) => {
 
-                if (
-                    event.target ===
-                    aboutModal
-                ) {
+                if (event.target === aboutModal) {
 
-                    aboutModal.style.display =
-                        "none";
+                    aboutModal.style.display = "none";
 
                 }
 

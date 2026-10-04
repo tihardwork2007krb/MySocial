@@ -436,6 +436,22 @@
                 width: 100%;
             }
         }
+        .seo-content {
+    max-width: 650px;
+    margin: 30px auto 50px;
+    padding: 0 15px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.seo-content h2 {
+    color: #1877f2;
+    margin-top: 25px;
+}
+
+.seo-content p {
+    color: #555;
+}
     </style>
 </head>
 
@@ -781,68 +797,15 @@
         // LOAD ACCEPTED FRIENDS
         // =========================
 
-        async function loadAllowedUsers() {
+                async function loadAllowedUsers() 
 
-            allowedUserIds =
-                new Set();
+    allowedUserIds = new Set();
 
+    // ALWAYS ALLOW OWN POSTS
+    allowedUserIds.add(currentUser.uid);
 
-            // ALWAYS ALLOW OWN POSTS
-
-            allowedUserIds.add(
-                currentUser.uid
-            );
-
-
-            try {
-
-                // FRIENDS WHERE I AM SENDER
-
-                const sentQuery =
-                    query(
-                        collection(
-                            db,
-                            "friendRequests"
-                        ),
-
-                        where(
-                            "from",
-                            "==",
-                            currentUser.uid
-                        ),
-
-                        where(
-                            "status",
-                            "==",
-                            "accepted"
-                        )
-                    );
-
-
-                const sentSnapshot =
-                    await getDocs(
-                        sentQuery
-                    );
-
-
-                sentSnapshot.forEach(
-                    (requestDoc) => {
-
-                        const data =
-                            requestDoc.data();
-
-
-                        if (data.to) {
-
-                            allowedUserIds.add(
-                                data.to
-                            );
-                        }
-
-                    }
-                );
-
-
+    try 
+        
                 // FRIENDS WHERE I AM RECEIVER
 
                 const receivedQuery =
@@ -896,7 +859,7 @@
                 );
 
 
-            } catch (error) {
+             catch (error) {
 
                 console.error(
                     "FRIENDS LOAD ERROR:",
@@ -905,7 +868,7 @@
 
             }
 
-        }
+        
 
 
         // =========================
@@ -2465,7 +2428,7 @@
         }
 
 
-        function escapeAttribute(
+                function escapeAttribute(
             value
         ) {
 
@@ -2478,8 +2441,29 @@
 
         }
 
-    </script>
+        </script>
+
+    <section class="seo-content">
+
+        <h2>Connect with Friends on MySocial</h2>
+
+        <p>
+            MySocial is a simple social networking platform designed
+            to help you connect with friends, share posts and communicate
+            through private messages.
+        </p>
+
+        <h2>Share and Stay Connected</h2>
+
+        <p>
+            Create your MySocial account, find friends, share updates
+            and communicate online from one simple platform.
+        </p>
+
+    </section>
 
 </body>
 
 </html>
+
+    

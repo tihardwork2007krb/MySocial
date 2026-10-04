@@ -1,0 +1,485 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    color: #222;
+}
+
+
+/* Navigation */
+
+.navbar {
+    height: 60px;
+    background: white;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 30px;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    margin-right: 30px;
+}
+
+.search input {
+    width: 280px;
+    padding: 10px 15px;
+
+    border: none;
+    border-radius: 20px;
+
+    background: #f0f2f5;
+}
+
+.nav-icons {
+    margin-left: auto;
+
+    display: flex;
+    gap: 10px;
+}
+
+.nav-icons button {
+    border: none;
+    background: #f0f2f5;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    font-size: 18px;
+}
+
+
+/* Main */
+
+.container {
+    max-width: 1400px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        250px
+        minmax(400px, 700px)
+        280px;
+
+    gap: 20px;
+
+    padding: 20px;
+}
+
+
+/* Left Sidebar */
+
+.sidebar,
+.right-sidebar {
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+}
+
+.profile-card,
+.menu,
+.right-sidebar {
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    font-size: 50px;
+    text-align: center;
+}
+
+.profile-card h3 {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.profile-card p {
+    text-align: center;
+    color: #777;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu button {
+    text-align: left;
+
+    padding: 12px;
+
+    border: none;
+
+    background: transparent;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+}
+
+.menu button:hover {
+    background: #f0f2f5;
+}
+
+
+/* Create Post */
+
+.create-post {
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+}
+
+.create-post textarea {
+    width: 100%;
+
+    min-height: 80px;
+
+    resize: none;
+
+    border: none;
+
+    background: #f0f2f5;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    font-size: 16px;
+
+    outline: none;
+}
+
+.post-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 10px;
+}
+
+.post-actions button {
+    border: none;
+
+    background: transparent;
+
+    padding: 10px;
+
+    cursor: pointer;
+
+    border-radius: 8px;
+}
+
+.post-actions button:hover {
+    background: #f0f2f5;
+}
+
+.post-actions .post-button {
+    margin-left: auto;
+
+    background: #1877f2;
+
+    color: white;
+
+    padding: 10px 25px;
+
+    border-radius: 8px;
+}
+
+
+/* Posts */
+
+.post {
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+}
+
+.post-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+
+    background: #eee;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+}
+
+.post-header small {
+    display: block;
+
+    color: #777;
+
+    margin-top: 3px;
+}
+
+.post-content {
+    margin: 20px 0;
+
+    font-size: 16px;
+
+    line-height: 1.5;
+}
+
+.post-buttons {
+    display: flex;
+
+    border-top: 1px solid #eee;
+
+    padding-top: 10px;
+
+    gap: 10px;
+}
+
+.post-buttons button {
+    flex: 1;
+
+    border: none;
+
+    background: transparent;
+
+    padding: 10px;
+
+    cursor: pointer;
+
+    border-radius: 8px;
+}
+
+.post-buttons button:hover {
+    background: #f0f2f5;
+}
+
+
+/* Friends */
+
+.friend {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 15px;
+}
+
+.friend > span {
+    font-size: 35px;
+}
+
+.friend button {
+    display: block;
+
+    margin-top: 5px;
+
+    border: none;
+
+    background: #1877f2;
+
+    color: white;
+
+    padding: 6px 10px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+
+/* Mobile */
+
+@media (max-width: 1000px) {
+
+    .container {
+        grid-template-columns: 180px 1fr;
+    }
+
+    .right-sidebar {
+        display: none;
+    }
+
+}
+
+.comments-section {
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 12px;
+}
+
+.comment-input-area {
+    display: flex;
+    gap: 8px;
+}
+
+.comment-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+}
+
+.comment-input:focus {
+    border-color: #1877f2;
+}
+
+.comment-submit {
+    border: none;
+    background: #1877f2;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.comment-submit:hover {
+    background: #166fe5;
+}
+
+.comment {
+    background: #f0f2f5;
+    padding: 8px 12px;
+    border-radius: 12px;
+    margin-top: 8px;
+}
+
+.comment-user {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.comment-text {
+    margin-top: 3px;
+    font-size: 14px;
+}
+.delete-comment-btn {
+    border: none;
+    background: none;
+    color: #65676b;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 3px 0;
+}
+
+.delete-comment-btn:hover {
+    color: #e41e3f;
+    text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+
+    .navbar {
+        padding: 0 10px;
+    }
+
+    .search {
+        display: none;
+    }
+
+    .container {
+        display: block;
+
+        padding: 10px;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .feed {
+        width: 100%;
+    }
+
+}.forgot-password {
+    margin-top: 12px;
+    border: none;
+    background: transparent;
+    color: #1877f2;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    padding-right: 50px;
+}
+
+.eye-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: #555;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.eye-btn:hover {
+    background: transparent;
+}
