@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://magical-choux-676c6d.netlify.app/sitemap.xml
