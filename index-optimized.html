@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+
+          content="#1877f2">
+
+    <meta name="description"
+
+          content="MySocial is a simple social networking platform to connect with friends, share posts, and send private messages online.">
+
+    <meta name="robots"
+
+          content="index, follow">
+
+    <link rel="canonical"
+
+          href="https://magical-choux-676c6d.netlify.app/">
+
+    <title>MySocial – Connect, Share & Message With Friends</title>
+
+    <!-- Open Graph -->
+
+    <meta property="og:type"
+
+          content="website">
+
+    <meta property="og:title"
+
+          content="MySocial – Connect, Share & Message With Friends">
+
+    <meta property="og:description"
+
+          content="Connect with friends, share posts and send private messages with MySocial.">
+
+    <meta property="og:url"
+
+          content="https://magical-choux-676c6d.netlify.app/">
+
+    <meta property="og:site_name"
+
+          content="MySocial">
+
+    <!-- Twitter/X -->
+
+    <meta name="twitter:card"
+
+          content="summary">
+
+    <meta name="twitter:title"
+
+          content="MySocial – Connect, Share & Message With Friends">
+
+    <meta name="twitter:description"
+
+          content="Connect with friends, share posts and send private messages with MySocial.">
+
+    <!-- Preconnect to Firebase CDN -->
+
+    <link rel="preconnect"
+
+          href="https://www.gstatic.com"
+
+          crossorigin>
+
+    <link rel="dns-prefetch"
+
+          href="//www.gstatic.com">
+
+    <style>
+
+        * {
+
+            box-sizing: border-box;
+
+        }
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #678fca;
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+        .login-container {
+
+            width: 380px;
+
+            max-width: calc(100% - 30px);
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 14px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.18);
+
+            text-align: center;
+
+        }
+
+        .login-container h1 {
+
+            color: #0dd1c1;
+
+            font-size: 42px;
+
+            margin: 0 0 10px;
+
+        }
+
+        .login-container > p {
+
+            color: #555;
+
+            margin-bottom: 22px;
+
+            line-height: 1.5;
+
+        }
+
+        input {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin: 8px 0;
+
+            border: 1px solid #ddd;
+
+            border-radius: 6px;
+
+            font-size: 16px;
+
+            outline: none;
+
+        }
+
+        input:focus {
+
+            border-color: #1877f2;
+
+            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.1);
+
+        }
+
+        /* PASSWORD */
+
+        .password-container {
+
+            position: relative;
+
+            width: 100%;
+
+        }
+
+        .password-container input {
+
+            padding-right: 50px;
+
+        }
+
+        .eye-btn {
+
+            position: absolute;
+
+            right: 8px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 40px;
+
+            height: 40px;
+
+            margin: 0;
+
+            padding: 0;
+
+            background: transparent !important;
+
+            color: #555;
+
+            border: none;
+
+            border-radius: 50%;
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+        }
+
+        .eye-btn:hover {
+
+            background: #f0f2f5 !important;
+
+        }
+
+        /* BUTTONS */
+
+        button {
+
+            width: 100%;
+
+            padding: 13px;
+
+            margin-top: 10px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+        }
+
+        #loginBtn {
+
+            background: #1877f2;
+
+        }
+
+        #signupBtn {
+
+            background: #42b72a;
+
+        }
+
+        #loginBtn:hover {
+
+            background: #166fe5;
+
+        }
+
+        #signupBtn:hover {
+
+            background: #36a420;
+
+        }
+
+        .forgot-password {
+
+            background: transparent;
+
+            color: #1877f2;
+
+            font-size: 14px;
+
+            margin-top: 12px;
+
+        }
+
+        .forgot-password:hover {
+
+            text-decoration: underline;
+
+            background: transparent;
+
+        }
+
+        /* EMAIL SIGNUP INFO */
+
+        .signup-info {
+
+            margin-top: 15px;
+
+            padding: 10px;
+
+            background: #f4f8ff;
+
+            border-radius: 6px;
+
+            color: #555;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+        }
+
+        /* ABOUT US */
+
+        .about-link {
+
+            margin-top: 18px;
+
+            color: #1877f2;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+            display: inline-block;
+
+        }
+
+        .about-link:hover {
+
+            text-decoration: underline;
+
+        }
+
+        /* MESSAGE */
+
+        #message {
+
+            margin-top: 15px;
+
+            font-weight: bold;
+
+            color: #333;
+
+        }
+
+        /* ABOUT MODAL */
+
+        .modal {
+
+            display: none;
+
+            position: fixed;
+
+            z-index: 1000;
+
+            left: 0;
+
+            top: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            background: rgba(0, 0, 0, 0.55);
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+        }
+
+        .modal-content {
+
+            background: white;
+
+            width: 420px;
+
+            max-width: 100%;
+
+            border-radius: 14px;
+
+            padding: 28px;
+
+            text-align: left;
+
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+
+            position: relative;
+
+        }
+
+        .modal-content h2 {
+
+            color: #0dd1c1;
+
+            margin-top: 0;
+
+            text-align: center;
+
+        }
+
+        .modal-content p {
+
+            color: #555;
+
+            line-height: 1.6;
+
+        }
+
+        .close-modal {
+
+            position: absolute;
+
+            right: 15px;
+
+            top: 10px;
+
+            width: 35px;
+
+            height: 35px;
+
+            padding: 0;
+
+            margin: 0;
+
+            background: transparent;
+
+            color: #555;
+
+            font-size: 25px;
+
+            border: none;
+
+        }
+
+        .close-modal:hover {
+
+            background: #f0f2f5;
+
+        }
+
+        .modal-button {
+
+            background: #1877f2;
+
+            margin-top: 15px;
+
+        }
+
+        /* SIGNUP MODE */
+
+        #confirmPasswordContainer {
+
+            display: none;
+
+        }
+
+        .seo-intro {
+
+    color: #666;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    margin: 0 0 18px;
+
+    .seo-content {
+
+        max-width: 800px;
+
+        margin: 40px auto;
+
+        padding: 20px;
+
+        text-align: center;
+
+        line-height: 1.7;
+
+    }
+
+    .seo-content h2 {
+
+        margin-top: 25px;
+
+    }
+
+}
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h1>MySocial – Connect, Share &amp; Message With Friends</h1>
+
+<p>
+
+    Connect with friends, share posts and send private messages
+
+    with MySocial.
+
+</p>
+
+<div class="seo-intro">
+
+    MySocial is a simple social networking platform where
+
+    you can connect with friends, share posts, like and
+
+    comment on posts, build your profile and send private
+
+    messages.
+
+</div>
+
+        <!-- EMAIL -->
+
+        <input
+
+            type="email"
+
+            id="email"
+
+            placeholder="Email address"
+
+            autocomplete="email"
+
+        >
+
+        <!-- PASSWORD -->
+
+        <div class="password-container">
+
+            <input
+
+                type="password"
+
+                id="password"
+
+                placeholder="Password"
+
+                autocomplete="current-password"
+
+            >
+
+            <button
+
+                type="button"
+
+                id="togglePassword"
+
+                class="eye-btn"
+
+                aria-label="Show password"
+
+            >
+
+                👁️
+
+            </button>
+
+        </div>
+
+        <!-- CONFIRM PASSWORD
+
+             Hidden during normal login -->
+
+        <div
+
+            class="password-container"
+
+            id="confirmPasswordContainer"
+
+        >
+
+            <input
+
+                type="password"
+
+                id="confirmPassword"
+
+                placeholder="Confirm password"
+
+                autocomplete="new-password"
+
+            >
+
+            <button
+
+                type="button"
+
+                id="toggleConfirmPassword"
+
+                class="eye-btn"
+
+                aria-label="Show confirm password"
+
+            >
+
+                👁️
+
+            </button>
+
+        </div>
+
+        <!-- LOGIN -->
+
+        <button
+
+            type="button"
+
+            id="loginBtn"
+
+        >
+
+            Log In
+
+        </button>
+
+        <!-- CREATE ACCOUNT -->
+
+        <button
+
+            type="button"
+
+            id="signupBtn"
+
+        >
+
+            Create New Account
+
+        </button>
+
+        <!-- EMAIL ACCOUNT INFORMATION -->
+
+        <div class="signup-info">
+
+            New to MySocial?<br>
+
+            Create your account using your
+
+            <strong>email address and password</strong>.
+
+        </div>
+
+        <!-- MESSAGE -->
+
+        <p id="message"></p>
+
+        <!-- FORGOT PASSWORD -->
+
+        <button
+
+            type="button"
+
+            id="forgotPasswordBtn"
+
+            class="forgot-password"
+
+        >
+
+            Forgot Password?
+
+        </button>
+
+        <!-- ABOUT US -->
+
+        <div
+
+            class="about-link"
+
+            id="aboutUsBtn"
+
+        >
+
+            About Us
+
+        </div>
+
+    </div>
+
+    <!-- ABOUT US MODAL -->
+
+    <div
+
+        class="modal"
+
+        id="aboutModal"
+
+    >
+
+        <div class="modal-content">
+
+            <button
+
+                type="button"
+
+                class="close-modal"
+
+                id="closeModal"
+
+                aria-label="Close"
+
+            >
+
+                ×
+
+            </button>
+
+            <h2>About MySocial</h2>
+
+            <p>
+
+                MySocial is a simple social networking platform
+
+                designed to help people connect, share posts,
+
+                communicate with friends, and stay connected.
+
+            </p>
+
+            <p>
+
+                Users can create an account using their email
+
+                address, build their profile, connect with friends,
+
+                share posts, like and comment on posts, and use
+
+                private messaging.
+
+            </p>
+
+            <p>
+
+                Our goal is to provide a simple and easy-to-use
+
+                social experience where users can connect and
+
+                communicate with people they know.
+
+            </p>
+
+            <button
+
+                type="button"
+
+                class="modal-button"
+
+                id="closeModalButton"
+
+            >
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- FIREBASE -->
+
+    <script type="module">
+
+        import {
+
+            initializeApp
+
+        } from
+
+        "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+        import {
+
+            getAuth,
+
+            createUserWithEmailAndPassword,
+
+            signInWithEmailAndPassword,
+
+            sendPasswordResetEmail
+
+        } from
+
+        "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+        import {
+
+            getFirestore,
+
+            doc,
+
+            setDoc,
+
+            serverTimestamp
+
+        } from
+
+        "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+        // =========================
+
+        // FIREBASE CONFIG
+
+        // =========================
+
+        const firebaseConfig = {
+
+            apiKey:
+
+                "AIzaSyA0jZCLoUdlC8ZghIMUSbBmrkucw6f6va4",
+
+            authDomain:
+
+                "mysocial-6f06e.firebaseapp.com",
+
+            projectId:
+
+                "mysocial-6f06e",
+
+            storageBucket:
+
+                "mysocial-6f06e.firebasestorage.app",
+
+            messagingSenderId:
+
+                "78141811564",
+
+            appId:
+
+                "1:78141811564:web:3ebc1dba5303e552a12149",
+
+            measurementId:
+
+                "G-E19NQ06DZB"
+
+        };
+
+        // =========================
+
+        // INITIALIZE FIREBASE
+
+        // =========================
+
+        const app =
+
+            initializeApp(firebaseConfig);
+
+        const auth =
+
+            getAuth(app);
+
+        const db =
+
+            getFirestore(app);
+
+        // =========================
+
+        // ELEMENTS
+
+        // =========================
+
+        const emailInput =
+
+            document.getElementById("email");
+
+        const passwordInput =
+
+            document.getElementById("password");
+
+        const confirmPasswordInput =
+
+            document.getElementById("confirmPassword");
+
+        const confirmPasswordContainer =
+
+            document.getElementById("confirmPasswordContainer");
+
+        const message =
+
+            document.getElementById("message");
+
+        const togglePassword =
+
+            document.getElementById("togglePassword");
+
+        const toggleConfirmPassword =
+
+            document.getElementById("toggleConfirmPassword");
+
+        const signupBtn =
+
+            document.getElementById("signupBtn");
+
+        // =========================
+
+        // SIGNUP MODE
+
+        // =========================
+
+        let signupMode = false;
+
+        // =========================
+
+        // SHOW / HIDE PASSWORD
+
+        // =========================
+
+        togglePassword.addEventListener(
+
+            "click",
+
+            () => {
+
+                if (
+
+                    passwordInput.type ===
+
+                    "password"
+
+                ) {
+
+                    passwordInput.type =
+
+                        "text";
+
+                    togglePassword.textContent =
+
+                        "🙈";
+
+                    togglePassword.setAttribute(
+
+                        "aria-label",
+
+                        "Hide password"
+
+                    );
+
+                } else {
+
+                    passwordInput.type =
+
+                        "password";
+
+                    togglePassword.textContent =
+
+                        "👁️";
+
+                    togglePassword.setAttribute(
+
+                        "aria-label",
+
+                        "Show password"
+
+                    );
+
+                }
+
+            }
+
+        );
+
+        // =========================
+
+        // SHOW / HIDE CONFIRM PASSWORD
+
+        // =========================
+
+        toggleConfirmPassword.addEventListener(
+
+            "click",
+
+            () => {
+
+                if (
+
+                    confirmPasswordInput.type ===
+
+                    "password"
+
+                ) {
+
+                    confirmPasswordInput.type =
+
+                        "text";
+
+                    toggleConfirmPassword.textContent =
+
+                        "🙈";
+
+                    toggleConfirmPassword.setAttribute(
+
+                        "aria-label",
+
+                        "Hide confirm password"
+
+                    );
+
+                } else {
+
+                    confirmPasswordInput.type =
+
+                        "password";
+
+                    toggleConfirmPassword.textContent =
+
+                        "👁️";
+
+                    toggleConfirmPassword.setAttribute(
+
+                        "aria-label",
+
+                        "Show confirm password"
+
+                    );
+
+                }
+
+            }
+
+        );
+
+        // =========================
+
+// CREATE ACCOUNT
+
+// =========================
+
+signupBtn.addEventListener(
+
+    "click",
+
+    async () => {
+
+        // =========================
+
+        // FIRST CLICK = SIGNUP MODE
+
+        // =========================
+
+        if (!signupMode) {
+
+            signupMode = true;
+
+            confirmPasswordContainer.style.display = "block";
+
+            signupBtn.textContent = "Create Account";
+
+            message.textContent =
+
+                "Enter your password again to confirm.";
+
+            message.style.color = "#333";
+
+            passwordInput.setAttribute(
+
+                "autocomplete",
+
+                "new-password"
+
+            );
+
+            confirmPasswordInput.focus();
+
+            return;
+
+        }
+
+        // =========================
+
+        // GET SIGNUP VALUES
+
+        // =========================
+
+        const email =
+
+            emailInput.value.trim();
+
+        const password =
+
+            passwordInput.value;
+
+        const confirmPassword =
+
+            confirmPasswordInput.value;
+
+        // =========================
+
+        // REQUIRED FIELDS
+
+        // =========================
+
+        if (
+
+            !email ||
+
+            !password ||
+
+            !confirmPassword
+
+        ) {
+
+            message.textContent =
+
+                "Please enter email, password and confirm password.";
+
+            message.style.color = "red";
+
+            return;
+
+        }
+
+        // =========================
+
+        // PASSWORD LENGTH
+
+        // =========================
+
+        if (
+
+            password.length < 6
+
+        ) {
+
+            message.textContent =
+
+                "Password must be at least 6 characters.";
+
+            message.style.color = "red";
+
+            return;
+
+        }
+
+        // =========================
+
+        // PASSWORD MATCH
+
+        // =========================
+
+        if (
+
+            password !== confirmPassword
+
+        ) {
+
+            message.textContent =
+
+                "Passwords do not match.";
+
+            message.style.color = "red";
+
+            return;
+
+        }
+
+        // =========================
+
+        // CREATE FIREBASE ACCOUNT
+
+        // =========================
+
+        try {
+
+            const userCredential =
+
+                await createUserWithEmailAndPassword(
+
+                    auth,
+
+                    email,
+
+                    password
+
+                );
+
+            const user =
+
+                userCredential.user;
+
+            // =========================
+
+            // CREATE USER PROFILE
+
+            // =========================
+
+            await setDoc(
+
+                doc(
+
+                    db,
+
+                    "users",
+
+                    user.uid
+
+                ),
+
+                {
+
+                    email:
+
+                        user.email,
+
+                    name:
+
+                        "",
+
+                    uid:
+
+                        user.uid,
+
+                    createdAt:
+
+                        serverTimestamp()
+
+                }
+
+            );
+
+            // =========================
+
+            // SUCCESS MESSAGE
+
+            // =========================
+
+            message.textContent =
+
+                "Account created successfully!";
+
+            message.style.color = "green";
+
+            console.log(
+
+                "New user:",
+
+                user.email
+
+            );
+
+            // =========================
+
+            // GO TO PROFILE
+
+            // =========================
+
+            setTimeout(
+
+                () => {
+
+                    window.location.href =
+
+                        "profile.html";
+
+                },
+
+                800
+
+            );
+
+        } catch (error) {
+
+            console.error(
+
+                "SIGNUP ERROR:",
+
+                error
+
+            );
+
+            // =========================
+
+            // EMAIL ALREADY EXISTS
+
+            // =========================
+
+            if (
+
+                error.code ===
+
+                "auth/email-already-in-use"
+
+            ) {
+
+                message.textContent =
+
+                    "This email is already registered. Please log in instead.";
+
+                message.style.color = "red";
+
+            }
+
+            // =========================
+
+            // INVALID EMAIL
+
+            // =========================
+
+            else if (
+
+                error.code ===
+
+                "auth/invalid-email"
+
+            ) {
+
+                message.textContent =
+
+                    "Please enter a valid email address.";
+
+                message.style.color = "red";
+
+            }
+
+            // =========================
+
+            // WEAK PASSWORD
+
+            // =========================
+
+            else if (
+
+                error.code ===
+
+                "auth/weak-password"
+
+            ) {
+
+                message.textContent =
+
+                    "Password is too weak. Use at least 6 characters.";
+
+                message.style.color = "red";
+
+            }
+
+            // =========================
+
+            // OTHER ERRORS
+
+            // =========================
+
+            else {
+
+                message.textContent =
+
+                    "Account creation failed: " +
+
+                    error.message;
+
+                message.style.color = "red";
+
+            }
+
+        }
+
+    }
+
+);
+
+        // =========================
+
+        // LOGIN
+
+        // =========================
+
+        document
+
+            .getElementById("loginBtn")
+
+            .addEventListener(
+
+                "click",
+
+                async () => {
+
+                    const email =
+
+                        emailInput.value.trim();
+
+                    const password =
+
+                        passwordInput.value;
+
+                    if (
+
+                        !email ||
+
+                        !password
+
+                    ) {
+
+                        message.textContent =
+
+                            "Please enter email and password.";
+
+                        return;
+
+                    }
+
+                    try {
+
+                        const userCredential =
+
+                            await signInWithEmailAndPassword(
+
+                                auth,
+
+                                email,
+
+                                password
+
+                            );
+
+                        console.log(
+
+                            "Login successful:",
+
+                            userCredential.user.email
+
+                        );
+
+                        message.textContent =
+
+                            "Login successful!";
+
+                        window.location.href =
+
+                            "home.html";
+
+                    } catch (error) {
+
+                        console.error(
+
+                            "LOGIN ERROR:",
+
+                            error
+
+                        );
+
+                        if (
+
+                            error.code ===
+
+                            "auth/invalid-credential"
+
+                        ) {
+
+                            message.textContent =
+
+                                "Incorrect email or password.";
+
+                        }
+
+                        else if (
+
+                            error.code ===
+
+                            "auth/user-not-found"
+
+                        ) {
+
+                            message.textContent =
+
+                                "No account found with this email.";
+
+                        }
+
+                        else if (
+
+                            error.code ===
+
+                            "auth/wrong-password"
+
+                        ) {
+
+                            message.textContent =
+
+                                "Incorrect password.";
+
+                        }
+
+                        else {
+
+                            message.textContent =
+
+                                "Login error: " +
+
+                                error.message;
+
+                        }
+
+                    }
+
+                }
+
+            );
+
+        // =========================
+
+        // FORGOT PASSWORD
+
+        // =========================
+
+        document
+
+            .getElementById("forgotPasswordBtn")
+
+            .addEventListener(
+
+                "click",
+
+                async () => {
+
+                    const email =
+
+                        emailInput.value.trim();
+
+                    if (!email) {
+
+                        alert(
+
+                            "Please enter your email address first."
+
+                        );
+
+                        emailInput.focus();
+
+                        return;
+
+                    }
+
+                    try {
+
+                        await sendPasswordResetEmail(
+
+                            auth,
+
+                            email
+
+                        );
+
+                        alert(
+
+                            "Password reset email sent. Please check your inbox."
+
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+
+                            "PASSWORD RESET ERROR:",
+
+                            error
+
+                        );
+
+                        if (
+
+                            error.code ===
+
+                            "auth/user-not-found"
+
+                        ) {
+
+                            alert(
+
+                                "No account was found with this email."
+
+                            );
+
+                        }
+
+                        else if (
+
+                            error.code ===
+
+                            "auth/invalid-email"
+
+                        ) {
+
+                            alert(
+
+                                "Please enter a valid email address."
+
+                            );
+
+                        }
+
+                        else {
+
+                            alert(
+
+                                "Could not send reset email: " +
+
+                                error.message
+
+                            );
+
+                        }
+
+                    }
+
+                }
+
+            );
+
+        // =========================
+
+        // ABOUT US MODAL
+
+        // =========================
+
+        const aboutUsBtn =
+
+            document.getElementById("aboutUsBtn");
+
+        const aboutModal =
+
+            document.getElementById("aboutModal");
+
+        const closeModal =
+
+            document.getElementById("closeModal");
+
+        const closeModalButton =
+
+            document.getElementById("closeModalButton");
+
+        aboutUsBtn.addEventListener(
+
+            "click",
+
+            () => {
+
+                aboutModal.style.display =
+
+                    "flex";
+
+            }
+
+        );
+
+        closeModal.addEventListener(
+
+            "click",
+
+            () => {
+
+                aboutModal.style.display =
+
+                    "none";
+
+            }
+
+        );
+
+        closeModalButton.addEventListener(
+
+            "click",
+
+            () => {
+
+                aboutModal.style.display =
+
+                    "none";
+
+            }
+
+        );
+
+        // CLOSE WHEN CLICKING OUTSIDE MODAL
+
+        aboutModal.addEventListener(
+
+            "click",
+
+            (event) => {
+
+                if (
+
+                    event.target ===
+
+                    aboutModal
+
+                ) {
+
+                    aboutModal.style.display =
+
+                        "none";
+
+                }
+
+            }
+
+        );
+
+    </script>
+
+</body>
+
+</html>
